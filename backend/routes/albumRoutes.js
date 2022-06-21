@@ -1,6 +1,7 @@
 // 3
 const Album = require('../models/album')
 const router = require('express').Router()
+// 6
 
 router.post('/add', (req, res) => {
   // try {
