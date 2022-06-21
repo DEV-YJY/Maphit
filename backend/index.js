@@ -1,3 +1,5 @@
+// 1
+
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
@@ -16,3 +18,6 @@ mongoose
 app.listen(4000, () => {
   console.log('Server running on port 4000')
 })
+
+// 4
+app.use('/albums', require('./routes/albumRoutes'))
