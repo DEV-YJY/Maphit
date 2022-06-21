@@ -2,6 +2,7 @@
 const Album = require('../models/album')
 const router = require('express').Router()
 // 6
+const upload = require('../middleware/multer')
 
 router.post('/add', (req, res) => {
   // try {
@@ -14,7 +15,7 @@ router.post('/add', (req, res) => {
 
   const newAlbum = new Album(req.body)
   newAlbum.save((err, data) => {
-    console.log(newAlbum)
+    // console.log(req.files)
 
     if (err) {
       return res.json({
@@ -79,6 +80,40 @@ router.get('/:albumId', (req, res) => {
       result: albums,
     })
   })
+})
+
+router.put('/upload/:albumId', upload.array('image', 5), async (req, res) => {
+  const albumId = req.params.albumId
+  const images = []
+  const inputFiles = req.files
+
+  inputFiles.map((file) => images.push(file.filename))
+
+  Album.findOneAndUpdate(
+    {
+      _id: albumId,
+    },
+    {
+      $push: { images: images },
+    },
+    {
+      new: true,
+    },
+    function (err, data) {
+      if (err) {
+        return res.json({
+          status: false,
+          message: 'Server error',
+          result: err,
+        })
+      }
+      return res.json({
+        status: true,
+        message: 'Upload image(s) successfully',
+        result: data,
+      })
+    }
+  )
 })
 
 module.exports = router
