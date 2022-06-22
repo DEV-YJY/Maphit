@@ -17,4 +17,24 @@ const albumSchema = new mongoose.Schema({
   },
 })
 
+//
+// trial
+// const albumSchema = new mongoose.Schema({
+//   name: {
+//     type: String,
+//     required: true,
+//   },
+//   description: {
+//     type: String,
+//     required: true,
+//   },
+//   cloudinary_id: {
+//     type: String,
+//   },
+//   images: {
+//     type: String,
+//     require: true,
+//   },
+// })
+
 module.exports = mongoose.model('Album', albumSchema)

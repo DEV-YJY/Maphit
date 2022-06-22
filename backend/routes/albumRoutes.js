@@ -4,49 +4,41 @@ const router = require('express').Router()
 // 6
 const upload = require('../middleware/multer')
 const fs = require('fs')
+const cloudinary = require('../utils/cloudinary')
+const path = require('path')
 
 // ADD Album
-router.post('/add', (req, res) => {
-  // try {
-  //   const newAlbum = new Album(req.body)
-  //   await newAlbum.save()
-  //   res.json(newAlbum)
-  // } catch (err) {
-  //   console.log('Server error')
-  // }
-
-  const newAlbum = new Album(req.body)
-  newAlbum.save((err, data) => {
-    // console.log(req.files)
-
-    if (err) {
-      return res.json({
-        status: false,
-        message: 'Server error',
-        result: err,
+router.post('/add', async (req, res) => {
+  try {
+    const newAlbum = new Album(req.body)
+    await newAlbum.save((err, data) => {
+      console.log(newAlbum)
+      res.json({
+        status: true,
+        message: 'Album added successfully',
+        result: data,
       })
-    }
-    return res.json({
-      status: true,
-      message: 'Album added',
-      result: data,
     })
-  })
-
-  // try {
-  //   return res.json({
-  //     status: false,
-  //     message: 'Album added',
-  //     result: data,
-  //   })
-  // } catch (err) {
-  //   return res.json({
-  //     status: false,
-  //     message: 'Server error',
-  //     result: err,
-  //   })
-  // }
+  } catch (err) {
+    console.log('Server error')
+  }
 })
+// const newAlbum = new Album(req.body)
+// newAlbum.save((err, data) => {
+//   console.log(newAlbum)
+
+//   if (err) {
+//     return res.json({
+//       status: false,
+//       message: 'Server error',
+//       result: err,
+//     })
+//   }
+//   return res.json({
+//     status: true,
+//     message: 'Album added',
+//     result: data,
+//   })
 
 // GET all the albums
 router.get('/', (req, res) => {
@@ -85,9 +77,11 @@ router.get('/:albumId', (req, res) => {
   })
 })
 
-// Upload
+// UPLOAD image to a specific album
 router.put('/upload/:albumId', upload.array('image', 5), async (req, res) => {
   const albumId = req.params.albumId
+  // console.log(req.params)
+  // console.log(req.files)
   const images = []
   const inputFiles = req.files
 
@@ -100,6 +94,7 @@ router.put('/upload/:albumId', upload.array('image', 5), async (req, res) => {
     {
       $push: { images: images },
     },
+    // to return the data after applying update
     {
       new: true,
     },
@@ -120,11 +115,16 @@ router.put('/upload/:albumId', upload.array('image', 5), async (req, res) => {
   )
 })
 
-// Delete
+// DELETE image
 router.put('/removeImage/:albumId', async (req, res) => {
   const albumId = req.params.albumId
   const fileName = req.body.fileName
-
+  // need to get the file ext!!
+  // console.log('original name: ', req.file)
+  console.log(req.body)
+  // console.log('this is ext: ', fileExt)
+  console.log('albumID: ', albumId)
+  console.log('file name: ', fileName)
   Album.findOneAndUpdate(
     {
       _id: albumId,
@@ -132,6 +132,9 @@ router.put('/removeImage/:albumId', async (req, res) => {
     {
       // pull to remove image by filename
       $pull: { images: fileName },
+    },
+    {
+      new: true,
     },
 
     function (err, data) {
@@ -142,13 +145,19 @@ router.put('/removeImage/:albumId', async (req, res) => {
           result: err,
         })
       }
-      // remove from the folder as well
-      const path = 'server/uploads' + fileName
-      fs.unlinkSync(path)
+      // remove from the local folder as well
+      const relativePath = path.join(__dirname, '/uploads/')
+      console.log('this is relative path: ', relativePath)
+      const filePath = relativePath + fileName
+      console.log('this is filepath: ', filePath)
+      fs.unlinkSync(filePath)
+      // fs.unlinkSync(
+      //   '/home/devyj/playground/mern-practice/project-gallery/backend/uploads/1655889274683-maldivescity.jpeg'
+      // )
       //
       return res.json({
         status: true,
-        message: 'Remove image successfully',
+        message: 'Image removed successfully',
         result: data,
       })
     }
