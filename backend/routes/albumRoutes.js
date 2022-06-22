@@ -3,7 +3,9 @@ const Album = require('../models/album')
 const router = require('express').Router()
 // 6
 const upload = require('../middleware/multer')
+const fs = require('fs')
 
+// ADD Album
 router.post('/add', (req, res) => {
   // try {
   //   const newAlbum = new Album(req.body)
@@ -46,6 +48,7 @@ router.post('/add', (req, res) => {
   // }
 })
 
+// GET all the albums
 router.get('/', (req, res) => {
   Album.find().exec((err, albums) => {
     if (err) {
@@ -82,6 +85,7 @@ router.get('/:albumId', (req, res) => {
   })
 })
 
+// Upload
 router.put('/upload/:albumId', upload.array('image', 5), async (req, res) => {
   const albumId = req.params.albumId
   const images = []
@@ -110,6 +114,41 @@ router.put('/upload/:albumId', upload.array('image', 5), async (req, res) => {
       return res.json({
         status: true,
         message: 'Upload image(s) successfully',
+        result: data,
+      })
+    }
+  )
+})
+
+// Delete
+router.put('/removeImage/:albumId', async (req, res) => {
+  const albumId = req.params.albumId
+  const fileName = req.body.fileName
+
+  Album.findOneAndUpdate(
+    {
+      _id: albumId,
+    },
+    {
+      // pull to remove image by filename
+      $pull: { images: fileName },
+    },
+
+    function (err, data) {
+      if (err) {
+        return res.json({
+          status: false,
+          message: 'Server error',
+          result: err,
+        })
+      }
+      // remove from the folder as well
+      const path = 'server/uploads' + fileName
+      fs.unlinkSync(path)
+      //
+      return res.json({
+        status: true,
+        message: 'Remove image successfully',
         result: data,
       })
     }

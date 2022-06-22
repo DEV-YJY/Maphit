@@ -1,6 +1,7 @@
 // 2
 const mongoose = require('mongoose')
 
+// defines the shape of data
 const albumSchema = new mongoose.Schema({
   name: {
     type: String,
