@@ -17,7 +17,9 @@ app.use(express.static(path.join(__dirname, 'uploads')))
 
 // Connect DB
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+  })
   .then(() => console.log('MongoDB is connected'))
   .catch((err) => console.log('error: ', err))
 

@@ -121,10 +121,10 @@ router.put('/removeImage/:albumId', async (req, res) => {
   const fileName = req.body.fileName
   // need to get the file ext!!
   // console.log('original name: ', req.file)
-  console.log(req.body)
+  // console.log(req.body)
   // console.log('this is ext: ', fileExt)
-  console.log('albumID: ', albumId)
-  console.log('file name: ', fileName)
+  // console.log('albumID: ', albumId)
+  // console.log('file name: ', fileName)
   Album.findOneAndUpdate(
     {
       _id: albumId,
@@ -146,15 +146,15 @@ router.put('/removeImage/:albumId', async (req, res) => {
         })
       }
       // remove from the local folder as well
-      const relativePath = path.join(__dirname, '/uploads/')
-      console.log('this is relative path: ', relativePath)
+      const relativePath = path.join(__dirname, '../uploads/')
+      // console.log('this is relative path: ', relativePath)
       const filePath = relativePath + fileName
-      console.log('this is filepath: ', filePath)
+      // console.log('this is filepath: ', filePath)
       fs.unlinkSync(filePath)
       // fs.unlinkSync(
-      //   '/home/devyj/playground/mern-practice/project-gallery/backend/uploads/1655889274683-maldivescity.jpeg'
+      //   '/home/devyj/playground/mern-practice/project-gallery/backend/uploads/1655939149468-image0.jpeg'
       // )
-      //
+
       return res.json({
         status: true,
         message: 'Image removed successfully',

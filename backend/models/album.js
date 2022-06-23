@@ -31,10 +31,6 @@ const albumSchema = new mongoose.Schema({
 //   cloudinary_id: {
 //     type: String,
 //   },
-//   images: {
-//     type: String,
-//     require: true,
-//   },
 // })
 
 module.exports = mongoose.model('Album', albumSchema)
