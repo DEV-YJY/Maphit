@@ -1,0 +1,5 @@
+export const FETCH_ALBUM = 'FETCH_ALBUMS'
+export const FETCH_ALBUM_DETAIL = 'FETCH_ALBUMS_DETAIL'
+export const ADD_ALBUM = 'ADD_ALBUM'
+export const UPLOAD_IMAGE = 'UPLOAD_IMAGE'
+export const REMOVE_IMAGE = 'REMOVE_IMAGE'

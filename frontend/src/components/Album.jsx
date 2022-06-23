@@ -1,8 +1,12 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 
 function Album() {
   return (
-    <div>Album</div>
+    <>
+      <Link to='/'>Albums</Link>
+      <div>Add Album</div>
+    </>
   )
 }
 
