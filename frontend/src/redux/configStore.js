@@ -20,3 +20,5 @@ const configStore = () => {
   )
   return store
 }
+
+export default configStore
