@@ -32,3 +32,13 @@ export const addAlbum = (data) => {
     payload: req,
   }
 }
+
+export const uploadImage = (albumId, data, configParam) => {
+  const req = axios.put(`/albums/upload/${albumId}`, data, configParam).then((res) => {
+    return res.data
+  })
+  return {
+    type: UPLOAD_IMAGE,
+    payload: req,
+  }
+}
