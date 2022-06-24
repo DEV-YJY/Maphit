@@ -19,6 +19,7 @@ const albumReducer = (state = initialState, action) => {
         albumList: [...action.payload.result],
       }
     default:
+      // console.log('albumReducer: ', state)
       return state
   }
 }
