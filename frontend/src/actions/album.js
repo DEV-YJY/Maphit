@@ -52,3 +52,13 @@ export const removeImage = (albumId, imageName) => {
     payload: req,
   }
 }
+
+export const fetchAlbumDetail = (albumId) => {
+  const req = axios.put(`/albums/detail/${albumId}`).then((res) => {
+    return res.data
+  })
+  return {
+    type: FETCH_ALBUM_DETAIL,
+    payload: req,
+  }
+}
