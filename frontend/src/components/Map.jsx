@@ -46,6 +46,8 @@ export default function Map() {
       <></>
     </GoogleMap>
   ) : (
-    <></>
+    <>
+      <h1>is loading...</h1>
+    </>
   )
 }
