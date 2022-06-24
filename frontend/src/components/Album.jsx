@@ -1,23 +1,58 @@
-import React from 'react'
-import {Link} from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { addAlbum } from '../actions/album'
 
-function Album() {
+function Album(props) {
+  // console.log(props)
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  // Album name and desc
+  const [values, setValues] = useState({})
+
+  const handleInputChange = e => {
+    const {name, value} = e.target
+    setValues({
+      ...values,
+      [name]: value
+    })
+  }
+
+  const handleSubmit = e => {
+    e.preventDefault()
+    dispatch(addAlbum(values))
+      .then(res => {
+        if (res.payload.status) {
+          // console.log('payload.result: ', res.payload.result)
+          navigate(`/upload/${res.payload.result._id}`)
+        }
+      })
+  }
+
   return (
     <>
       <Link to='/'>Albums</Link>
       <div>
-        <label>Album Name</label>
-        <input type='text' name='albumName' placeholder='Enter album name'/>
+        <div>
+          <label>Album Name</label>
+          <input 
+            type='text'
+            // NAME needs to be matched with Schema name
+            name='name' 
+            placeholder='Enter album name'
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Description</label>
+          <textarea
+            name='description'
+            placeholder='Enter description'
+            onChange={handleInputChange}
+          />
+        </div>
+        <button onClick={handleSubmit}>Save</button>
       </div>
-      <div>
-        <label>Description</label>
-        <textarea
-          name='description'
-          placeholder='Enter description'
-        ></textarea>
-      </div>
-      <button>Save</button>
-
       {/* <form>
         <label>
           Album Name:

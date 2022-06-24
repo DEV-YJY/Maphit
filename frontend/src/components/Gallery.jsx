@@ -29,15 +29,14 @@ function Gallery() {
         {albumList.map((album, idx) => {
           return (
             <div key={idx + 1}>
-              <div>{album.name}</div>
-              <div><Link to={`/upload/${album._id}`}>Albums</Link></div>
-              <button><a href='/'>button</a></button>
+              <div>Album name: {album.name}</div>
+              <div><Link to={`/upload/${album._id}`}>View Album</Link></div>
             </div>
           )
         })}
       </div>
       {/* name desc images.length */}
-      <Link to='/upload/123312/map'>Button</Link>
+      <Link to='/upload/123312/map'>Map Button</Link>
     </>
   )
 }

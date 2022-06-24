@@ -20,3 +20,15 @@ export const fetchAlbums = () => {
     payload: req,
   }
 }
+
+export const addAlbum = (data) => {
+  const req = axios.post('/albums/add', data).then((res) => {
+    // console.log('addAlbum: ', res)
+    return res.data
+  })
+  // console.log('payload: ', req)
+  return {
+    type: ADD_ALBUM,
+    payload: req,
+  }
+}
