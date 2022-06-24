@@ -42,3 +42,13 @@ export const uploadImage = (albumId, data, configParam) => {
     payload: req,
   }
 }
+
+export const removeImage = (albumId, imageName) => {
+  const req = axios.put(`/albums/removeImage/${albumId}`, imageName).then((res) => {
+    return res.data
+  })
+  return {
+    type: REMOVE_IMAGE,
+    payload: req,
+  }
+}
