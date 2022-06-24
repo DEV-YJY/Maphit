@@ -23,17 +23,19 @@ function Gallery() {
   return (
     <>
       <div>
+        <Link to='/add'>Add Trip Album</Link>
+      </div>
+      <div>
         {albumList.map((album, idx) => {
           return (
             <div key={idx + 1}>
               <div>{album.name}</div>
-              <img src={`/upload/${album.images}`} alt={`${album.images}`}/>
+              <div><Link to={`/upload/${album._id}`}>Albums</Link></div>
               <button><a href='/'>button</a></button>
             </div>
           )
         })}
       </div>
-      <h1>gallery rendered</h1>
       {/* name desc images.length */}
       <Link to='/upload/123312/map'>Button</Link>
     </>
