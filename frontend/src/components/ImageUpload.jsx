@@ -6,14 +6,14 @@ import { toast } from 'react-toastify'
 // DROP-ZONE
 import Dropzone from 'react-dropzone'
 
-function ImageUpload(props) {
+function ImageUpload() {
   const dispatch = useDispatch()
   let params = useParams()
   // console.log(params)
   const albumId = params.albumId
   // console.log('albumId: ', albumId)
   const albumDetail = useSelector(state => state.album.albumDetail)
-  // console.log('albumDetail: ', albumDetail)
+  console.log('albumDetail: ', albumDetail)
 
   const dropImage = file => {
     // GET data from HTML to JS Obj
@@ -28,7 +28,16 @@ function ImageUpload(props) {
     dispatch(uploadImage(albumId, formData, config))
       .then(res => {
         if (res.payload.status) {
-          console.log(res.payload.status)
+          // console.log(res.payload.status)
+          toast.success(res.payload.message)
+        }
+      })
+  }
+
+  const handleDelete = (albumId, imageName) => {
+    dispatch(removeImage(albumId, imageName))
+      .then(res => {
+        if (res.payload.status) {
           toast.success(res.payload.message)
         }
       })
@@ -75,5 +84,5 @@ function ImageUpload(props) {
     </>
     )
 }
- 
+
 export default ImageUpload

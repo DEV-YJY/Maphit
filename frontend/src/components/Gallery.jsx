@@ -16,7 +16,7 @@ function Gallery() {
     // console.log('state: ', state)
     return state.album.albumList
   })
-  console.log('albumList:', albumList)
+  // console.log('albumList:', albumList)
 
   // console.log(useSelector(state => state.album.result))
   // console.log('albumList.album.albumList: ', albumList.album.albumList)

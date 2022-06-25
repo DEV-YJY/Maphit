@@ -12,7 +12,7 @@ router.post('/add', async (req, res) => {
   try {
     const newAlbum = new Album(req.body)
     await newAlbum.save((err, data) => {
-      console.log(newAlbum)
+      // console.log(newAlbum)
       res.json({
         status: true,
         message: 'Album added successfully',
@@ -20,13 +20,25 @@ router.post('/add', async (req, res) => {
       })
     })
   } catch (err) {
-    console.log('Server error')
+    res.status().send('Server error')
   }
 })
-// const newAlbum = new Album(req.body)
-// newAlbum.save((err, data) => {
-//   console.log(newAlbum)
 
+// GET all the albums
+router.get('/', async (req, res) => {
+  try {
+    await Album.find().exec((err, albums) => {
+      res.json({
+        status: true,
+        message: 'Retrieved albums successfully',
+        result: albums,
+      })
+    })
+  } catch (err) {
+    res.status().send('Server error')
+  }
+})
+// Album.find().exec((err, albums) => {
 //   if (err) {
 //     return res.json({
 //       status: false,
@@ -36,27 +48,10 @@ router.post('/add', async (req, res) => {
 //   }
 //   return res.json({
 //     status: true,
-//     message: 'Album added',
-//     result: data,
+//     message: 'Retrieved albums successfully',
+//     result: albums,
 //   })
-
-// GET all the albums
-router.get('/', (req, res) => {
-  Album.find().exec((err, albums) => {
-    if (err) {
-      return res.json({
-        status: false,
-        message: 'Server error',
-        result: err,
-      })
-    }
-    return res.json({
-      status: true,
-      message: 'Retrieved albums successfully',
-      result: albums,
-    })
-  })
-})
+// })
 
 // GET albumById
 router.get('/:albumId', (req, res) => {
