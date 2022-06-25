@@ -31,7 +31,3 @@ app.listen(4000, () => {
 // 4
 app.use('/albums', require('./routes/albumRoutes'))
 // app.use('/albums', require('./routes/cloudRoutes'))
-
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve('server/public/index.html'))
-})
