@@ -16,19 +16,22 @@ function ImageUpload(props) {
   // console.log('albumDetail: ', albumDetail)
 
   const dropImage = file => {
+    // GET data from HTML to JS Obj
     let formData = new FormData()
     const config = {
       header: {'content-type': 'multipart/form-data'}
     }
     file.map((file, idx) => {
-      formData.append('image', file)
+      return formData.append('image', file)
     })
 
-    dispatch(uploadImage(albumId, formData, config)).then(res => {
-      if (res.payload.status) {
-
-      }
-    })
+    dispatch(uploadImage(albumId, formData, config))
+      .then(res => {
+        if (res.payload.status) {
+          console.log(res.payload.status)
+          toast.success(res.payload.message)
+        }
+      })
   }
 
   useEffect(() => {
@@ -42,14 +45,15 @@ function ImageUpload(props) {
       <div>Upload Image Album name: {albumDetail.name}</div>
       <div>Memories</div>
       <div>
-      <Dropzone onDrop={acceptedFiles => console.log(acceptedFiles)}>
+      <Dropzone onDrop={dropImage}>
         {({getRootProps, getInputProps}) => (
-          <section>
+          <div>
             <div {...getRootProps()}>
               <input {...getInputProps()} />
-              <p>Drag 'n' drop some files here, or click to select files</p>
+              {/* FIVE images max at a time */}
+              <p>Drag 'n' drop image files here, or click to select images</p>
             </div>
-          </section>
+          </div>
         )}
       </Dropzone>
 
@@ -62,7 +66,7 @@ function ImageUpload(props) {
                   src={`http://localhost:4000/${image}`} 
                 />
                 <div>
-                  <button>Delete Image</button>
+                  <button onClick={() => handleDelete(albumId, image)}>Delete Image</button>
                 </div>
               </div>
             )
