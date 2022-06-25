@@ -1,10 +1,11 @@
 import React from 'react'
 import Album from './components/Album'
-import {ToastContainer} from 'react-toastify'
-import {Routes, Route} from 'react-router-dom'
 import Gallery from './components/Gallery'
-import UploadImage from './components/UploadImage'
+import ImageUpload from './components/ImageUpload'
 import Map from './components/Map'
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import {Routes, Route} from 'react-router-dom'
 
 function App() {
   return (
@@ -14,7 +15,7 @@ function App() {
         <Routes>
           <Route path='/' element={<Gallery/>} />
           <Route path='/add' element={<Album/>} />
-          <Route path='/upload/:albumId' element={<UploadImage/>} />
+          <Route path='/upload/:albumId' element={<ImageUpload/>} />
           <Route path='/upload/:albumId/map' element={<Map />} />
         </Routes>
       </div>

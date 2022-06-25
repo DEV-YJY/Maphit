@@ -54,7 +54,7 @@ export const removeImage = (albumId, imageName) => {
 }
 
 export const fetchAlbumDetail = (albumId) => {
-  const req = axios.put(`/albums/detail/${albumId}`).then((res) => {
+  const req = axios.get(`/albums/${albumId}`).then((res) => {
     return res.data
   })
   return {
