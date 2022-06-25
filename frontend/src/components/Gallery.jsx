@@ -36,7 +36,6 @@ function Gallery() {
         })}
       </div>
       {/* name desc images.length */}
-      <Link to='/upload/123/map'>Map Button</Link>
     </>
   )
 }

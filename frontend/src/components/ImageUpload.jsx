@@ -13,7 +13,7 @@ function ImageUpload() {
   const albumId = params.albumId
   // console.log('albumId: ', albumId)
   const albumDetail = useSelector(state => state.album.albumDetail)
-  console.log('albumDetail: ', albumDetail)
+  // console.log('albumDetail: ', albumDetail)
 
   //Drop-zone
   const dropImage = file => {
@@ -53,7 +53,7 @@ function ImageUpload() {
     <>
       <Link to='/'>Back to Albums</Link>
       <div>
-        <Link to='/upload/123/map'>Map Button</Link>
+        <Link to={`/upload/${albumId}/map`}>Map Button</Link>
       </div>
       <div>Upload Image Album name: {albumDetail.name}</div>
       <div>Memories</div>

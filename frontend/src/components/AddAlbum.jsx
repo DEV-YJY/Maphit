@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { addAlbum } from '../actions/album'
 
-function Album(props) {
+function AddAlbum(props) {
   // console.log(props)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -69,4 +69,4 @@ function Album(props) {
   )
 }
 
-export default Album
+export default AddAlbum

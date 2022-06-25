@@ -1,19 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchAlbumDetail } from '../actions/album'
+
 import {
   useLoadScript,
   LoadScript,
   GoogleMap,
   useJsApiLoader,
+  Marker,
 } from '@react-google-maps/api'
 
 const containerStyle = {
-  width: '400px',
-  height: '400px',
+  width: '100%',
+  height: '100vh',
 }
 
 const center = {
-  lat: -3.745,
-  lng: -38.523,
+  lat: 1.29,
+  lng: 103.852,
+}
+
+const mbs = {
+  lat: 1.2823,
+  lng: 103.8585
 }
 
 export default function Map() {
@@ -21,6 +31,18 @@ export default function Map() {
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyAPBNI3ndJDJk0KwEXWI35mWYMKkB09G0A',
   })
+
+  const dispatch = useDispatch()
+  let params = useParams()
+  const albumId = params.albumId
+
+  useEffect(() => {
+    dispatch(fetchAlbumDetail(albumId))
+  }, [])
+  
+  const albumDetail = useSelector(state => state.album.albumDetail)
+  // console.log('map: ', albumDetail)
+
 
   const [map, setMap] = React.useState(null)
 
@@ -34,16 +56,28 @@ export default function Map() {
     setMap(null)
   }, [])
 
+  // const imgLocation = albumDetail.images.map(img => {
+  //   return (
+  //     <Marker
+  //       position={mbs}
+  //       icon={{url: (`http://localhost:4000/${img}`)}}
+  //     />
+  //   )
+  // })
+
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
-      zoom={10}
+      zoom={13}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      {/* Child components, such as markers, info windows, etc. */}
-      <></>
+      {/* {imgLocation} */}
+      {/* <Marker 
+        position={mbs} 
+        icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`)}} 
+      /> */}
     </GoogleMap>
   ) : (
     <>

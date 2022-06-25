@@ -1,5 +1,5 @@
 import React from 'react'
-import Album from './components/Album'
+import AddAlbum from './components/AddAlbum'
 import Gallery from './components/Gallery'
 import ImageUpload from './components/ImageUpload'
 import Map from './components/Map'
@@ -14,7 +14,7 @@ function App() {
       <div className='gallery-container'>
         <Routes>
           <Route path='/' element={<Gallery/>} />
-          <Route path='/add' element={<Album/>} />
+          <Route path='/add' element={<AddAlbum/>} />
           <Route path='/upload/:albumId' element={<ImageUpload/>} />
           <Route path='/upload/:albumId/map' element={<Map />} />
         </Routes>
