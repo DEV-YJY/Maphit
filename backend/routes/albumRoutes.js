@@ -255,20 +255,20 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
       // console.log(imgArr)
 
       function getGps(filePath) {
-        exifr
-          .gps(filePath)
-          .then((res) => {
-            let newData = {
-              fileName: filePath.slice(8),
-              lat: res.latitude,
-              lng: res.longitude,
-            }
-            imgData.push(newData)
-            console.log('exif imgdata: ', imgData)
-            return imgData
-          })
-          .catch(console.log('exif error: ', err))
+        exifr.gps(filePath).then((res) => {
+          let newData = {
+            fileName: filePath.slice(8),
+            lat: res.latitude,
+            lng: res.longitude,
+          }
+          imgData.push(newData)
+          console.log('inside imgdata: ', imgData)
+          return imgData
+        })
+        // .catch(console.log('exif error: ', err))
       }
+
+      // how to get the result out?
       console.log('outside imgdata: ', imgData)
       let geoData = imgArr.map((img) => getGps(img))
 
@@ -283,7 +283,7 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
         },
         {
           // addToSet adds the object to array when the obj is not present in the array
-          $addToSet: { geolocation: geoData },
+          $addToSet: { geolocation: { imageId: '888', lat: 1, lng: 2 } },
         },
         {
           new: true,
@@ -291,7 +291,7 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
       ).exec((err, data) => {
         return res.json({
           status: true,
-          message: 'Upload image(s) successfully',
+          message: 'Upload image geo-data successfully',
           result: data,
         })
       })
