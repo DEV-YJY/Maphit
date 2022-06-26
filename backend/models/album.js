@@ -1,20 +1,36 @@
 // 2
 const mongoose = require('mongoose')
 
+const geoSchema = new mongoose.Schema({
+  imageName: {
+    type: String,
+    required: true,
+  },
+  lat: {
+    type: Number,
+    required: true,
+  },
+  lng: {
+    type: Number,
+    required: true,
+  },
+})
+
 // defines the shape of data
 const albumSchema = new mongoose.Schema({
   name: {
     type: String,
-    require: true,
+    required: true,
   },
   description: {
     type: String,
-    require: true,
+    required: true,
   },
   images: {
     type: [String],
-    require: false,
+    required: false,
   },
+  geolocation: [{}],
 })
 
 //
