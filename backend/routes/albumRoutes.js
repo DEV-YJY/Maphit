@@ -148,22 +148,25 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
   Album.findById(albumId).exec((err, album) => {
     let rawImgArr = album.images
     let imgArr = rawImgArr.map((imgName) => `uploads/${imgName}`)
-
+    console.log(imgArr)
     let imgData = []
 
-    async function getExif(filePath) {
-      let { latitude, longitude } = await exifr.parse(filePath)
-      let newData = {
-        fileName: filePath,
-        lat: latitude,
-        lng: longitude,
-      }
-      imgData.push(newData)
-      console.log('before: ', imgData)
-      return imgData
+    function getGps(filePath) {
+      exifr
+        .gps(filePath)
+        .then((res) => {
+          let newData = {
+            fileName: filePath.slice(8),
+            lat: res.latitude,
+            lng: res.longitude,
+          }
+          imgData.push(newData)
+          console.log('exif imgdata: ', imgData)
+          return imgData
+        })
+        .catch(console.log('exif error: ', err))
     }
-
-    imgArr.map((img) => getExif(img))
+    imgArr.map((img) => getGps(img))
 
     // empty due to async?
     console.log('after: ', imgData)
@@ -191,7 +194,7 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
         console.log('data: ', data)
         return res.json({
           status: true,
-          message: 'Upload image get-data successfully',
+          message: 'Upload image geo-data successfully',
           result: data,
         })
       }
