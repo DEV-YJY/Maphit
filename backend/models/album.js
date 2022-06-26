@@ -4,15 +4,15 @@ const mongoose = require('mongoose')
 const geoSchema = new mongoose.Schema({
   imageName: {
     type: String,
-    required: true,
+    required: false,
   },
   lat: {
     type: Number,
-    required: true,
+    required: false,
   },
   lng: {
     type: Number,
-    required: true,
+    required: false,
   },
 })
 
@@ -30,7 +30,14 @@ const albumSchema = new mongoose.Schema({
     type: [String],
     required: false,
   },
-  geolocation: [{}],
+  geolocation: [
+    {
+      imageName: { type: String, required: true },
+      lat: { type: Number, required: true },
+      lng: { type: Number, required: true },
+    },
+    { _id: false },
+  ],
 })
 
 //

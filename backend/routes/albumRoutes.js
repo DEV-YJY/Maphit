@@ -124,6 +124,26 @@ router.put('/upload/:albumId', upload.array('image', 5), (req, res) => {
   //   },
   // ]
 
+  ///////////////////////////////// setTimeout approach
+
+  // setTimeout(() => {
+  //   const relativePath = path.join(__dirname, '../uploads/')
+  //   const fileName = relativePath + req.files.filename
+  //   console.log('filename: ', fileName)
+
+  //   function getExif(filePath) {
+  //     console.log(req.files)
+  //     let output = exifr.parse(filePath)
+  //     // uploads/1656198301708-IMG_1405.JPG
+  //     const latitude = output.latitude
+  //     const longitude = output.longitude
+  //     console.log('latitude: ', latitude)
+  //     return output
+  //   }
+  // }, 1000)
+
+  //////////////////////////////////// not sure
+
   // const relativePath = path.join(__dirname, '../uploads/')
   // const fileName = relativePath + req.files.filename
 
@@ -139,11 +159,11 @@ router.put('/upload/:albumId', upload.array('image', 5), (req, res) => {
   //   return output
   // }
   // let { latitude, longitude } = getExif(fileName)
-  // console.log('output lat: ', latitude)
+  // setTimeout(() => console.log('output lat: ', latitude), 1000)
 })
 
 /// UPDATE GEO
-router.put('/geoUpdate/:albumId', async (req, res) => {
+router.put('/gggeoUpdate/:albumId', async (req, res) => {
   const albumId = req.params.albumId
   Album.findById(albumId).exec((err, album) => {
     let rawImgArr = album.images
@@ -169,14 +189,18 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
     imgArr.map((img) => getGps(img))
 
     // empty due to async?
-    console.log('after: ', imgData)
+    setTimeout(() => console.log('after: ', imgData), 1000)
+    // console.log('after: ', imgData)
+
+    let geoData = { fileName: 'hi', lat: 1, lng: 2 }
 
     Album.findOneAndUpdate(
       {
         _id: albumId,
       },
       {
-        $push: { geolocation: imgData },
+        // addToSet adds the object to array when the obj is not present in the array
+        $addToSet: { geolocation: { geoData } },
       },
       {
         new: true,
@@ -191,7 +215,9 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
             result: err,
           })
         }
-        console.log('data: ', data)
+        setTimeout(() => {
+          console.log('data: ', data)
+        }, 1500)
         return res.json({
           status: true,
           message: 'Upload image geo-data successfully',
@@ -214,6 +240,67 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
 //   res.send(err)
 //   }
 // )
+
+////////////////////////////////////
+router.put('/geoUpdate/:albumId', async (req, res) => {
+  try {
+    const albumId = req.params.albumId
+    let rawImgArr
+    let imgArr
+    let imgData = []
+
+    Album.findById(albumId).exec((err, album) => {
+      rawImgArr = album.images
+      imgArr = rawImgArr.map((imgName) => `uploads/${imgName}`)
+      // console.log(imgArr)
+
+      function getGps(filePath) {
+        exifr
+          .gps(filePath)
+          .then((res) => {
+            let newData = {
+              fileName: filePath.slice(8),
+              lat: res.latitude,
+              lng: res.longitude,
+            }
+            imgData.push(newData)
+            console.log('exif imgdata: ', imgData)
+            return imgData
+          })
+          .catch(console.log('exif error: ', err))
+      }
+      console.log('outside imgdata: ', imgData)
+      let geoData = imgArr.map((img) => getGps(img))
+
+      console.log('Geodata outside: ', geoData)
+      ///
+      ///
+      // let geoData = { imageName: '777', lat: 1, lng: 2 }
+
+      Album.findOneAndUpdate(
+        {
+          _id: albumId,
+        },
+        {
+          // addToSet adds the object to array when the obj is not present in the array
+          $addToSet: { geolocation: geoData },
+        },
+        {
+          new: true,
+        }
+      ).exec((err, data) => {
+        return res.json({
+          status: true,
+          message: 'Upload image(s) successfully',
+          result: data,
+        })
+      })
+    })
+  } catch (err) {
+    console.log(err)
+    res.send(err)
+  }
+})
 
 //
 //
