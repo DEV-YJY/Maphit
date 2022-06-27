@@ -70,13 +70,15 @@ export const fetchAlbumDetail = (albumId) => {
   }
 }
 
-export const fetchGeoData = (albumId) => {
-  const res = axios.put(`/albums/upload/${albumId}/geo`).then((res) => {
-    console.log('fetchGeodata: ', res.result.geolocation)
-    return res.data
-  })
+export const fetchGeoData = async (albumId) => {
+  const res = await axios.put(`/albums/geoUpdate/${albumId}`)
+  const resData = res.data.result.geolocation
+
   return {
     type: FETCH_GEODATA,
-    playload: res,
+    payload: resData,
   }
 }
+
+// Client ==> API ==> DB ==> API ==> Client
+//       noGeo   Geo     Geo     Geo

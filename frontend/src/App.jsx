@@ -18,7 +18,7 @@ function App() {
           <Route path='/add' element={<AddAlbum/>} />
           <Route path='/upload/:albumId' element={<ImageUpload/>} />
           <Route path='/upload/:albumId/map' element={<Map />} />
-          <Route path='/upload/:albumId/geo' element={<UploadGeo />} />
+          {/* <Route path='/upload/:albumId/geo' element={<UploadGeo />} /> */}
         </Routes>
       </div>
     </div>

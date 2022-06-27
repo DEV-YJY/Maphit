@@ -21,11 +21,6 @@ const center = {
   lng: 103.852,
 }
 
-const mbs = {
-  lat: 1.2823,
-  lng: 103.8585
-}
-
 export default function Map() {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
@@ -39,10 +34,9 @@ export default function Map() {
   useEffect(() => {
     dispatch(fetchAlbumDetail(albumId))
   }, [])
-  
-  const albumDetail = useSelector(state => state.album.albumDetail)
-  // console.log('map: ', albumDetail)
 
+  const albumDetail = useSelector((state) => state.album.albumDetail)
+  // console.log('map: ', albumDetail)
 
   const [map, setMap] = React.useState(null)
 
@@ -56,24 +50,28 @@ export default function Map() {
     setMap(null)
   }, [])
 
-  // const imgLocation = albumDetail.images.map(img => {
-  //   return (
-  //     <Marker
-  //       position={mbs}
-  //       icon={{url: (`http://localhost:4000/${img}`)}}
-  //     />
-  //   )
-  // })
+  const imageGeoData = useSelector((state) => {
+    return state.album.albumDetail.geolocation
+  })
+
+  const mbs = {
+    lat: imageGeoData[0].lat,
+    lng: imageGeoData[0].lng,
+  }
+
+  const imgLocation = albumDetail.images.map((img) => {
+    return <Marker position={mbs} icon={{ url: `http://localhost:4000/${img}` }} />
+  })
 
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={center}
+      center={mbs}
       zoom={13}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      {/* {imgLocation} */}
+      {imgLocation}
       {/* <Marker 
         position={mbs} 
         icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`)}} 
