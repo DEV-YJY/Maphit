@@ -49,13 +49,16 @@ function ImageUpload() {
   }, [])
   
 
+
+
   return (
     <>
+      
       <Link to='/'>Back to Albums</Link>
       <div>
         <Link to={`/upload/${albumId}/map`}>Map Button</Link>
       </div>
-      <div>Upload Image Album name: {albumDetail.name}</div>
+      <div>Upload Image Album name: {albumDetail && albumDetail.name}</div>
       <div>Memories</div>
       <div>
       <Dropzone onDrop={dropImage}>
@@ -70,7 +73,7 @@ function ImageUpload() {
         )}
       </Dropzone>
 
-        {albumDetail.images && 
+        {albumDetail && 
           albumDetail.images.map((image, idx) => {
             return (
               <div key={idx}>

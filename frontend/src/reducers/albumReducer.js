@@ -10,7 +10,8 @@ import {
 // INITIAL STATE
 const initialState = {
   albumList: [],
-  albumDetail: {},
+  albumDetail: null,
+  imageGeoData: [],
 }
 
 // REDUCER
@@ -18,18 +19,22 @@ const albumReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ALBUMS:
       return {
+        ...state,
         albumList: [...action.payload.result],
       }
     case FETCH_ALBUM_DETAIL:
       return {
+        ...state,
         albumDetail: action.payload.result,
       }
     case UPLOAD_IMAGE:
       return {
+        ...state,
         albumDetail: action.payload.result,
       }
     case REMOVE_IMAGE:
       return {
+        ...state,
         albumDetail: action.payload.result,
       }
     default:
