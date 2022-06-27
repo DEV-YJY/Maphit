@@ -39,20 +39,6 @@ router.get('/', async (req, res) => {
     res.status().send('Server error')
   }
 })
-// Album.find().exec((err, albums) => {
-//   if (err) {
-//     return res.json({
-//       status: false,
-//       message: 'Server error',
-//       result: err,
-//     })
-//   }
-//   return res.json({
-//     status: true,
-//     message: 'Retrieved albums successfully',
-//     result: albums,
-//   })
-// })
 
 // GET albumById
 router.get('/:albumId', (req, res) => {
@@ -112,135 +98,10 @@ router.put('/upload/:albumId', upload.array('image', 5), (req, res) => {
     console.log(err)
     res.send(err)
   }
-
-  //
-  // extract gelocation through exifr
-
-  // newGeo = [
-  //   {
-  //     fileName:
-  //     lat: latitude,
-  //     lng: longitude,
-  //   },
-  // ]
-
-  ///////////////////////////////// setTimeout approach
-
-  // setTimeout(() => {
-  //   const relativePath = path.join(__dirname, '../uploads/')
-  //   const fileName = relativePath + req.files.filename
-  //   console.log('filename: ', fileName)
-
-  //   function getExif(filePath) {
-  //     console.log(req.files)
-  //     let output = exifr.parse(filePath)
-  //     // uploads/1656198301708-IMG_1405.JPG
-  //     const latitude = output.latitude
-  //     const longitude = output.longitude
-  //     console.log('latitude: ', latitude)
-  //     return output
-  //   }
-  // }, 1000)
-
-  //////////////////////////////////// not sure
-
-  // const relativePath = path.join(__dirname, '../uploads/')
-  // const fileName = relativePath + req.files.filename
-
-  // console.log('filename: ', fileName)
-
-  // async function getExif(filePath) {
-  //   console.log(req.files)
-  //   let output = await exifr.parse(filePath)
-  //   // uploads/1656198301708-IMG_1405.JPG
-  //   const latitude = output.latitude
-  //   const longitude = output.longitude
-  //   console.log('latitude: ', latitude)
-  //   return output
-  // }
-  // let { latitude, longitude } = getExif(fileName)
-  // setTimeout(() => console.log('output lat: ', latitude), 1000)
 })
 
-/// UPDATE GEO
-router.put('/gggeoUpdate/:albumId', async (req, res) => {
-  const albumId = req.params.albumId
-  Album.findById(albumId).exec((err, album) => {
-    let rawImgArr = album.images
-    let imgArr = rawImgArr.map((imgName) => `uploads/${imgName}`)
-    console.log(imgArr)
-    let imgData = []
-
-    function getGps(filePath) {
-      exifr
-        .gps(filePath)
-        .then((res) => {
-          let newData = {
-            fileName: filePath.slice(8),
-            lat: res.latitude,
-            lng: res.longitude,
-          }
-          imgData.push(newData)
-          console.log('exif imgdata: ', imgData)
-          return imgData
-        })
-        .catch(console.log('exif error: ', err))
-    }
-    imgArr.map((img) => getGps(img))
-
-    // empty due to async?
-    setTimeout(() => console.log('after: ', imgData), 1000)
-    // console.log('after: ', imgData)
-
-    let geoData = { fileName: 'hi', lat: 1, lng: 2 }
-
-    Album.findOneAndUpdate(
-      {
-        _id: albumId,
-      },
-      {
-        // addToSet adds the object to array when the obj is not present in the array
-        $addToSet: { geolocation: { geoData } },
-      },
-      {
-        new: true,
-      }
-    ),
-      function (err, data) {
-        if (err) {
-          console.log('error: ', err)
-          return res.json({
-            status: false,
-            message: 'Server error',
-            result: err,
-          })
-        }
-        setTimeout(() => {
-          console.log('data: ', data)
-        }, 1500)
-        return res.json({
-          status: true,
-          message: 'Upload image geo-data successfully',
-          result: data,
-        })
-      }
-  })
-})
-
-//     .exec((err, data) => {
-//       return res.json({
-//         status: true,
-//         message: 'Upload image geo-data successfully',
-//         result: data,
-//       })
-//     })
-//   }
-//  catch (err) {
-//   console.log(err)
-//   res.send(err)
-//   }
-// )
-
+////////////////////////////////////
+//////////////////////// Adding lat & lng
 ////////////////////////////////////
 router.put('/geoUpdate/:albumId', async (req, res) => {
   try {
@@ -254,45 +115,53 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
       imgArr = rawImgArr.map((imgName) => `uploads/${imgName}`)
       // console.log(imgArr)
 
-      function getGps(filePath) {
-        exifr.gps(filePath).then((res) => {
-          let newData = {
-            fileName: filePath.slice(8),
-            lat: res.latitude,
-            lng: res.longitude,
-          }
-          imgData.push(newData)
-          console.log('inside imgdata: ', imgData)
-          return imgData
-        })
-        // .catch(console.log('exif error: ', err))
+      async function getGps(filePath) {
+        let result = await exifr.gps(filePath)
+        let newData = {
+          imageId: filePath.slice(8),
+          lat: result.latitude,
+          lng: result.longitude,
+        }
+        console.log('1 inside newData: ', newData)
+        // imgData.push(newData)
+        console.log('2 inside imgdata: ', imgData)
+        return newData
       }
 
-      // how to get the result out?
-      console.log('outside imgdata: ', imgData)
-      let geoData = imgArr.map((img) => getGps(img))
+      // console.log('outside imgdata: ', imgData)
+      Promise.all(
+        imgArr.map((img) => {
+          console.log('log me')
+          return getGps(img)
+        })
+      ).then((geoData) => {
+        console.log('3 Outside geodata: ', geoData)
+        let finalData = geoData
 
-      console.log('Geodata outside: ', geoData)
-      ///
-      ///
-      // let geoData = { imageName: '777', lat: 1, lng: 2 }
-
-      Album.findOneAndUpdate(
-        {
-          _id: albumId,
-        },
-        {
-          // addToSet adds the object to array when the obj is not present in the array
-          $addToSet: { geolocation: { imageId: '888', lat: 1, lng: 2 } },
-        },
-        {
-          new: true,
+        console.log('4 final data: ', finalData)
+        let dummy = {
+          imageId: '1656236899754-IMG_1405.JPG',
+          lat: -44.87338888888889,
+          lng: 168.94946388888889,
         }
-      ).exec((err, data) => {
-        return res.json({
-          status: true,
-          message: 'Upload image geo-data successfully',
-          result: data,
+
+        Album.findOneAndUpdate(
+          {
+            _id: albumId,
+          },
+          {
+            // addToSet adds the object to array when the obj is not present in the array
+            $addToSet: { geolocation: dummy },
+          },
+          {
+            new: true,
+          }
+        ).exec((err, data) => {
+          return res.json({
+            status: true,
+            message: 'Upload image geo-data successfully',
+            result: data,
+          })
         })
       })
     })
@@ -302,7 +171,7 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
   }
 })
 
-//
+/////////////////////////////////////////////////////////////////////
 //
 //
 // DELETE image
