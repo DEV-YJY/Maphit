@@ -66,7 +66,6 @@ router.put('/upload/:albumId', upload.array('image', 5), (req, res) => {
     // console.log(req.params)
     console.log('req.files: ', req.files)
     const images = []
-    const newGeo = {}
     const inputFiles = req.files
 
     // add filename to images array
@@ -79,11 +78,6 @@ router.put('/upload/:albumId', upload.array('image', 5), (req, res) => {
       {
         $push: { images: images },
       },
-      // {
-      //   // geolocation??
-      //   $push: { geolocation: newGeo },
-      // },
-      // to return the data after applying update
       {
         new: true,
       }
@@ -151,7 +145,7 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
           },
           {
             // addToSet adds the object to array when the obj is not present in the array
-            $addToSet: { geolocation: dummy },
+            $set: { geolocation: finalData },
           },
           {
             new: true,
