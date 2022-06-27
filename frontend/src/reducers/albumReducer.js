@@ -5,13 +5,14 @@ import {
   ADD_ALBUM,
   REMOVE_IMAGE,
   UPLOAD_IMAGE,
+  FETCH_GEODATA,
 } from '../actions/type'
 
 // INITIAL STATE
 const initialState = {
   albumList: [],
   albumDetail: null,
-  imageGeoData: [],
+  imageGeoData: null,
 }
 
 // REDUCER
@@ -26,6 +27,7 @@ const albumReducer = (state = initialState, action) => {
       return {
         ...state,
         albumDetail: action.payload.result,
+        imageGeoData: action.payload.result,
       }
     case UPLOAD_IMAGE:
       return {
@@ -36,6 +38,12 @@ const albumReducer = (state = initialState, action) => {
       return {
         ...state,
         albumDetail: action.payload.result,
+      }
+    // something is not right here
+    case FETCH_GEODATA:
+      return {
+        ...state,
+        imageGeoData: action.payload.result,
       }
     default:
       // console.log('albumReducer: ', state)

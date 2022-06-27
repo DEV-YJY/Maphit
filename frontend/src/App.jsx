@@ -6,6 +6,7 @@ import Map from './components/Map'
 import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import {Routes, Route} from 'react-router-dom'
+import UploadGeo from './components/UploadGeo'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path='/add' element={<AddAlbum/>} />
           <Route path='/upload/:albumId' element={<ImageUpload/>} />
           <Route path='/upload/:albumId/map' element={<Map />} />
+          <Route path='/upload/:albumId/geo' element={<UploadGeo />} />
         </Routes>
       </div>
     </div>

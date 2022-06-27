@@ -5,6 +5,7 @@ import {
   ADD_ALBUM,
   REMOVE_IMAGE,
   UPLOAD_IMAGE,
+  FETCH_GEODATA,
 } from './type'
 
 // ACTION CREATORS
@@ -60,10 +61,22 @@ export const removeImage = (albumId, imageName) => {
 
 export const fetchAlbumDetail = (albumId) => {
   const res = axios.get(`/albums/${albumId}`).then((res) => {
+    // console.log('albumdetail from action', res)
     return res.data
   })
   return {
     type: FETCH_ALBUM_DETAIL,
     payload: res,
+  }
+}
+
+export const fetchGeoData = (albumId) => {
+  const res = axios.put(`/albums/upload/${albumId}/geo`).then((res) => {
+    console.log('fetchGeodata: ', res.result.geolocation)
+    return res.data
+  })
+  return {
+    type: FETCH_GEODATA,
+    playload: res,
   }
 }
