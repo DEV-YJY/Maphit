@@ -3,6 +3,7 @@ import {
   FETCH_ALBUMS,
   FETCH_ALBUM_DETAIL,
   ADD_ALBUM,
+  DELETE_ALBUM,
   REMOVE_IMAGE,
   UPLOAD_IMAGE,
   FETCH_GEODATA,
@@ -30,6 +31,17 @@ export const addAlbum = (data) => {
   // console.log('payload: ', res)
   return {
     type: ADD_ALBUM,
+    payload: res,
+  }
+}
+
+export const deleteAlbum = (albumId) => {
+  const res = axios.delete(`/albums/delete/${albumId}`).then((res) => {
+    console.log(res.data)
+    return res.data
+  })
+  return {
+    type: DELETE_ALBUM,
     payload: res,
   }
 }

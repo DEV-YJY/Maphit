@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAlbumDetail } from '../actions/album'
 
+
 import {
   useLoadScript,
   LoadScript,
@@ -20,6 +21,8 @@ const center = {
   lat: 1.29,
   lng: 103.852,
 }
+
+const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
 export default function Map() {
   const { isLoaded } = useJsApiLoader({
@@ -50,28 +53,28 @@ export default function Map() {
     setMap(null)
   }, [])
 
-  const imageGeoData = useSelector((state) => {
-    return state.album.albumDetail.geolocation
-  })
+  // const imageGeoData = useSelector((state) => {
+  //   return state.album.albumDetail.geolocation
+  // })
 
-  const mbs = {
-    lat: imageGeoData[0].lat,
-    lng: imageGeoData[0].lng,
-  }
+  // const mbs = {
+  //   lat: imageGeoData[0].lat,
+  //   lng: imageGeoData[0].lng,
+  // }
 
-  const imgLocation = albumDetail.images.map((img) => {
-    return <Marker position={mbs} icon={{ url: `http://localhost:4000/${img}` }} />
-  })
+  // const imgLocation = albumDetail.images.map((img) => {
+  //   return <Marker position={mbs} icon={{ url: `http://localhost:4000/${img}` }} />
+  // })
 
   return isLoaded ? (
     <GoogleMap
       mapContainerStyle={containerStyle}
-      center={mbs}
+      center={center}
       zoom={13}
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      {imgLocation}
+      {/* {imgLocation} */}
       {/* <Marker 
         position={mbs} 
         icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`)}} 

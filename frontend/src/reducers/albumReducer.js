@@ -27,7 +27,8 @@ const albumReducer = (state = initialState, action) => {
       return {
         ...state,
         albumDetail: action.payload.result,
-        imageGeoData: action.payload.result,
+        // can delete imageGeoData?
+        // imageGeoData: action.payload.result,
       }
     case UPLOAD_IMAGE:
       return {

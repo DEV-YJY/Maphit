@@ -1,6 +1,7 @@
 export const FETCH_ALBUMS = 'FETCH_ALBUMS'
 export const FETCH_ALBUM_DETAIL = 'FETCH_ALBUMS_DETAIL'
 export const ADD_ALBUM = 'ADD_ALBUM'
+export const DELETE_ALBUM = 'DELETE_ALBUM'
 export const UPLOAD_IMAGE = 'UPLOAD_IMAGE'
 export const REMOVE_IMAGE = 'REMOVE_IMAGE'
 export const FETCH_GEODATA = 'FETCH_GEODATA'

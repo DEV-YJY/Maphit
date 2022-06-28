@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   uploadImage,
   removeImage,
   fetchAlbumDetail,
   fetchGeoData,
+  deleteAlbum
 } from '../actions/album'
 import { toast } from 'react-toastify'
 // DROP-ZONE
@@ -14,13 +15,12 @@ import Dropzone from 'react-dropzone'
 function ImageUpload() {
   const dispatch = useDispatch()
   let params = useParams()
-  // console.log(params)
+  const albumId = params.albumId
+  const navigate = useNavigate()
 
   // state to trigger geofetchdata useEffect
   const [data, setData] = useState(undefined)
 
-  const albumId = params.albumId
-  // console.log('albumId: ', albumId)
 
   const albumDetail = useSelector((state) => {
     // console.log(state)
@@ -38,7 +38,7 @@ function ImageUpload() {
 
   console.log('albumDetail: ', albumDetail)
 
-  //Drop-zone
+  ///////////////Drop-zone/////////////////
   const dropImage = (file) => {
     // GET data from HTML to JS Obj
     let formData = new FormData()
@@ -56,6 +56,7 @@ function ImageUpload() {
       }
     })
   }
+ ///////////////Drop-zone/////////////////
 
   const handleDelete = (albumId, imageName) => {
     dispatch(removeImage(albumId, imageName)).then((res) => {
@@ -65,13 +66,19 @@ function ImageUpload() {
     })
   }
 
+  const handleAlbumDelete = albumId => {
+    dispatch(deleteAlbum(albumId))
+      .then(res => {
+        if (res.payload.status) {
+          navigate('/')
+        }
+      })
+  }
+
   useEffect(() => {
     dispatch(fetchAlbumDetail(albumId))
   }, [dispatch, albumId])
 
-  // function handleFetchGeoData() {
-  //   dispatch(fetchGeoData(albumId))
-  // }
 
   useEffect(() => {
     dispatch(fetchGeoData(albumId))
@@ -86,17 +93,22 @@ function ImageUpload() {
 
   return (
     <>
-      <Link to='/'>Back to Albums</Link>
-
+      <Link to='/'>Back to Gallery</Link>
       <div>
-        <button onClick={() => dispatch(fetchGeoData(albumId))}>I am a button</button>
+        <button onClick={() => dispatch(handleAlbumDelete(albumId))}>DELETE Album</button>
       </div>
 
       <div>
-        <Link to={`/upload/${albumId}/map`}>Map Button</Link>
+        <button onClick={() => dispatch(fetchGeoData(albumId))}>Click me to upload Photo geolocation</button>
       </div>
+
+      <div>
+        <Link to={`/upload/${albumId}/map`}>Click Me I am a Map Button</Link>
+      </div>
+
       <div>Upload Image Album name: {albumDetail && albumDetail.name}</div>
       <div>Memories</div>
+
       <div>
         <Dropzone onDrop={dropImage}>
           {({ getRootProps, getInputProps }) => (
