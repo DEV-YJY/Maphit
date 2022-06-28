@@ -25,6 +25,22 @@ router.post('/add', async (req, res) => {
   }
 })
 
+// DELETE Album
+router.delete('/delete/:albumId', async (req, res) => {
+  try {
+    const albumId = req.params.albumId
+    Album.findByIdAndRemove(albumId).exec((err, data) => {
+      res.json({
+        status: true,
+        message: 'Album removed successfully',
+        result: data,
+      })
+    })
+  } catch (err) {
+    res.send('Delete error: ', err)
+  }
+})
+
 // GET all the albums
 router.get('/', async (req, res) => {
   try {
@@ -64,7 +80,7 @@ router.put('/upload/:albumId', upload.array('image', 5), (req, res) => {
   try {
     const albumId = req.params.albumId
     // console.log(req.params)
-    console.log('req.files: ', req.files)
+    // console.log('req.files: ', req.files)
     const images = []
     const inputFiles = req.files
 
@@ -133,11 +149,11 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
         let finalData = geoData
 
         console.log('4 final data: ', finalData)
-        let dummy = {
-          imageId: '1656236899754-IMG_1405.JPG',
-          lat: -44.87338888888889,
-          lng: 168.94946388888889,
-        }
+        // let dummy = {
+        //   imageId: '1656236899754-IMG_1405.JPG',
+        //   lat: -44.87338888888889,
+        //   lng: 168.94946388888889,
+        // }
 
         Album.findOneAndUpdate(
           {
@@ -145,6 +161,7 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
           },
           {
             // addToSet adds the object to array when the obj is not present in the array
+            // set replaces the whole array
             $set: { geolocation: finalData },
           },
           {
