@@ -29,7 +29,16 @@ router.post('/add', async (req, res) => {
 router.delete('/delete/:albumId', async (req, res) => {
   try {
     const albumId = req.params.albumId
+
     Album.findByIdAndRemove(albumId).exec((err, data) => {
+      const relativePath = path.join(__dirname, '../uploads/')
+
+      data.images.map((i) => {
+        let filePath = relativePath + i
+        console.log(filePath)
+        fs.unlinkSync(filePath)
+      })
+
       res.json({
         status: true,
         message: 'Album removed successfully',
@@ -189,12 +198,7 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
 router.put('/removeImage/:albumId', async (req, res) => {
   const albumId = req.params.albumId
   const fileName = req.body.fileName
-  // need to get the file ext!!
-  // console.log('original name: ', req.file)
-  // console.log(req.body)
-  // console.log('this is ext: ', fileExt)
-  // console.log('albumID: ', albumId)
-  // console.log('file name: ', fileName)
+
   Album.findOneAndUpdate(
     {
       _id: albumId,
