@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAlbumDetail } from '../actions/album'
 
-
 import {
   useLoadScript,
   LoadScript,
@@ -25,22 +24,16 @@ const center = {
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
 
 export default function Map() {
+  const dispatch = useDispatch()
+  let params = useParams()
+  const albumId = params.albumId
+
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
     googleMapsApiKey: 'AIzaSyAPBNI3ndJDJk0KwEXWI35mWYMKkB09G0A',
   })
 
-  const dispatch = useDispatch()
-  let params = useParams()
-  const albumId = params.albumId
-
-  useEffect(() => {
-    dispatch(fetchAlbumDetail(albumId))
-  }, [])
-
-  const albumDetail = useSelector((state) => state.album.albumDetail)
-  // console.log('map: ', albumDetail)
-
+  ///////////////////////////////// Google map rendering
   const [map, setMap] = React.useState(null)
 
   const onLoad = React.useCallback(function callback(map) {
@@ -52,19 +45,38 @@ export default function Map() {
   const onUnmount = React.useCallback(function callback(map) {
     setMap(null)
   }, [])
+//////////////////////////////////
 
-  // const imageGeoData = useSelector((state) => {
-  //   return state.album.albumDetail.geolocation
-  // })
+  useEffect(() => {
+    dispatch(fetchAlbumDetail(albumId))
+  }, [])
 
-  // const mbs = {
-  //   lat: imageGeoData[0].lat,
-  //   lng: imageGeoData[0].lng,
-  // }
+  const albumDetail = useSelector((state) => state.album.albumDetail)
+  // console.log('AlbumDetail in map.jsx: ', albumDetail)
 
-  // const imgLocation = albumDetail.images.map((img) => {
-  //   return <Marker position={mbs} icon={{ url: `http://localhost:4000/${img}` }} />
-  // })
+  const imageGeoData = useSelector((state) =>  {
+    console.log(state.album.albumDetail.geolocation)
+    return state.album.albumDetail.geolocation
+  })
+  console.log(imageGeoData[0].lat)
+
+
+  const imagePosition = {
+    lat: imageGeoData[0].lat,
+    lng: imageGeoData[0].lng,
+  }
+
+  const imgLocation = imageGeoData.map((img) => {
+    console.log(img.lat)
+    return (
+      <Marker 
+        key={img.imageId} 
+        position={{lat: img.lat, lng: img.lng}} 
+        icon={{ url: `http://localhost:4000/${img}`, scaledSize: new window.google.maps.Size(70, 50) }} 
+      />
+    )
+  })
+  console.log(imgLocation)
 
   return isLoaded ? (
     <GoogleMap
@@ -74,10 +86,15 @@ export default function Map() {
       onLoad={onLoad}
       onUnmount={onUnmount}
     >
-      {/* {imgLocation} */}
+      {imgLocation}
+      <Marker
+        scale={0.05}
+        position={center} 
+        icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`), scaledSize: new window.google.maps.Size(70, 50)}} 
+      />
       {/* <Marker 
-        position={mbs} 
-        icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`)}} 
+        position={imagePosition} 
+        icon={{url: (`http://localhost:4000/${albumDetail.images[3]}`)}} 
       /> */}
     </GoogleMap>
   ) : (

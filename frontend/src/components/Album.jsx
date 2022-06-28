@@ -79,7 +79,6 @@ function ImageUpload() {
     dispatch(fetchAlbumDetail(albumId))
   }, [dispatch, albumId])
 
-
   useEffect(() => {
     dispatch(fetchGeoData(albumId))
     console.log('The Album Detail in useEffect: ', albumDetail)
