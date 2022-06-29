@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   uploadImage,
   removeImage,
   fetchAlbumDetail,
-  fetchGeoData,
-  deleteAlbum
-} from '../actions/album'
+  uploadGeoData,
+  deleteAlbum,
+  uploadImageWithGeoData
+} from '../redux/actions/album'
 import { toast } from 'react-toastify'
 // DROP-ZONE
 import Dropzone from 'react-dropzone'
@@ -20,93 +21,115 @@ function ImageUpload() {
 
   // state to trigger geofetchdata useEffect
   const [data, setData] = useState(undefined)
-
+  
+    // const imageGeoData = useSelector((state) => {
+    //   console.log('imageGeodata: ', state)
+    //   return state.album.albumDetail
+    // })
 
   const albumDetail = useSelector((state) => {
     // console.log(state)
     return state.album.albumDetail
   })
 
-  const imageGeoData = useSelector((state) => {
-    console.log('imageGeodata: ', state)
-    return state.album.albumDetail
+  const albumDetailImages = useSelector((state) => {
+    // console.log(state)
+    return state.album.albumDetail.images
   })
 
-  useEffect(() => {
-    setData(imageGeoData)
-  }, [imageGeoData])
+  // useEffect(() => {
+  //   setData(albumDetail)
+  // }, [albumDetail])
 
   console.log('albumDetail: ', albumDetail)
 
-  ///////////////Drop-zone/////////////////
-  const dropImage = (file) => {
-    // GET data from HTML to JS Obj
-    let formData = new FormData()
-    const config = {
-      header: { 'content-type': 'multipart/form-data' },
-    }
-    file.map((file, idx) => {
-      return formData.append('image', file)
-    })
-
-    dispatch(uploadImage(albumId, formData, config)).then((res) => {
-      if (res.payload.status) {
-        // console.log(res.payload.status)
-        toast.success(res.payload.message)
-      }
-    })
-  }
- ///////////////Drop-zone/////////////////
-
-  const handleDelete = (albumId, imageName) => {
-    dispatch(removeImage(albumId, imageName)).then((res) => {
-      if (res.payload.status) {
-        toast.success(res.payload.message)
-      }
-    })
-  }
-
-  const handleAlbumDelete = albumId => {
-    dispatch(deleteAlbum(albumId))
-      .then(res => {
-        if (res.payload.status) {
-          navigate('/')
-        }
-      })
-  }
-
+  // must fetch an album detail on its first mount
   useEffect(() => {
     dispatch(fetchAlbumDetail(albumId))
-  }, [dispatch, albumId])
+  }, [])
 
-  useEffect(() => {
-    dispatch(fetchGeoData(albumId))
-    console.log('The Album Detail in useEffect: ', albumDetail)
-  }, [dispatch, albumId, albumDetail])
+  // useEffect(() => {
+  //   if (albumDetail) {
+  //   dispatch(uploadGeoData(albumId))
+  //   console.log('The Album Detail in useEffect: ', albumDetail)
+  // }}, [])
 
-  useEffect(() => {
-    console.log('_________________')
-    console.log("useSelector: ", data)
-    console.log('_________________')
-  }, [data])
+  // useEffect(() => {
+  //   if(albumDetailImages !== []) {
+  //     dispatch(uploadGeoData(albumId))
+  //   }
+  // }, [albumDetailImages])
+
+  // useEffect(() => {
+  //   console.log('_________________')
+  //   console.log("useSelector: ", data)
+  //   console.log('_________________')
+  // }, [data])
+
+///////////////Drop-zone/////////////////
+const dropImage = (file) => {
+  // GET data from HTML to JS Obj
+  let formData = new FormData()
+  const config = {
+    header: { 'content-type': 'multipart/form-data' },
+  }
+  file.map((file, idx) => {
+    return formData.append('image', file)
+  })
+
+  dispatch(uploadImageWithGeoData(albumId, formData, config)).then((res) => {
+    if (res.payload.status) {
+      // console.log(res.payload.status)
+      toast.success(res.payload.message)
+    }
+  })
+}
+///////////////Drop-zone/////////////////
+
+const handleDelete = (albumId, imageName) => {
+  dispatch(removeImage(albumId, imageName)).then((res) => {
+    if (res.payload.status) {
+      toast.success(res.payload.message)
+    }
+  })
+}
+
+const handleAlbumDelete = albumId => {
+  dispatch(deleteAlbum(albumId))
+    .then(res => {
+      if (res.payload.status) {
+        navigate('/')
+      }
+    })
+}
 
   return (
     <>
       <Link to='/'>Back to Gallery</Link>
+      <div>---------------------------------------------------------</div>
+      <div>Album Name: {albumDetail && albumDetail.name}</div>
+      <div>---------------------------------------------------------</div>
+      <div>Album Description: {albumDetail && albumDetail.description}</div>
+      <div>---------------------------------------------------------</div>
+
       <div>
         <button onClick={() => dispatch(handleAlbumDelete(albumId))}>DELETE Album</button>
       </div>
+      <div>---------------------------------------------------------</div>
 
       <div>
-        <button onClick={() => dispatch(fetchGeoData(albumId))}>Click me to upload Photo geolocation</button>
+        <button onClick={() => dispatch(uploadGeoData(albumId))}>Click me to upload Photo geolocation</button>
       </div>
+      
+      <div>---------------------------------------------------------</div>
 
       <div>
-        <Link to={`/upload/${albumId}/map`}>Click Me I am a Map Button</Link>
+        <Link to={`/upload/${albumId}/map`}>Map it</Link>
       </div>
 
-      <div>Upload Image Album name: {albumDetail && albumDetail.name}</div>
-      <div>Memories</div>
+      <div>---------------------------------------------------------</div>
+
+      <div>---------------------------------------------------------</div>
 
       <div>
         <Dropzone onDrop={dropImage}>
@@ -116,6 +139,7 @@ function ImageUpload() {
                 <input {...getInputProps()} />
                 {/* FIVE images max at a time */}
                 <p>Drag 'n' drop image files here, or click to select images</p>
+                <p>---------------------------------------------------------</p>
               </div>
             </div>
           )}

@@ -1,17 +1,20 @@
-import { fetchAlbumDetail } from '../actions/album'
 import {
   FETCH_ALBUMS,
   FETCH_ALBUM_DETAIL,
   ADD_ALBUM,
   REMOVE_IMAGE,
   UPLOAD_IMAGE,
-  FETCH_GEODATA,
+  UPLOAD_GEODATA,
+  UPLOAD_IMAGE_WITH_GEO,
 } from '../actions/type'
 
 // INITIAL STATE
 const initialState = {
   albumList: [],
-  albumDetail: null,
+  albumDetail: {
+    geolocation: [],
+    images: [],
+  },
   imageGeoData: null,
 }
 
@@ -27,13 +30,19 @@ const albumReducer = (state = initialState, action) => {
       return {
         ...state,
         albumDetail: action.payload.result,
-        // can delete imageGeoData?
-        // imageGeoData: action.payload.result,
       }
     case UPLOAD_IMAGE:
       return {
         ...state,
         albumDetail: action.payload.result,
+      }
+    case UPLOAD_IMAGE_WITH_GEO:
+      return {
+        ...state,
+        albumDetail: {
+          images: action.payload.res,
+          geolocation: action.payload.resGeoData,
+        },
       }
     case REMOVE_IMAGE:
       return {
@@ -41,11 +50,15 @@ const albumReducer = (state = initialState, action) => {
         albumDetail: action.payload.result,
       }
     // something is not right here
-    case FETCH_GEODATA:
-      return {
-        ...state,
-        imageGeoData: action.payload.result,
-      }
+    // case UPLOAD_GEODATA:
+    //   return {
+    //     ...state,
+    //     albumDetail: {
+    //       ...state.albumDetail,
+    //       geolocation: action.payload,
+    //     },
+    // imageGeoData: action.payload.result,
+    // }
     default:
       // console.log('albumReducer: ', state)
       return state

@@ -6,7 +6,8 @@ import {
   DELETE_ALBUM,
   REMOVE_IMAGE,
   UPLOAD_IMAGE,
-  FETCH_GEODATA,
+  UPLOAD_GEODATA,
+  UPLOAD_IMAGE_WITH_GEO,
 } from './type'
 
 // ACTION CREATORS
@@ -46,6 +47,20 @@ export const deleteAlbum = (albumId) => {
   }
 }
 
+export const uploadImageWithGeoData = async (albumId, data, configParam) => {
+  const res = await axios.put(`/albums/upload/${albumId}`, data, configParam)
+  const resData = res.data.result.images
+  const resGeo = await axios.put(`/albums/geoUpdate/${albumId}`)
+  const resGeoData = resGeo.data.result.geolocation
+  return {
+    type: UPLOAD_IMAGE_WITH_GEO,
+    payload: {
+      res: resData,
+      resGeoData,
+    },
+  }
+}
+
 export const uploadImage = (albumId, data, configParam) => {
   const res = axios.put(`/albums/upload/${albumId}`, data, configParam).then((res) => {
     // console.log(res.data)
@@ -54,6 +69,16 @@ export const uploadImage = (albumId, data, configParam) => {
   return {
     type: UPLOAD_IMAGE,
     payload: res,
+  }
+}
+
+export const uploadGeoData = async (albumId) => {
+  const res = await axios.put(`/albums/geoUpdate/${albumId}`)
+  const resData = res.data.result.geolocation
+  // console.log(resData)
+  return {
+    type: UPLOAD_GEODATA,
+    payload: resData,
   }
 }
 
@@ -82,15 +107,18 @@ export const fetchAlbumDetail = (albumId) => {
   }
 }
 
-export const fetchGeoData = async (albumId) => {
-  const res = await axios.put(`/albums/geoUpdate/${albumId}`)
-  const resData = res.data.result.geolocation
-
-  return {
-    type: FETCH_GEODATA,
-    payload: resData,
-  }
-}
+// export const uploadGeoData = (albumId) => {
+//   return async (dispatch) => {
+//     const res = await axios.put(`/albums/geoUpdate/${albumId}`)
+//     const resData = res.data.result.geolocation
+//     // console.log(resData)
+//     await dispatch({
+//       type: UPLOAD_GEODATA,
+//       payload: resData,
+//     })
+//     dispatch(uploadGeoData(albumId))
+//   }
+// }
 
 // Client ==> API ==> DB ==> API ==> Client
 //       noGeo   Geo     Geo     Geo

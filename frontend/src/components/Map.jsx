@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchAlbumDetail } from '../actions/album'
+import { fetchAlbumDetail } from '../redux/actions/album'
 
 import {
   useLoadScript,
@@ -13,7 +13,7 @@ import {
 
 const containerStyle = {
   width: '100%',
-  height: '100vh',
+  height: '95vh',
 }
 
 const center = {
@@ -33,16 +33,17 @@ export default function Map() {
     googleMapsApiKey: 'AIzaSyAPBNI3ndJDJk0KwEXWI35mWYMKkB09G0A',
   })
 
-  ///////////////////////////////// Google map rendering
-  const [map, setMap] = React.useState(null)
+  ///////////////////////////////// Renders Google Map
+  const [map, setMap] = useState(null)
+  const [hide, setHide] = useState(true)
 
-  const onLoad = React.useCallback(function callback(map) {
+  const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds(center)
     map.fitBounds(bounds)
     setMap(map)
   }, [])
 
-  const onUnmount = React.useCallback(function callback(map) {
+  const onUnmount = useCallback(function callback(map) {
     setMap(null)
   }, [])
 //////////////////////////////////
@@ -52,22 +53,32 @@ export default function Map() {
   }, [])
 
   const albumDetail = useSelector((state) => state.album.albumDetail)
-  // console.log('AlbumDetail in map.jsx: ', albumDetail)
+  console.log('AlbumDetail in map.jsx: ', albumDetail)
 
   const imageGeoData = useSelector((state) =>  {
-    console.log(state.album.albumDetail.geolocation)
+    console.log('Geolocation in map.jsx: ', state.album.albumDetail.geolocation)
     return state.album.albumDetail.geolocation
   })
-  console.log(imageGeoData[0].lat)
-
-
-  const imagePosition = {
-    lat: imageGeoData[0].lat,
-    lng: imageGeoData[0].lng,
+  // console.log(imageGeoData[0].lat)
+  let imagePosition 
+  if (imageGeoData[0]) {
+    imagePosition = {
+        lat: imageGeoData[0].lat,
+        lng: imageGeoData[0].lng,
+      }
   }
+  // const imagePosition = {
+  //   lat: imageGeoData[0].lat,
+  //   lng: imageGeoData[0].lng,
+  // }
+
+  // let markerSize
+  // if (new window.google()) {
+  //   markerSize = new window.google.maps.Size(70, 50)
+  // }
 
   const imgLocation = imageGeoData.map((img) => {
-    console.log(img.lat)
+    // console.log(img.lat)
     return (
       <Marker 
         key={img.imageId} 
@@ -76,27 +87,25 @@ export default function Map() {
       />
     )
   })
-  console.log(imgLocation)
+
 
   return isLoaded ? (
-    <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={13}
-      onLoad={onLoad}
-      onUnmount={onUnmount}
-    >
-      {imgLocation}
-      <Marker
-        scale={0.05}
-        position={center} 
-        icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`), scaledSize: new window.google.maps.Size(70, 50)}} 
-      />
-      {/* <Marker 
-        position={imagePosition} 
-        icon={{url: (`http://localhost:4000/${albumDetail.images[3]}`)}} 
-      /> */}
-    </GoogleMap>
+    <>
+      <button onClick={() => setHide(!hide)}>{hide ? 'REVEAL' : 'HIDE'}</button>
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={13}
+        onLoad={onLoad}
+        onUnmount={onUnmount}
+      >
+        {!hide && <Marker
+          position={center} 
+          icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`), scaledSize: new window.google.maps.Size(70, 50) }} 
+        />}
+        {!hide && imgLocation[0]} 
+      </GoogleMap>
+    </>
   ) : (
     <>
       <h1>is loading...</h1>

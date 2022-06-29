@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchAlbums } from '../actions/album'
+import { fetchAlbums, deleteAlbum } from '../redux/actions/album'
 import { Link } from 'react-router-dom'
 
 function Gallery() {
@@ -25,12 +25,14 @@ function Gallery() {
       <div>
         <Link to='/add'>Add Trip Album</Link>
       </div>
+      <div>---------------------------------------</div>
       <div>
         {albumList !== [] && albumList.map((album, idx) => {
           return (
             <div key={idx + 1}>
               <div>Album name: {album.name}</div>
               <div><Link to={`/upload/${album._id}`}>View Album</Link></div>
+              <div>---------------------------------------</div>
             </div>
           )
         })}

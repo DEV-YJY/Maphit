@@ -1,7 +1,7 @@
 import { createStore, compose, applyMiddleware } from 'redux'
 import promiseMiddleware from 'redux-promise'
 import reduxThunk from 'redux-thunk'
-import rootReducer from '../reducers'
+import rootReducer from './reducers/index'
 
 const composeEhancers =
   process.env.NODE_ENV !== 'production' &&
