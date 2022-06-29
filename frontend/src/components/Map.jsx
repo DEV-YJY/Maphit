@@ -30,8 +30,9 @@ export default function Map() {
   const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   let api = 'AIzaSyAPBNI3ndJDJk0KwEXWI35mWYMKkB09G0A'
 
+
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
+    googleMapsApiKey: 'AIzaSyAPBNI3ndJDJk0KwEXWI35mWYMKkB09G0A',
   })
 
   const [hide, setHide] = useState(true)
