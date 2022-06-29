@@ -33,15 +33,17 @@ export default function Map() {
     googleMapsApiKey: 'AIzaSyAPBNI3ndJDJk0KwEXWI35mWYMKkB09G0A',
   })
 
+  const [hide, setHide] = useState(true)
+  
   ///////////////////////////////// Renders Google Map
   const [map, setMap] = useState(null)
-  const [hide, setHide] = useState(true)
 
   const onLoad = useCallback(function callback(map) {
     const bounds = new window.google.maps.LatLngBounds(center)
     map.fitBounds(bounds)
     setMap(map)
   }, [])
+
 
   const onUnmount = useCallback(function callback(map) {
     setMap(null)
@@ -88,27 +90,73 @@ export default function Map() {
     )
   })
 
+  const sideImageDisplay = albumDetail.images.map(img => {
+    return (
+      <div key={img.images}>
+        <img src={`http://localhost:4000/${img}`} alt={img.images}/>
+      </div>
+    )
+  })
 
-  return isLoaded ? (
-    <>
-      <button onClick={() => setHide(!hide)}>{hide ? 'REVEAL' : 'HIDE'}</button>
-      <GoogleMap
-        mapContainerStyle={containerStyle}
-        center={center}
-        zoom={13}
-        onLoad={onLoad}
-        onUnmount={onUnmount}
-      >
-        {!hide && <Marker
-          position={center} 
-          icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`), scaledSize: new window.google.maps.Size(70, 50) }} 
-        />}
-        {!hide && imgLocation[0]} 
-      </GoogleMap>
-    </>
-  ) : (
-    <>
-      <h1>is loading...</h1>
-    </>
-  )
-}
+  return (
+    <div className='flex'>
+      <div className='flex-col'>
+        {sideImageDisplay}
+      </div>
+      
+      {isLoaded ? (
+      <>
+        <button onClick={() => setHide(!hide)}>{hide ? 'REVEAL' : 'HIDE'}</button>
+        <GoogleMap
+          mapContainerStyle={containerStyle}
+          center={center}
+          zoom={13}
+          onLoad={onLoad}
+          onUnmount={onUnmount}
+        >
+          {!hide && <Marker
+            position={center} 
+            icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`), scaledSize: new window.google.maps.Size(70, 50) }} 
+          />}
+
+          
+          {/* {!hide && imgLocation[0]}  */}
+
+          
+          {/* {imageGeoData.map(img => (
+            <Marker 
+              key={img.imageId} 
+              position={{lat: img.lat, lng: img.lng}}
+              icon={{ url: `http://localhost:4000/${img}`, scaledSize: new window.google.maps.Size(70, 50) }} 
+            />
+          ))} */}
+
+          <Marker 
+            position={{lat: imageGeoData[0].lat, lng: imageGeoData[0].lng } }
+            icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`), scaledSize: new window.google.maps.Size(70, 50) }} 
+          />
+
+          {/* <Map
+                  onReady={this.handleMapLoad}
+                  className={"map"}
+                  google={this.props.google}
+                  zoom={5}
+                  initialCenter={{ lat: 48.1327673, lng: 4.1753323 }}
+                  bounds={this.state.bounds}
+                >
+                  {locations.map((loc, i) => (
+                    <Marker key={i} position={{ lat: loc.lat, lng: loc.lng }} />
+                  ))}
+              </Map> */}
+
+
+        </GoogleMap>
+      </>
+    ) : (
+      <>
+        <h1>is loading...</h1>
+      </>
+    )}
+  </div>
+)}
+
