@@ -18,8 +18,8 @@ const containerStyle = {
 }
 
 const center = {
-  lat: 1.29,
-  lng: 103.852,
+  lat: 1.369256,
+  lng: 103.791710,
 }
 
 export default function Map() {
@@ -88,11 +88,11 @@ export default function Map() {
   const imgLocation = imageGeoData.map((img) => {
     // console.log(img.lat)
     return (
-      <Marker 
-        key={img.imageId} 
-        position={{lat: img.lat, lng: img.lng}} 
-        icon={{ url: (`http://localhost:4000/${img.imageId}`), scaledSize: new window.google.maps.Size(70, 50) }} 
-      />
+        <Marker 
+          key={img.imageId} 
+          position={{lat: img.lat, lng: img.lng}} 
+          icon={{ url: (`http://localhost:4000/${img.imageId}`), scaledSize: new window.google.maps.Size(70, 50) }} 
+        />
     )
   })
   console.log('imgLocation: ', imgLocation[0])
@@ -117,7 +117,7 @@ export default function Map() {
         <GoogleMap
           mapContainerStyle={containerStyle}
           center={center}
-          zoom={13}
+          zoom={12}
           onLoad={onLoad}
           onUnmount={onUnmount}
         >
