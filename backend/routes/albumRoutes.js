@@ -72,13 +72,13 @@ router.get('/:albumId', (req, res) => {
     if (err) {
       return res.json({
         status: false,
-        message: 'Server error',
+        message: 'Server error, failed to retrieve an album',
         result: err,
       })
     }
     return res.json({
       status: true,
-      message: 'Retrieved albums successfully',
+      message: 'Retrieved album successfully',
       result: albums,
     })
   })
