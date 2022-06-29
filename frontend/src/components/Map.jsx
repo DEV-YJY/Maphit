@@ -39,6 +39,7 @@ export default function Map() {
   
   ///////////////////////////////// Renders Google Map
   const [map, setMap] = useState(null)
+  const [toggleEachPhoto, setToggleEachPhoto] = useState(null)
 
   const onLoad = useCallback(function callback(map) {
     // const bounds = new window.google.maps.LatLngBounds(center)
@@ -50,17 +51,18 @@ export default function Map() {
   const onUnmount = useCallback(function callback(map) {
     setMap(null)
   }, [])
-//////////////////////////////////
-
+  //////////////////////////////////
+  
   useEffect(() => {
     dispatch(fetchAlbumDetail(albumId))
+    // setToggleEachPhoto(albumDetail.map((img, idx) => {false} ))
   }, [])
 
   const albumDetail = useSelector((state) => state.album.albumDetail)
   console.log('AlbumDetail in map.jsx: ', albumDetail)
 
   const imageGeoData = useSelector((state) =>  {
-    console.log('Geolocation in map.jsx: ', state.album.albumDetail.geolocation)
+    console.log('imageGeoData in map.jsx: ', state.album.albumDetail.geolocation)
     return state.album.albumDetail.geolocation
   })
   // console.log(imageGeoData[0].lat)
@@ -83,16 +85,17 @@ export default function Map() {
   // }
 
   ///////////////// not working
-  // const imgLocation = imageGeoData.map((img) => {
-  //   // console.log(img.lat)
-  //   return (
-  //     <Marker 
-  //       key={img.imageId} 
-  //       position={{lat: img.lat, lng: img.lng}} 
-  //       icon={{ url: `http://localhost:4000/${img}`, scaledSize: new window.google.maps.Size(70, 50) }} 
-  //     />
-  //   )
-  // })
+  const imgLocation = imageGeoData.map((img) => {
+    // console.log(img.lat)
+    return (
+      <Marker 
+        key={img.imageId} 
+        position={{lat: img.lat, lng: img.lng}} 
+        icon={{ url: (`http://localhost:4000/${img.imageId}`), scaledSize: new window.google.maps.Size(70, 50) }} 
+      />
+    )
+  })
+  console.log('imgLocation: ', imgLocation[0])
 
   const sideImageDisplay = albumDetail.images.map(img => {
     return (
@@ -118,39 +121,7 @@ export default function Map() {
           onLoad={onLoad}
           onUnmount={onUnmount}
         >
-          {!hide && <Marker
-            position={center} 
-            icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`), scaledSize: new window.google.maps.Size(70, 50) }} 
-          />}
-
-          
-          {/* {!hide && imgLocation[0]}  */}
-
-          {/* // does not work */}
-          {/* {imageGeoData.map(img => (
-            <Marker 
-              key={img.imageId} 
-              position={{lat: img.lat, lng: img.lng}}
-              icon={{ url: `http://localhost:4000/${img}`, scaledSize: new window.google.maps.Size(70, 50) }} 
-            />
-          ))} */}
-
-          {/* // it works + new window.google.maps */}
-          <Marker 
-            position={{lat: imageGeoData[0].lat, lng: imageGeoData[0].lng } }
-            icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`), scaledSize: new window.google.maps.Size(70, 50) }} 
-          />
-
-
-          {/* Example */}
-          {/* <Map
-                >
-                  {locations.map((loc, i) => (
-                    <Marker key={i} position={{ lat: loc.lat, lng: loc.lng }} />
-                  ))}
-              </Map> */}
-
-
+          {hide && imgLocation}
         </GoogleMap>
       </>
     ) : (
