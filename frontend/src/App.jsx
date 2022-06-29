@@ -11,7 +11,7 @@ function App() {
   return (
     <div>
       <ToastContainer/>
-      <div className='gallery-container'>
+      <div>
         <Routes>
           <Route path='/' element={<Gallery/>} />
           <Route path='/add' element={<AddAlbum/>} />

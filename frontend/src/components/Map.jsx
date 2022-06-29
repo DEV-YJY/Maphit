@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAlbumDetail } from '../redux/actions/album'
+import env from 'react-dotenv'
 
 import {
   useLoadScript,
@@ -21,16 +22,16 @@ const center = {
   lng: 103.852,
 }
 
-const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-
 export default function Map() {
   const dispatch = useDispatch()
   let params = useParams()
   const albumId = params.albumId
+  
+  const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
+  let api = 'AIzaSyAPBNI3ndJDJk0KwEXWI35mWYMKkB09G0A'
 
   const { isLoaded } = useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyAPBNI3ndJDJk0KwEXWI35mWYMKkB09G0A',
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   })
 
   const [hide, setHide] = useState(true)
@@ -39,8 +40,8 @@ export default function Map() {
   const [map, setMap] = useState(null)
 
   const onLoad = useCallback(function callback(map) {
-    const bounds = new window.google.maps.LatLngBounds(center)
-    map.fitBounds(bounds)
+    // const bounds = new window.google.maps.LatLngBounds(center)
+    // map.fitBounds(bounds)
     setMap(map)
   }, [])
 
@@ -62,6 +63,7 @@ export default function Map() {
     return state.album.albumDetail.geolocation
   })
   // console.log(imageGeoData[0].lat)
+
   let imagePosition 
   if (imageGeoData[0]) {
     imagePosition = {
@@ -79,16 +81,17 @@ export default function Map() {
   //   markerSize = new window.google.maps.Size(70, 50)
   // }
 
-  const imgLocation = imageGeoData.map((img) => {
-    // console.log(img.lat)
-    return (
-      <Marker 
-        key={img.imageId} 
-        position={{lat: img.lat, lng: img.lng}} 
-        icon={{ url: `http://localhost:4000/${img}`, scaledSize: new window.google.maps.Size(70, 50) }} 
-      />
-    )
-  })
+  ///////////////// not working
+  // const imgLocation = imageGeoData.map((img) => {
+  //   // console.log(img.lat)
+  //   return (
+  //     <Marker 
+  //       key={img.imageId} 
+  //       position={{lat: img.lat, lng: img.lng}} 
+  //       icon={{ url: `http://localhost:4000/${img}`, scaledSize: new window.google.maps.Size(70, 50) }} 
+  //     />
+  //   )
+  // })
 
   const sideImageDisplay = albumDetail.images.map(img => {
     return (
@@ -103,7 +106,7 @@ export default function Map() {
       <div className='flex-col'>
         {sideImageDisplay}
       </div>
-      
+
       {isLoaded ? (
       <>
         <button onClick={() => setHide(!hide)}>{hide ? 'REVEAL' : 'HIDE'}</button>
@@ -122,7 +125,7 @@ export default function Map() {
           
           {/* {!hide && imgLocation[0]}  */}
 
-          
+          {/* // does not work */}
           {/* {imageGeoData.map(img => (
             <Marker 
               key={img.imageId} 
@@ -131,18 +134,15 @@ export default function Map() {
             />
           ))} */}
 
+          {/* // it works + new window.google.maps */}
           <Marker 
             position={{lat: imageGeoData[0].lat, lng: imageGeoData[0].lng } }
             icon={{url: (`http://localhost:4000/${albumDetail.images[2]}`), scaledSize: new window.google.maps.Size(70, 50) }} 
           />
 
+
+          {/* Example */}
           {/* <Map
-                  onReady={this.handleMapLoad}
-                  className={"map"}
-                  google={this.props.google}
-                  zoom={5}
-                  initialCenter={{ lat: 48.1327673, lng: 4.1753323 }}
-                  bounds={this.state.bounds}
                 >
                   {locations.map((loc, i) => (
                     <Marker key={i} position={{ lat: loc.lat, lng: loc.lng }} />
