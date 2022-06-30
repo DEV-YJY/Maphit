@@ -11,9 +11,10 @@ const exifr = require('exifr')
 // ADD Album
 router.post('/add', async (req, res) => {
   try {
+    console.log('req.body: ', req.body)
     const newAlbum = new Album(req.body)
     await newAlbum.save((err, data) => {
-      // console.log(newAlbum)
+      console.log('new album:', newAlbum)
       res.json({
         status: true,
         message: 'Album added successfully',

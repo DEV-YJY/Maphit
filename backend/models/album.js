@@ -29,7 +29,9 @@ const albumSchema = new mongoose.Schema({
   place: {
     lat: { type: Number, required: true },
     lng: { type: Number, required: true },
+    _id: false,
   },
+
   images: {
     type: [String],
     required: false,
