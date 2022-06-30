@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAlbumDetail } from '../redux/actions/album'
 import env from 'react-dotenv'
@@ -17,11 +17,6 @@ const containerStyle = {
   height: '95vh',
 }
 
-const center = {
-  lat: 1.369256,
-  lng: 103.791710,
-}
-
 export default function Map() {
   const dispatch = useDispatch()
   let params = useParams()
@@ -36,10 +31,14 @@ export default function Map() {
   })
 
   const [hide, setHide] = useState(true)
-  
+  const [center, setCenter] = useState({
+    lat: null,
+    lng: null
+  })
+
   ///////////////////////////////// Renders Google Map
   const [map, setMap] = useState(null)
-  const [toggleEachPhoto, setToggleEachPhoto] = useState(null)
+  // const [toggleEachPhoto, setToggleEachPhoto] = useState(null)
 
   const onLoad = useCallback(function callback(map) {
     // const bounds = new window.google.maps.LatLngBounds(center)
@@ -51,21 +50,33 @@ export default function Map() {
   const onUnmount = useCallback(function callback(map) {
     setMap(null)
   }, [])
+  /////////////////
   //////////////////////////////////
   
   useEffect(() => {
     dispatch(fetchAlbumDetail(albumId))
-    // setToggleEachPhoto(albumDetail.map((img, idx) => {false} ))
+    console.log('albumdetail in useEffect: ', albumDetail)
   }, [])
 
   const albumDetail = useSelector((state) => state.album.albumDetail)
   console.log('AlbumDetail in map.jsx: ', albumDetail)
 
   const imageGeoData = useSelector((state) =>  {
-    console.log('imageGeoData in map.jsx: ', state.album.albumDetail.geolocation)
+    console.log('imageGeoData in map.jsx: ', state)
     return state.album.albumDetail.geolocation
   })
   // console.log(imageGeoData[0].lat)
+
+
+  useEffect(() => {
+    setCenter({
+      lat: albumDetail.place.lat,
+      lng: albumDetail.place.lng,
+      })
+  }, [])
+
+  console.log('center: ', center)
+
 
   let imagePosition 
   if (imageGeoData[0]) {
@@ -95,7 +106,6 @@ export default function Map() {
         />
     )
   })
-  console.log('imgLocation: ', imgLocation[0])
 
   const sideImageDisplay = albumDetail.images.map(img => {
     return (
@@ -106,29 +116,33 @@ export default function Map() {
   })
 
   return (
-    <div className='flex'>
-      <div className='flex-col'>
-        {sideImageDisplay}
-      </div>
+    <div>
+      <Link to={`/`}>Back to Gallery</Link> / <Link to={`/upload/${albumId}`}>Back to Album</Link>
 
-      {isLoaded ? (
-      <>
-        <button onClick={() => setHide(!hide)}>{hide ? 'REVEAL' : 'HIDE'}</button>
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={12}
-          onLoad={onLoad}
-          onUnmount={onUnmount}
-        >
-          {hide && imgLocation}
-        </GoogleMap>
-      </>
-    ) : (
-      <>
-        <h1>is loading...</h1>
-      </>
-    )}
+      <div className='flex'>
+        <div className='flex-col'>
+          {sideImageDisplay}
+        </div>
+
+        {isLoaded ? (
+        <>
+          <button onClick={() => setHide(!hide)}>{!hide ? 'REVEAL' : 'HIDE'}</button>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={8}
+            onLoad={onLoad}
+            onUnmount={onUnmount}
+          >
+            {hide && imgLocation}
+          </GoogleMap>
+        </>
+      ) : (
+        <>
+          <h1>is loading...</h1>
+        </>
+      )}
+    </div>
   </div>
 )}
 

@@ -107,9 +107,6 @@ function AddAlbum(props) {
                   })}
                 />
               <p>----------------------------------------------</p>
-              <div>
-                <button onClick={handleSubmit}>Save</button>
-              </div>
                 <div>
                   {loading && <div>Loading...</div>}
                   {suggestions.map(suggestion => {
@@ -135,10 +132,9 @@ function AddAlbum(props) {
               </div>
             )}
           </PlacesAutocomplete>
-
-
-
-
+          <div>
+            <button onClick={handleSubmit}>Save</button>
+          </div>
 
 
       {/* <form>

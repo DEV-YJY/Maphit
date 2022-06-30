@@ -14,6 +14,7 @@ const initialState = {
   albumDetail: {
     geolocation: [],
     images: [],
+    place: {},
   },
   imageGeoData: null,
 }
@@ -42,6 +43,7 @@ const albumReducer = (state = initialState, action) => {
         albumDetail: {
           images: action.payload.res,
           geolocation: action.payload.resGeoData,
+          place: action.payload.resGeoPlace,
         },
       }
     case REMOVE_IMAGE:

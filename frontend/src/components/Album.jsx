@@ -117,9 +117,9 @@ const handleAlbumDelete = albumId => {
       </div>
       <div>---------------------------------------------------------</div>
 
-      <div>
+      {/* <div>
         <button onClick={() => dispatch(uploadGeoData(albumId))}>Click me to upload Photo geolocation</button>
-      </div>
+      </div> */}
       
       <div>---------------------------------------------------------</div>
 

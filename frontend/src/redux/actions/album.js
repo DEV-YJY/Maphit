@@ -27,8 +27,8 @@ export const fetchAlbums = () => {
 export const addAlbum = (data) => {
   // console.log(coordinates)
   const res = axios.post('/albums/add', data).then((res) => {
-    console.log('addAlbum: ', res)
-    console.log('addAlubm-data: ', data)
+    // console.log('addAlbum: ', res)
+    // console.log('addAlubm-data: ', data)
     return res.data
   })
   // console.log('payload: ', res)
@@ -54,11 +54,13 @@ export const uploadImageWithGeoData = async (albumId, data, configParam) => {
   const resData = res.data.result.images
   const resGeo = await axios.put(`/albums/geoUpdate/${albumId}`)
   const resGeoData = resGeo.data.result.geolocation
+  const resGeoPlace = resGeo.data.result.place
   return {
     type: UPLOAD_IMAGE_WITH_GEO,
     payload: {
       res: resData,
       resGeoData,
+      resGeoPlace,
     },
   }
 }
