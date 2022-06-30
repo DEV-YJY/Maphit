@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { addAlbum } from '../redux/actions/album'
@@ -16,10 +16,10 @@ function AddAlbum(props) {
   // Album name and desc
   const [values, setValues] = useState({})
   const [address, setAddress] = useState('')
-  const [coordinates, setCoordinates] = useState([{
+  const [coordinates, setCoordinates] = useState({
     lat: null,
     lng: null
-  }])
+  })
 
   const handleInputChange = e => {
     const {name, value} = e.target
@@ -43,20 +43,57 @@ function AddAlbum(props) {
 
   const handleSelect = async value => {
     const results = await geocodeByAddress(value)
+    // console.log('this is results: ', results)
     const latlng = await getLatLng(results[0])
-    console.log('this is latlng: ', latlng)
+    // console.log('this is latlng: ', latlng)
     setAddress(value)
     setCoordinates(latlng)
+    // console.log('this is cooridnates: ', coordinates)
+  }
+
+  useEffect(() => {
     setValues({
       ...values,
-      place: coordinates
+      place: {
+        // below are null !
+        lat: coordinates.lat,
+        lng: coordinates.lng
+      }
     })
-  }
+  }, [coordinates])
 
   return (
     <>
-          <p>this is address: {address}</p>
-          <p>this is coordinates: {coordinates.lat} {coordinates.lng}</p>
+
+      <Link to='/'>Back to Gallery</Link>
+      <p>-----------------------------</p>
+      <div>
+        <div>
+          <label>Album Name: </label>   
+          <input 
+            type='text'
+            // NAME needs to be matched with Schema name
+            name='name' 
+            placeholder='Enter album name'
+            onChange={handleInputChange}
+          />
+          <p>----------------------------------------------</p>
+        </div>
+        <div>
+          <label>Description</label>
+          <textarea
+            name='description'
+            placeholder='Enter description'
+            onChange={handleInputChange}
+          />
+          <p>----------------------------------------------</p>
+        </div>
+        <div>
+          <label>Name of the Country or the City visited: <strong>{address}</strong></label>
+        </div>
+      </div>
+
+
           <PlacesAutocomplete
             value={address}
             onChange={setAddress}
@@ -64,13 +101,16 @@ function AddAlbum(props) {
           >
             {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
               <div>
-                <input
+                <input style={{ width: '80%'}}
                   {...getInputProps({
-                    placeholder: 'Search Places ...',
-                    className: 'location-search-input',
+                    placeholder: 'Enter the Country/City visited here ...',
                   })}
                 />
-                <div className="autocomplete-dropdown-container">
+              <p>----------------------------------------------</p>
+              <div>
+                <button onClick={handleSubmit}>Save</button>
+              </div>
+                <div>
                   {loading && <div>Loading...</div>}
                   {suggestions.map(suggestion => {
                     const className = suggestion.active
@@ -97,36 +137,6 @@ function AddAlbum(props) {
           </PlacesAutocomplete>
 
 
-      <Link to='/'>Albums</Link>
-      <div>
-        <div>
-          <label>Album Name</label>
-          <input 
-            type='text'
-            // NAME needs to be matched with Schema name
-            name='name' 
-            placeholder='Enter album name'
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Description</label>
-          <textarea
-            name='description'
-            placeholder='Enter description'
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Name of the Country or the City visite</label>
-          <input
-            name='place'
-            value={coordinates}
-            onChange={handleInputChange}
-          />
-        </div>
-        <button onClick={handleSubmit}>Save</button>
-      </div>
 
 
 
