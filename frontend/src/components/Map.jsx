@@ -22,12 +22,8 @@ export default function Map() {
   let params = useParams()
   const albumId = params.albumId
   
-  const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY
-  let api = 'AIzaSyAPBNI3ndJDJk0KwEXWI35mWYMKkB09G0A'
-
-
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: 'AIzaSyAPBNI3ndJDJk0KwEXWI35mWYMKkB09G0A',
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   })
 
   const [hide, setHide] = useState(true)

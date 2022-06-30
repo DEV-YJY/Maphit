@@ -55,7 +55,6 @@ function AddAlbum(props) {
     setValues({
       ...values,
       place: {
-        // below are null !
         lat: coordinates.lat,
         lng: coordinates.lng
       }
