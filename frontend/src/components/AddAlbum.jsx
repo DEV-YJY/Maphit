@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { addAlbum } from '../redux/actions/album'
+import PlacesAutocomplete from 'react-places-autocomplete'
 
 import {
   geocodeByAddress,
@@ -15,13 +16,14 @@ function AddAlbum(props) {
   // Album name and desc
   const [values, setValues] = useState({})
   const [address, setAddress] = useState('')
-  const [coordinates, setCoordinates] = useState({
+  const [coordinates, setCoordinates] = useState([{
     lat: null,
     lng: null
-  })
+  }])
 
   const handleInputChange = e => {
     const {name, value} = e.target
+    // console.log(name)
     setValues({
       ...values,
       [name]: value
@@ -39,35 +41,26 @@ function AddAlbum(props) {
       })
   }
 
+  const handleSelect = async value => {
+    const results = await geocodeByAddress(value)
+    const latlng = await getLatLng(results[0])
+    console.log('this is latlng: ', latlng)
+    setAddress(value)
+    setCoordinates(latlng)
+    setValues({
+      ...values,
+      place: coordinates
+    })
+  }
+
   return (
     <>
-      <Link to='/'>Albums</Link>
-      <div>
-        <div>
-          <label>Album Name</label>
-          <input 
-            type='text'
-            // NAME needs to be matched with Schema name
-            name='name' 
-            placeholder='Enter album name'
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Description</label>
-          <textarea
-            name='description'
-            placeholder='Enter description'
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Name of the Country or the City visite</label>
-          
+          <p>this is address: {address}</p>
+          <p>this is coordinates: {coordinates.lat} {coordinates.lng}</p>
           <PlacesAutocomplete
-            value={this.state.address}
-            onChange={this.handleChange}
-            onSelect={this.handleSelect}
+            value={address}
+            onChange={setAddress}
+            onSelect={handleSelect}
           >
             {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
               <div>
@@ -96,16 +89,41 @@ function AddAlbum(props) {
                       >
                         <span>{suggestion.description}</span>
                       </div>
-                    );
+                    )
                   })}
                 </div>
               </div>
-        )}
-      </PlacesAutocomplete>
+            )}
+          </PlacesAutocomplete>
 
 
-
-
+      <Link to='/'>Albums</Link>
+      <div>
+        <div>
+          <label>Album Name</label>
+          <input 
+            type='text'
+            // NAME needs to be matched with Schema name
+            name='name' 
+            placeholder='Enter album name'
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Description</label>
+          <textarea
+            name='description'
+            placeholder='Enter description'
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <label>Name of the Country or the City visite</label>
+          <input
+            name='place'
+            value={coordinates}
+            onChange={handleInputChange}
+          />
         </div>
         <button onClick={handleSubmit}>Save</button>
       </div>
