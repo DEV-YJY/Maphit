@@ -12,6 +12,7 @@ function App() {
     <div>
       <ToastContainer/>
       <div>
+        {/* // isAuthenticated ? render below otherwise : render /auth */}
         <Routes>
           <Route path='/' element={<Gallery/>} />
           <Route path='/add' element={<AddAlbum/>} />

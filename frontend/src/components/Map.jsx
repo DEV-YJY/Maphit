@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAlbumDetail } from '../redux/actions/album'
-import env from 'react-dotenv'
+// import env from 'react-dotenv'
 
 import {
   useLoadScript,
