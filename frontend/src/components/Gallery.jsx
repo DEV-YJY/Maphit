@@ -16,7 +16,7 @@ function Gallery() {
     // console.log('state: ', state)
     return state.album.albumList
   })
-  // console.log('albumList:', albumList)
+  console.log('albumList:', albumList)
 
   // console.log(useSelector(state => state.album.result))
   // console.log('albumList.album.albumList: ', albumList.album.albumList)
@@ -27,9 +27,10 @@ function Gallery() {
       </div>
       <div>---------------------------------------</div>
       <div>
-        {albumList !== [] && albumList.map((album, idx) => {
+        {albumList !== [] && albumList.map(album => {
           return (
-            <div key={idx + 1}>
+            <div key={album._id}>
+              <div>Place of Visit: {album.place.placeName}</div>
               <div>Album name: {album.name}</div>
               <div><Link to={`/upload/${album._id}`}>View Album</Link></div>
               <div>---------------------------------------</div>
