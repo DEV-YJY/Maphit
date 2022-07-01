@@ -41,6 +41,7 @@ const albumReducer = (state = initialState, action) => {
       return {
         ...state,
         albumDetail: {
+          ...state.albumDetail,
           images: action.payload.res,
           geolocation: action.payload.resGeoData,
           place: action.payload.resGeoPlace,

@@ -56,14 +56,15 @@ function AddAlbum(props) {
       ...values,
       place: {
         lat: coordinates.lat,
-        lng: coordinates.lng
+        lng: coordinates.lng,
+        // placeName
+        placeName: address
       }
     })
   }, [coordinates])
 
   return (
     <>
-
       <Link to='/'>Back to Gallery</Link>
       <p>-----------------------------</p>
       <div>
@@ -153,3 +154,6 @@ function AddAlbum(props) {
 }
 
 export default AddAlbum
+
+
+
