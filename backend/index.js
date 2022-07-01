@@ -9,11 +9,23 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 dotenv.config()
 
+const { auth } = require('express-openid-connect')
+
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  secret: process.env.SECRET,
+  baseURL: process.env.BASEURL,
+  clientID: process.env.CLIENTID,
+  issuerBaseURL: process.env.ISSUER,
+}
+
 app.use(cors())
 
 app.use(express.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(express.static(path.join(__dirname, 'uploads')))
+app.use(auth(config))
 
 // Connect DB
 mongoose

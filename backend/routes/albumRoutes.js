@@ -47,12 +47,13 @@ router.delete('/delete/:albumId', async (req, res) => {
       })
     })
   } catch (err) {
-    res.send('Delete error: ', err)
+    res.status(500).send('Delete error: ', err)
   }
 })
 
 // GET all the albums
 router.get('/', async (req, res) => {
+  console.log(req.oidc.isAuthenticated())
   try {
     await Album.find().exec((err, albums) => {
       res.json({
@@ -62,7 +63,7 @@ router.get('/', async (req, res) => {
       })
     })
   } catch (err) {
-    res.status().send('Server error')
+    res.status(500).send('Server error')
   }
 })
 
