@@ -15,7 +15,7 @@ describe('POST /add', () => {
 
     expect(response.text).toContain('Album added successfully')
     expect(response.statusCode).toBe(200)
-    // expect(response.data).toBe(`${dummyInput.name}`)
+    // expect(response.data).toBeTruthy()
   })
 })
 
@@ -24,7 +24,7 @@ describe('GET /', () => {
     expect.assertions(2)
     const response = await request(app).get('/albums/')
 
-    expect(response.text).toContain('Retrieved albums successfully')
+    expect(response.body.message).toEqual('Retrieved albums successfully')
     expect(response.statusCode).toBe(200)
   })
 })
@@ -38,7 +38,7 @@ describe('GET /"albumId', () => {
     const response = await request(app).get(`/albums/${mockId}`)
 
     expect(response.text).toContain('Server error, failed to retrieve an album')
-    expect(response.statusCode).toBe(200)
+    expect(response.statusCode).toEqual(200)
   })
 })
 
@@ -47,7 +47,7 @@ describe('PUT /removeImage/:albumId', () => {
     const mockId = 'qwert123'
     const response = await request(app).put(`/albums/removeImage/${mockId}`)
 
-    expect(response.text).toContain('Server error, fail to remove image')
+    expect(response.body.message).toEqual('Server error, fail to remove image')
     expect(response.statusCode).toBe(200)
   })
 })
