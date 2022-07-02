@@ -7,6 +7,6 @@ import App from './App'
 //   expect(linkElement).toBeInTheDocument();
 // });
 
-test('/', () => {
-  expect(true).toBe(true)
-})
+// test('/', () => {
+//   expect(true).toBe(true)
+// })

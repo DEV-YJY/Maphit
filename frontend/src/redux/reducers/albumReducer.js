@@ -9,14 +9,13 @@ import {
 } from '../actions/type'
 
 // INITIAL STATE
-const initialState = {
+export const initialState = {
   albumList: [],
   albumDetail: {
     geolocation: [],
     images: [],
     place: {},
   },
-  imageGeoData: null,
 }
 
 // REDUCER
