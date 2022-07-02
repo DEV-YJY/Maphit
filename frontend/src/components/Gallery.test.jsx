@@ -15,15 +15,34 @@ import Gallery from './Gallery'
 import { fetchAlbums, deleteAlbum } from '../redux/actions/album'
 import { initialState, albumReducer } from '../redux/reducers/albumReducer'
 import { createStore } from 'redux'
+
+// is this the correct directory?
 jest.mock('../redux/actions/album')
 
-const fakeStore = {
-  getState: jest.fn(() => {
-    {
-      {
+const mockState = {
+  album: {
+    albumDetail: {
+    geolocation: [],
+    images: ['hi.jpeg'],
+    place: {
+      lat: 123,
+      lng: 456,
+      placeName: 'Singapore'
+    }
+  },
+  albumList: [{
+    description: 'hi',
+    place: {
+      lat: 123,
+      lng: 456,
+      placeName: 'Singapore'
+    },
+    images: ['123.jpg', '456.jpg']
+  }] 
+}}
 
-      }
-    }}),
+const fakeStore = {
+  getState: jest.fn(() => mockState),
   dispatch: jest.fn(),
   subscribe: jest.fn()
 }
@@ -51,7 +70,7 @@ describe('<Gallery />', () => {
     )
     const heading = screen.getByRole('heading')
     // screen.debug()
-    expect(heading).toContain('Gallery')
+    expect(heading.innerHTML).toContain('Gallery')
   })
 
   // Test Link
@@ -84,3 +103,4 @@ describe('<Gallery />', () => {
 // it('renders', () => {
 //   expect(true).toBe(true)
 // }) 
+

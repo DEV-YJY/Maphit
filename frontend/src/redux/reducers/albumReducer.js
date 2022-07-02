@@ -25,6 +25,9 @@ const albumReducer = (state = initialState, action) => {
       return {
         ...state,
         albumList: [...action.payload.result],
+        // albumDetail: {
+        //   ...action.payload.result,
+        // },
       }
     case FETCH_ALBUM_DETAIL:
       return {

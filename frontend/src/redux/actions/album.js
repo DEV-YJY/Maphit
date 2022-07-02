@@ -15,6 +15,7 @@ export const fetchAlbums = () => {
   const res = axios.get('/albums').then((res) => {
     // console.log('fetch Albums: ', res.data.result)
     // return res.data.result[0].images
+    console.log(res.data)
     return res.data
   })
   // console.log('payload: ', res)
