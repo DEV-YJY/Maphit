@@ -87,13 +87,13 @@ router.get('/:albumId', (req, res) => {
   Album.findById(albumId).exec((err, albums) => {
     if (err) {
       return res.json({
-        status: false,
+        status: 500,
         message: 'Server error, failed to retrieve an album',
         result: err,
       })
     }
     return res.json({
-      status: true,
+      status: 200,
       message: 'Retrieved album successfully',
       result: albums,
     })
@@ -123,15 +123,19 @@ router.put('/upload/:albumId', upload.array('image', 5), (req, res) => {
         new: true,
       }
     ).exec((err, data) => {
+      if (images.length === 0) {
+        res.status(500).send('No images added')
+        return
+      }
       return res.json({
-        status: true,
+        status: 200,
         message: 'Upload image(s) successfully',
         result: data,
       })
     })
   } catch (err) {
     console.log(err)
-    res.send(err)
+    res.status(500).send('Server error')
   }
 })
 

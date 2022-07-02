@@ -17,3 +17,15 @@ describe('POST /add', () => {
     // expect(response.data).toBe(`${dummyInput.name}`)
   })
 })
+
+describe('GET /', () => {
+  it('returns a successfull response', async () => {
+    expect.assertions(2)
+    const response = await request(app).get('/albums/')
+
+    expect(response.text).toContain('Retrieved albums successfully')
+    expect(response.statusCode).toBe(200)
+  })
+})
+
+// get albumbyid when fails - status, message
