@@ -8,6 +8,21 @@ const cloudinary = require('../utils/cloudinary')
 const path = require('path')
 const exifr = require('exifr')
 
+// create a new Post: object.save()
+// find a Post by id: findById(id)
+// retrieve all Posts: find()
+// update a Post by id: findByIdAndUpdate(id, data)
+// remove a Post: findByIdAndRemove(id)
+// remove all Post: deleteMany()
+
+// AUTH
+// router.get('/auth', (req, res) => {
+//   console.log(res)
+//   res.render({
+//     isAuthenticated: req.oidc.isAuthenticated(),
+//   })
+// })
+
 // ADD Album
 router.post('/add', async (req, res) => {
   try {
@@ -16,13 +31,13 @@ router.post('/add', async (req, res) => {
     await newAlbum.save((err, data) => {
       console.log('new album:', newAlbum)
       res.json({
-        status: true,
+        status: 200,
         message: 'Album added successfully',
         result: data,
       })
     })
   } catch (err) {
-    res.status().send('Server error')
+    res.status(500).send('Server error')
   }
 })
 
@@ -41,7 +56,7 @@ router.delete('/delete/:albumId', async (req, res) => {
       })
 
       res.json({
-        status: true,
+        status: 200,
         message: 'Album removed successfully',
         result: data,
       })
@@ -53,11 +68,10 @@ router.delete('/delete/:albumId', async (req, res) => {
 
 // GET all the albums
 router.get('/', async (req, res) => {
-  console.log(req.oidc.isAuthenticated())
   try {
     await Album.find().exec((err, albums) => {
       res.json({
-        status: true,
+        status: 200,
         message: 'Retrieved albums successfully',
         result: albums,
       })
