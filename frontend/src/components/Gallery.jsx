@@ -22,7 +22,6 @@ function Gallery() {
 
   return (
     <>
-      <Router>
         <h3>Gallery</h3>
         <div>---------------------------------------</div>
         <div>
@@ -41,7 +40,6 @@ function Gallery() {
             )
           })}
         </div>
-      </Router>
     </>
   )
 }
