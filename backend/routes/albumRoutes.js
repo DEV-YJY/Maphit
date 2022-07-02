@@ -26,10 +26,10 @@ const exifr = require('exifr')
 // ADD Album
 router.post('/add', async (req, res) => {
   try {
-    console.log('req.body: ', req.body)
+    // console.log('req.body: ', req.body)
     const newAlbum = new Album(req.body)
     await newAlbum.save((err, data) => {
-      console.log('new album:', newAlbum)
+      // console.log('new album:', newAlbum)
       res.json({
         status: 200,
         message: 'Album added successfully',
@@ -234,8 +234,8 @@ router.put('/removeImage/:albumId', async (req, res) => {
     function (err, data) {
       if (err) {
         return res.json({
-          status: false,
-          message: 'Server error',
+          status: 200,
+          message: 'Server error, fail to remove image',
           result: err,
         })
       }
@@ -250,7 +250,7 @@ router.put('/removeImage/:albumId', async (req, res) => {
       // )
 
       return res.json({
-        status: true,
+        status: 500,
         message: 'Image removed successfully',
         result: data,
       })
