@@ -8,20 +8,36 @@ const cloudinary = require('../utils/cloudinary')
 const path = require('path')
 const exifr = require('exifr')
 
+// create a new Post: object.save()
+// find a Post by id: findById(id)
+// retrieve all Posts: find()
+// update a Post by id: findByIdAndUpdate(id, data)
+// remove a Post: findByIdAndRemove(id)
+// remove all Post: deleteMany()
+
+// AUTH
+// router.get('/auth', (req, res) => {
+//   console.log(res)
+//   res.render({
+//     isAuthenticated: req.oidc.isAuthenticated(),
+//   })
+// })
+
 // ADD Album
 router.post('/add', async (req, res) => {
   try {
+    // console.log('req.body: ', req.body)
     const newAlbum = new Album(req.body)
     await newAlbum.save((err, data) => {
-      // console.log(newAlbum)
+      // console.log('new album:', newAlbum)
       res.json({
-        status: true,
+        status: 200,
         message: 'Album added successfully',
         result: data,
       })
     })
   } catch (err) {
-    res.status().send('Server error')
+    res.status(500).send('Server error')
   }
 })
 
@@ -40,13 +56,13 @@ router.delete('/delete/:albumId', async (req, res) => {
       })
 
       res.json({
-        status: true,
+        status: 200,
         message: 'Album removed successfully',
         result: data,
       })
     })
   } catch (err) {
-    res.send('Delete error: ', err)
+    res.status(500).send('Delete error: ', err)
   }
 })
 
@@ -55,13 +71,13 @@ router.get('/', async (req, res) => {
   try {
     await Album.find().exec((err, albums) => {
       res.json({
-        status: true,
+        status: 200,
         message: 'Retrieved albums successfully',
         result: albums,
       })
     })
   } catch (err) {
-    res.status().send('Server error')
+    res.status(500).send('Server error')
   }
 })
 
@@ -71,13 +87,13 @@ router.get('/:albumId', (req, res) => {
   Album.findById(albumId).exec((err, albums) => {
     if (err) {
       return res.json({
-        status: false,
+        status: 500,
         message: 'Server error, failed to retrieve an album',
         result: err,
       })
     }
     return res.json({
-      status: true,
+      status: 200,
       message: 'Retrieved album successfully',
       result: albums,
     })
@@ -107,15 +123,19 @@ router.put('/upload/:albumId', upload.array('image', 5), (req, res) => {
         new: true,
       }
     ).exec((err, data) => {
+      if (images.length === 0) {
+        res.status(500).send('No images added')
+        return
+      }
       return res.json({
-        status: true,
+        status: 200,
         message: 'Upload image(s) successfully',
         result: data,
       })
     })
   } catch (err) {
     console.log(err)
-    res.send(err)
+    res.status(500).send('Server error')
   }
 })
 
@@ -214,8 +234,8 @@ router.put('/removeImage/:albumId', async (req, res) => {
     function (err, data) {
       if (err) {
         return res.json({
-          status: false,
-          message: 'Server error',
+          status: 200,
+          message: 'Server error, fail to remove image',
           result: err,
         })
       }
@@ -230,7 +250,7 @@ router.put('/removeImage/:albumId', async (req, res) => {
       // )
 
       return res.json({
-        status: true,
+        status: 500,
         message: 'Image removed successfully',
         result: data,
       })

@@ -9,14 +9,13 @@ import {
 } from '../actions/type'
 
 // INITIAL STATE
-const initialState = {
+export const initialState = {
   albumList: [],
   albumDetail: {
     geolocation: [],
     images: [],
     place: {},
   },
-  imageGeoData: null,
 }
 
 // REDUCER
@@ -26,6 +25,9 @@ const albumReducer = (state = initialState, action) => {
       return {
         ...state,
         albumList: [...action.payload.result],
+        // albumDetail: {
+        //   ...action.payload.result,
+        // },
       }
     case FETCH_ALBUM_DETAIL:
       return {
@@ -41,6 +43,7 @@ const albumReducer = (state = initialState, action) => {
       return {
         ...state,
         albumDetail: {
+          ...state.albumDetail,
           images: action.payload.res,
           geolocation: action.payload.resGeoData,
           place: action.payload.resGeoPlace,

@@ -9,11 +9,26 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 dotenv.config()
 
+// const { auth } = require('express-openid-connect')
+
+// const config = {
+//   authRequired: false,
+//   auth0Logout: true,
+//   secret: process.env.SECRET,
+//   baseURL: process.env.BASEURL,
+//   clientID: process.env.CLIENTID,
+//   issuerBaseURL: process.env.ISSUER,
+// }
+
 app.use(cors())
 
+// parse requests of content-type
 app.use(express.urlencoded({ extended: true }))
+
 app.use(bodyParser.json())
+// serve static files
 app.use(express.static(path.join(__dirname, 'uploads')))
+// app.use(auth(config))
 
 // Connect DB
 mongoose
@@ -31,3 +46,5 @@ app.listen(4000, () => {
 // 4
 app.use('/albums', require('./routes/albumRoutes'))
 // app.use('/albums', require('./routes/cloudRoutes'))
+
+module.exports = app

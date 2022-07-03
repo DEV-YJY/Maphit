@@ -15,6 +15,7 @@ export const fetchAlbums = () => {
   const res = axios.get('/albums').then((res) => {
     // console.log('fetch Albums: ', res.data.result)
     // return res.data.result[0].images
+    console.log(res.data)
     return res.data
   })
   // console.log('payload: ', res)
@@ -76,15 +77,15 @@ export const uploadImage = (albumId, data, configParam) => {
   }
 }
 
-export const uploadGeoData = async (albumId) => {
-  const res = await axios.put(`/albums/geoUpdate/${albumId}`)
-  const resData = res.data.result.geolocation
-  // console.log(resData)
-  return {
-    type: UPLOAD_GEODATA,
-    payload: resData,
-  }
-}
+// export const uploadGeoData = async (albumId) => {
+//   const res = await axios.put(`/albums/geoUpdate/${albumId}`)
+//   const resData = res.data.result.geolocation
+//   // console.log(resData)
+//   return {
+//     type: UPLOAD_GEODATA,
+//     payload: resData,
+//   }
+// }
 
 export const removeImage = (albumId, imageName) => {
   const res = axios

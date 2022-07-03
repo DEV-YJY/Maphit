@@ -107,6 +107,8 @@ const handleAlbumDelete = albumId => {
     <>
       <Link to='/'>Back to Gallery</Link>
       <div>---------------------------------------------------------</div>
+      <div>Place of visit: {albumDetail && albumDetail.place.placeName}</div>
+      <div>---------------------------------------------------------</div>
       <div>Album Name: {albumDetail && albumDetail.name}</div>
       <div>---------------------------------------------------------</div>
       <div>Album Description: {albumDetail && albumDetail.description}</div>
