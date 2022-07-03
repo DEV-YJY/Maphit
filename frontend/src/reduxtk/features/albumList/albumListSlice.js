@@ -1,10 +1,11 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/too'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 const initialState = {
   albumList: [],
 }
 
+// does it need to use CAT?
 export const fetchAlbums = createAsyncThunk('albumList/fetchAlbums', () => {
   return axios.get('/albums').then((res) => res.data)
 })
@@ -20,4 +21,3 @@ const albumListSlice = createSlice({
 })
 
 export default albumListSlice.reducer
-export const { fetchAlbum } = albumListSlice.reducer

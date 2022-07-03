@@ -77,15 +77,15 @@ export const uploadImage = (albumId, data, configParam) => {
   }
 }
 
-export const uploadGeoData = async (albumId) => {
-  const res = await axios.put(`/albums/geoUpdate/${albumId}`)
-  const resData = res.data.result.geolocation
-  // console.log(resData)
-  return {
-    type: UPLOAD_GEODATA,
-    payload: resData,
-  }
-}
+// export const uploadGeoData = async (albumId) => {
+//   const res = await axios.put(`/albums/geoUpdate/${albumId}`)
+//   const resData = res.data.result.geolocation
+//   // console.log(resData)
+//   return {
+//     type: UPLOAD_GEODATA,
+//     payload: resData,
+//   }
+// }
 
 export const removeImage = (albumId, imageName) => {
   const res = axios

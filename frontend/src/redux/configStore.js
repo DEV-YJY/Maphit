@@ -21,4 +21,11 @@ const configStore = () => {
   return store
 }
 
+// const store = configureStore({
+//   reducer: {
+//     albumList: albumListReducer,
+//     albumDetail: albumDetailReducer
+//   }
+// })
+
 export default configStore
