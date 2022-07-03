@@ -207,7 +207,7 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
     })
   } catch (err) {
     console.log(err)
-    res.send(err)
+    res.status(500).send(err)
   }
 })
 
@@ -234,7 +234,7 @@ router.put('/removeImage/:albumId', async (req, res) => {
     function (err, data) {
       if (err) {
         return res.json({
-          status: 200,
+          status: 500,
           message: 'Server error, fail to remove image',
           result: err,
         })
@@ -250,7 +250,7 @@ router.put('/removeImage/:albumId', async (req, res) => {
       // )
 
       return res.json({
-        status: 500,
+        status: 200,
         message: 'Image removed successfully',
         result: data,
       })
