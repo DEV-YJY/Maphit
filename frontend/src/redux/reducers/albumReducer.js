@@ -54,16 +54,6 @@ const albumReducer = (state = initialState, action) => {
         ...state,
         albumDetail: action.payload.result,
       }
-    // something is not right here
-    // case UPLOAD_GEODATA:
-    //   return {
-    //     ...state,
-    //     albumDetail: {
-    //       ...state.albumDetail,
-    //       geolocation: action.payload,
-    //     },
-    // imageGeoData: action.payload.result,
-    // }
     default:
       // console.log('albumReducer: ', state)
       return state

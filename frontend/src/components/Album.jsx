@@ -7,7 +7,7 @@ import {
   fetchAlbumDetail,
   uploadGeoData,
   deleteAlbum,
-  uploadImageWithGeoData
+  uploadImageWithGeoData,
 } from '../redux/actions/album'
 import { toast } from 'react-toastify'
 // DROP-ZONE
@@ -21,11 +21,11 @@ function ImageUpload() {
 
   // state to trigger geofetchdata useEffect
   const [data, setData] = useState(undefined)
-  
-    // const imageGeoData = useSelector((state) => {
-    //   console.log('imageGeodata: ', state)
-    //   return state.album.albumDetail
-    // })
+
+  // const imageGeoData = useSelector((state) => {
+  //   console.log('imageGeodata: ', state)
+  //   return state.album.albumDetail
+  // })
 
   const albumDetail = useSelector((state) => {
     // console.log(state)
@@ -66,42 +66,41 @@ function ImageUpload() {
   //   console.log('_________________')
   // }, [data])
 
-///////////////Drop-zone/////////////////
-const dropImage = (file) => {
-  // GET data from HTML to JS Obj
-  let formData = new FormData()
-  const config = {
-    header: { 'content-type': 'multipart/form-data' },
+  ///////////////Drop-zone/////////////////
+  const dropImage = (file) => {
+    // GET data from HTML to JS Obj
+    let formData = new FormData()
+    const config = {
+      header: { 'content-type': 'multipart/form-data' },
+    }
+    file.map((file, idx) => {
+      return formData.append('image', file)
+    })
+
+    dispatch(uploadImageWithGeoData(albumId, formData, config)).then((res) => {
+      if (res.payload.status) {
+        // console.log(res.payload.status)
+        toast.success(res.payload.message)
+      }
+    })
   }
-  file.map((file, idx) => {
-    return formData.append('image', file)
-  })
+  ///////////////Drop-zone/////////////////
 
-  dispatch(uploadImageWithGeoData(albumId, formData, config)).then((res) => {
-    if (res.payload.status) {
-      // console.log(res.payload.status)
-      toast.success(res.payload.message)
-    }
-  })
-}
-///////////////Drop-zone/////////////////
+  const handleDelete = (albumId, imageName) => {
+    dispatch(removeImage(albumId, imageName)).then((res) => {
+      if (res.payload.status) {
+        toast.success(res.payload.message)
+      }
+    })
+  }
 
-const handleDelete = (albumId, imageName) => {
-  dispatch(removeImage(albumId, imageName)).then((res) => {
-    if (res.payload.status) {
-      toast.success(res.payload.message)
-    }
-  })
-}
-
-const handleAlbumDelete = albumId => {
-  dispatch(deleteAlbum(albumId))
-    .then(res => {
+  const handleAlbumDelete = (albumId) => {
+    dispatch(deleteAlbum(albumId)).then((res) => {
       if (res.payload.status) {
         navigate('/')
       }
     })
-}
+  }
 
   return (
     <>
@@ -122,7 +121,7 @@ const handleAlbumDelete = albumId => {
       {/* <div>
         <button onClick={() => dispatch(uploadGeoData(albumId))}>Click me to upload Photo geolocation</button>
       </div> */}
-      
+
       <div>---------------------------------------------------------</div>
 
       <div>

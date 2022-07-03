@@ -14,6 +14,7 @@ import store from '../redux/configStore'
 // import renderWithRedux from '../redux/utils/test-utils'
 
 import Gallery from '../components/Gallery'
+import App from '../App'
 
 import { fetchAlbums, deleteAlbum } from '../redux/actions/album'
 import { initialState, albumReducer } from '../redux/reducers/albumReducer'
@@ -78,24 +79,24 @@ describe('<Gallery />', () => {
   // Test Link
   it('routes to a AddAlbum component on click', async () => {
     expect.assertions(2)
-    const history = createMemoryHistory({ initialEntries: ['/albums'] })
+    const history = createMemoryHistory({ initialEntries: ['/'] })
 
     render(
       <Provider store={fakeStore}>
         <Router location={history.location} navigator={history}>
-          <Gallery />
+          <App />
         </Router>
       </Provider>
     )
-
+    console.log(history)
     const addTripAlbum = screen.getByText('Add Trip Album')
     // console.log(addTripAlbum)
-    expect(history.location.pathname).toBe('/albums')
+    expect(history.location.pathname).toBe('/')
     await fireEvent.click(addTripAlbum)
     expect(history.location.pathname).toBe('/add')
     // check that the content changed to the new page
     // not working
-    // expect(screen.getByText(/name of the country/i)).toBeInTheDocument()
+    expect(screen.getByText(/name of the country/i)).toBeInTheDocument()
   })
 })
 
