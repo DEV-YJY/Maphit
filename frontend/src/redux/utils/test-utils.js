@@ -13,12 +13,6 @@ const startingState = {
   },
 }
 
-// function reducer(state = startingState, action) {
-//   switch (action.type) {
-
-//   }
-// }
-
 export default function renderWithRedux(
   component,
   { initialState, store = createStore(albumReducer, initialState) } = {}

@@ -60,6 +60,21 @@ describe('<Gallery />', () => {
     expect(heading.innerHTML).toContain('Gallery')
   })
 
+  // Dispatch action on mount
+  it('dispatches fetchAlbum action', () => {
+    const history = createMemoryHistory({ initialEntries: ['/albums'] })
+
+    render(
+      <Provider store={fakeStore}>
+        <Router location={history.location} navigator={history}>
+          <Gallery />
+        </Router>
+      </Provider>
+    )
+
+    expect(fetchAlbums).toHaveBeenCalled()
+  })
+
   // Test Link
   it('routes to a AddAlbum component on click', async () => {
     expect.assertions(2)
@@ -72,6 +87,7 @@ describe('<Gallery />', () => {
         </Router>
       </Provider>
     )
+
     const addTripAlbum = screen.getByText('Add Trip Album')
     // console.log(addTripAlbum)
     expect(history.location.pathname).toBe('/albums')
@@ -79,20 +95,20 @@ describe('<Gallery />', () => {
     expect(history.location.pathname).toBe('/add')
     // check that the content changed to the new page
     // not working
-    // expect(screen.getByText(/description/i)).toBeInTheDocument()
+    // expect(screen.getByText(/name of the country/i)).toBeInTheDocument()
   })
 })
 
 // it('renders', () => {
 //   expect(true).toBe(true)
 // })
-
+/////////////////////////
 // test('page header includes fruit', () => {
 //   render(<Provider store={store}><App /></Provider>)
 //   const heading = screen.getByRole('heading')
 //   expect(heading.innerHTML).toMatch(/Fruit/)
 // })
-
+/////////////////////////////
 // test('renders an <li> for each fruit', () => {
 //   const fruits = ['orange', 'persimmons', 'kiwi fruit']
 //   jest.spyOn(store, 'getState')
@@ -102,7 +118,7 @@ describe('<Gallery />', () => {
 //   const li = screen.getAllByRole('listitem')
 //   expect(li).toHaveLength(3)
 // })
-
+///////////////////////////
 // test('dispatches fetchFruits action', () => {
 //   render(<Provider store={store}><App /></Provider>)
 //   expect(fetchFruits).toHaveBeenCalled()
