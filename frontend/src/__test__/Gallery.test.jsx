@@ -19,33 +19,10 @@ import { fetchAlbums, deleteAlbum } from '../redux/actions/album'
 import { initialState, albumReducer } from '../redux/reducers/albumReducer'
 import { createStore } from 'redux'
 
+import { mockState } from './_utils'
+
 // is this the correct directory?
 jest.mock('../redux/actions/album')
-
-const mockState = {
-  album: {
-    albumDetail: {
-      geolocation: [],
-      images: ['hi.jpeg'],
-      place: {
-        lat: 123,
-        lng: 456,
-        placeName: 'Singapore',
-      },
-    },
-    albumList: [
-      {
-        description: 'hi',
-        place: {
-          lat: 123,
-          lng: 456,
-          placeName: 'Singapore',
-        },
-        images: ['123.jpg', '456.jpg'],
-      },
-    ],
-  },
-}
 
 const fakeStore = {
   getState: jest.fn(() => mockState),
@@ -109,3 +86,41 @@ describe('<Gallery />', () => {
 // it('renders', () => {
 //   expect(true).toBe(true)
 // })
+
+// test('page header includes fruit', () => {
+//   render(<Provider store={store}><App /></Provider>)
+//   const heading = screen.getByRole('heading')
+//   expect(heading.innerHTML).toMatch(/Fruit/)
+// })
+
+// test('renders an <li> for each fruit', () => {
+//   const fruits = ['orange', 'persimmons', 'kiwi fruit']
+//   jest.spyOn(store, 'getState')
+//   store.getState.mockImplementation(() => ({ fruits }))
+
+//   render(<Provider store={store}><App /></Provider>)
+//   const li = screen.getAllByRole('listitem')
+//   expect(li).toHaveLength(3)
+// })
+
+// test('dispatches fetchFruits action', () => {
+//   render(<Provider store={store}><App /></Provider>)
+//   expect(fetchFruits).toHaveBeenCalled()
+// })
+
+///////////////////////////////
+// describe('<AddWombat />', () => {
+//   it('dispatches correct action when form submitted', () => {
+//     const fakeDispatch = jest.fn()
+//     useDispatch.mockReturnValue(fakeDispatch)
+//     render(<AddWombat />)
+//     const input = screen.getByRole('textbox')
+//     fireEvent.change(input, {target: {value: 'bananas'}})
+
+//     const button = screen.getByRole('button')
+//     fireEvent.click(button)
+
+//     expect(fakeDispatch).toHaveBeenCalledWith({
+//       type: 'ADD_WOMBAT',
+//       payload: 'bananas'
+//     })

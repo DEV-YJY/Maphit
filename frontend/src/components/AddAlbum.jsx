@@ -4,11 +4,7 @@ import { useDispatch } from 'react-redux'
 import { addAlbum } from '../redux/actions/album'
 import PlacesAutocomplete from 'react-places-autocomplete'
 
-import {
-  geocodeByAddress,
-  geocodeByPlaceId,
-  getLatLng,
-} from 'react-places-autocomplete';
+import { geocodeByAddress, geocodeByPlaceId, getLatLng } from 'react-places-autocomplete'
 function AddAlbum(props) {
   // console.log(props)
   const dispatch = useDispatch()
@@ -18,30 +14,29 @@ function AddAlbum(props) {
   const [address, setAddress] = useState('')
   const [coordinates, setCoordinates] = useState({
     lat: null,
-    lng: null
+    lng: null,
   })
 
-  const handleInputChange = e => {
-    const {name, value} = e.target
+  const handleInputChange = (e) => {
+    const { name, value } = e.target
     // console.log(name)
     setValues({
       ...values,
-      [name]: value
+      [name]: value,
     })
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault()
-    dispatch(addAlbum(values))
-      .then(res => {
-        if (res.payload.status) {
-          // console.log('payload.result: ', res.payload.result)
-          navigate(`/upload/${res.payload.result._id}`)
-        }
-      })
+    dispatch(addAlbum(values)).then((res) => {
+      if (res.payload.status) {
+        // console.log('payload.result: ', res.payload.result)
+        navigate(`/upload/${res.payload.result._id}`)
+      }
+    })
   }
 
-  const handleSelect = async value => {
+  const handleSelect = async (value) => {
     const results = await geocodeByAddress(value)
     // console.log('this is results: ', results)
     const latlng = await getLatLng(results[0])
@@ -58,8 +53,8 @@ function AddAlbum(props) {
         lat: coordinates.lat,
         lng: coordinates.lng,
         // placeName
-        placeName: address
-      }
+        placeName: address,
+      },
     })
   }, [coordinates])
 
@@ -69,11 +64,11 @@ function AddAlbum(props) {
       <p>-----------------------------</p>
       <div>
         <div>
-          <label>Album Name: </label>   
-          <input 
+          <label>Album Name: </label>
+          <input
             type='text'
             // NAME needs to be matched with Schema name
-            name='name' 
+            name='name'
             placeholder='Enter album name'
             onChange={handleInputChange}
           />
@@ -89,53 +84,50 @@ function AddAlbum(props) {
           <p>----------------------------------------------</p>
         </div>
         <div>
-          <label>Name of the Country or the City visited: <strong>{address}</strong></label>
+          <label>
+            Name of the Country or the City visited: <strong>{address}</strong>
+          </label>
         </div>
       </div>
 
-
-          <PlacesAutocomplete
-            value={address}
-            onChange={setAddress}
-            onSelect={handleSelect}
-          >
-            {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-              <div>
-                <input style={{ width: '80%'}}
-                  {...getInputProps({
-                    placeholder: 'Enter the Country/City visited here ...',
-                  })}
-                />
-              <p>----------------------------------------------</p>
-                <div>
-                  {loading && <div>Loading...</div>}
-                  {suggestions.map(suggestion => {
-                    const className = suggestion.active
-                      ? 'suggestion-item--active'
-                      : 'suggestion-item';
-                    // inline style for demonstration purpose
-                    const style = suggestion.active
-                      ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                      : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                    return (
-                      <div
-                        {...getSuggestionItemProps(suggestion, {
-                          className,
-                          style,
-                        })}
-                      >
-                        <span>{suggestion.description}</span>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-          </PlacesAutocomplete>
+      <PlacesAutocomplete value={address} onChange={setAddress} onSelect={handleSelect}>
+        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
           <div>
-            <button onClick={handleSubmit}>Save</button>
+            <input
+              style={{ width: '80%' }}
+              {...getInputProps({
+                placeholder: 'Enter the Country/City visited here ...',
+              })}
+            />
+            <p>----------------------------------------------</p>
+            <div>
+              {loading && <div>Loading...</div>}
+              {suggestions.map((suggestion) => {
+                const className = suggestion.active
+                  ? 'suggestion-item--active'
+                  : 'suggestion-item'
+                // inline style for demonstration purpose
+                const style = suggestion.active
+                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                  : { backgroundColor: '#ffffff', cursor: 'pointer' }
+                return (
+                  <div
+                    {...getSuggestionItemProps(suggestion, {
+                      className,
+                      style,
+                    })}
+                  >
+                    <span>{suggestion.description}</span>
+                  </div>
+                )
+              })}
+            </div>
           </div>
-
+        )}
+      </PlacesAutocomplete>
+      <div>
+        <button onClick={handleSubmit}>Save</button>
+      </div>
 
       {/* <form>
         <label>
@@ -154,6 +146,3 @@ function AddAlbum(props) {
 }
 
 export default AddAlbum
-
-
-
