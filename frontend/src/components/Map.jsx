@@ -112,6 +112,11 @@ export default function Map() {
     )
   })
 
+  const clusterOptions = {
+    averageCenter: true,
+    gridSize: 30,
+  }
+
   return (
     <div>
       <Link to={`/`}>Back to Gallery</Link> /{' '}
@@ -129,20 +134,24 @@ export default function Map() {
               onLoad={onLoad}
               onUnmount={onUnmount}
             >
-              {hide && imgLocation}
-              <MarkerClusterer>
-                {(clusterer) =>
-                  imageGeoData.map((location) => (
-                    <Marker
-                      key={location.imageId}
-                      position={{ lat: location.lat, lng: location.lng }}
-                      averageCenter={true}
-                      clusterer={clusterer}
-                      gridSize={30}
-                    />
-                  ))
-                }
-              </MarkerClusterer>{' '}
+              {/* {hide && imgLocation} */}
+              {hide && (
+                <MarkerClusterer options={clusterOptions}>
+                  {(clusterer) =>
+                    imageGeoData.map((location) => (
+                      <Marker
+                        key={location.imageId}
+                        position={{ lat: location.lat, lng: location.lng }}
+                        icon={{
+                          url: `http://localhost:4000/${location.imageId}`,
+                          scaledSize: new window.google.maps.Size(80, 60),
+                        }}
+                        clusterer={clusterer}
+                      />
+                    ))
+                  }
+                </MarkerClusterer>
+              )}
             </GoogleMap>
           </>
         ) : (
