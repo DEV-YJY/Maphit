@@ -61,75 +61,77 @@ function AddAlbum(props) {
   return (
     <>
       <Link to='/'>Back to Gallery</Link>
-      <p>-----------------------------</p>
-      <div>
-        <div>
-          <label>Album Name: </label>
-          <input
-            type='text'
-            // NAME needs to be matched with Schema name
-            name='name'
-            placeholder='Enter album name'
-            onChange={handleInputChange}
-          />
-          <p>----------------------------------------------</p>
-        </div>
-        <div>
-          <label>Description</label>
-          <textarea
-            name='description'
-            placeholder='Enter description'
-            onChange={handleInputChange}
-          />
-          <p>----------------------------------------------</p>
-        </div>
-        <div>
-          <label>
-            Name of the Country or the City visited: <strong>{address}</strong>
-          </label>
-        </div>
-      </div>
-
-      <PlacesAutocomplete value={address} onChange={setAddress} onSelect={handleSelect}>
-        {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div>
+      <form className='px-4 my-32 max-w-3xl mx-auto space-y-6'>
+        <h2 className='text-3xl font-semibold'>Album Detail</h2>
+        <div className='flex space-x-4'>
+          <div className='w-1/2'>
+            <label>Album Name </label>
             <input
-              style={{ width: '80%' }}
-              {...getInputProps({
-                placeholder: 'Enter the Country/City visited here ...',
-              })}
+              className='border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
+              type='text'
+              // NAME needs to be matched with Schema name
+              name='name'
+              placeholder='Enter album name'
+              onChange={handleInputChange}
             />
-            <p>----------------------------------------------</p>
-            <div>
-              {loading && <div>Loading...</div>}
-              {suggestions.map((suggestion) => {
-                const className = suggestion.active
-                  ? 'suggestion-item--active'
-                  : 'suggestion-item'
-                // inline style for demonstration purpose
-                const style = suggestion.active
-                  ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                  : { backgroundColor: '#ffffff', cursor: 'pointer' }
-                return (
-                  <div
-                    {...getSuggestionItemProps(suggestion, {
-                      className,
-                      style,
-                    })}
-                  >
-                    <span>{suggestion.description}</span>
-                  </div>
-                )
-              })}
-            </div>
           </div>
-        )}
-      </PlacesAutocomplete>
-      <div>
-        <button onClick={handleSubmit}>Save</button>
-      </div>
 
-      {/* <form>
+          <div className='w-1/2'>
+            <label>Description</label>
+            <input
+              className='border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
+              name='description'
+              placeholder='Enter description'
+              onChange={handleInputChange}
+            />
+          </div>
+        </div>
+
+        <PlacesAutocomplete value={address} onChange={setAddress} onSelect={handleSelect}>
+          {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+            <div>
+              <label>Name of the Country or the City visited</label>
+              <input
+                className='border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
+                {...getInputProps({
+                  placeholder: 'Enter the Country/City visited here ...',
+                })}
+              />
+              <div>
+                {loading && <div>Loading...</div>}
+                {suggestions.map((suggestion) => {
+                  const className = suggestion.active
+                    ? 'suggestion-item--active'
+                    : 'suggestion-item'
+                  // inline style for demonstration purpose
+                  const style = suggestion.active
+                    ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                    : { backgroundColor: '#ffffff', cursor: 'pointer' }
+                  return (
+                    <div
+                      {...getSuggestionItemProps(suggestion, {
+                        className,
+                        style,
+                      })}
+                    >
+                      <span>{suggestion.description}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </PlacesAutocomplete>
+        <div className='flex justify-center'>
+          <button
+            className='rounded uppercase font-bold tracking-wider bg-teal-600 px-4 py-2 text-white'
+            onClick={handleSubmit}
+          >
+            Save
+          </button>
+        </div>
+
+        {/* <form>
         <label>
           Album Name:
           <input type="text" name="name" />
@@ -141,6 +143,7 @@ function AddAlbum(props) {
         <button>Save</button>
         <input type="submit" value="Submit" /> 
       </form>  */}
+      </form>
     </>
   )
 }
