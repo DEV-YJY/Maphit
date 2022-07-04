@@ -45,7 +45,7 @@ function Gallery() {
       </div>
       <div>---------------------------------------</div>
 
-      <div className='grid grid-cols-3 gap-1'>
+      <div className='grid grid-cols-3 gap-3 place-items-center items-start'>
         {albumList !== [] &&
           albumList.map((album, idx) => (
             // <VisibilitySensor
@@ -71,15 +71,15 @@ function GridGalleryCard({ album, show }) {
     <div>
       <div>Album name: {album.name}</div>
       <div
-        className={`relative  transition ease-in duration-300 ${
+        className={`relative top-1/2 transform transition ease-in opacity-100 duration-500 ${
           show ? '' : 'translate-y-16 opacity-0'
         }`}
       >
         <Link to={`/upload/${album._id}`}>
-          <div className=' absolute inset-0 z-10 flex transition duration-200 ease-in hover:opacity-0'>
-            <div className='rounded-lg p-1 border absolute inset-0 bg-black opacity-70'></div>
-            <div className='mx-auto text-white z-10 self-center uppercase tracking-widest text-sm'>
-              Place of Visit: {album.place.placeName} ({album.images.length})
+          <div className='absolute inset-0 z-10 flex transition duration-200 ease-in'>
+            <div className='flex items-center justify-center mx-auto text-white z-10 self-center uppercase  text-center tracking-widest text-sm rounded-lg p-1 border absolute inset-0 bg-black ease-in opacity-0 hover:opacity-70 duration-300 transition'>
+              {/* <div className='mx-auto text-white z-10 self-center uppercase tracking-widest text-sm opacity-0 hover:opacity-100'> */}
+              {album.place.placeName} ({album.images.length}){/* </div> */}
             </div>
           </div>
         </Link>
