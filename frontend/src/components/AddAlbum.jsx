@@ -93,6 +93,7 @@ function AddAlbum(props) {
               <label>Name of the Country or the City visited</label>
               <input
                 className='border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
+                required='true'
                 {...getInputProps({
                   placeholder: 'Enter the Country/City visited here ...',
                 })}
