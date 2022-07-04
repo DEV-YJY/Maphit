@@ -199,7 +199,7 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
         ).exec((err, data) => {
           return res.json({
             status: true,
-            message: 'Upload image geo-data successfully',
+            message: 'Upload image with geolocation successfully',
             result: data,
           })
         })

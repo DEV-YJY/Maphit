@@ -22,7 +22,7 @@ fetchAlbumDetail.mockImplementation(() => () => {})
 describe('<Album />', () => {
   it('renders <Album /> component correctly', () => {
     const history = createMemoryHistory({ initialEntries: ['/albums/add'] })
-    expect.assertions(3)
+    expect.assertions(2)
     render(
       <Provider store={fakeStore}>
         <Router location={history.location} navigator={history}>
@@ -57,7 +57,7 @@ describe('<Album />', () => {
 
     render(
       <Provider store={fakeStore}>
-        <Router location={history.location} navigator>
+        <Router location={history.location} navigator={history}>
           <Album />
         </Router>
       </Provider>

@@ -78,9 +78,9 @@ function ImageUpload() {
     })
 
     dispatch(uploadImageWithGeoData(albumId, formData, config)).then((res) => {
-      if (res.payload.status) {
-        // console.log(res.payload.status)
-        toast.success(res.payload.message)
+      if (res.payload.resGeo.status === 200) {
+        console.log(res)
+        toast.success(res.payload.resGeo.data.message)
       }
     })
   }
