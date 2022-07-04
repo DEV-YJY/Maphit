@@ -51,7 +51,7 @@ router.delete('/delete/:albumId', async (req, res) => {
 
       data.images.map((i) => {
         let filePath = relativePath + i
-        console.log(filePath)
+        // console.log(filePath)
         fs.unlinkSync(filePath)
       })
 
@@ -123,7 +123,8 @@ router.put('/upload/:albumId', upload.array('image', 5), (req, res) => {
         new: true,
       }
     ).exec((err, data) => {
-      if (images.length === 0) {
+      if (images.length > 5) {
+        console.log('too many images!!!!')
         res.status(500).send('No images added')
         return
       }
