@@ -10,6 +10,7 @@ import {
   GoogleMap,
   useJsApiLoader,
   Marker,
+  MarkerClusterer,
 } from '@react-google-maps/api'
 
 const containerStyle = {
@@ -21,7 +22,7 @@ export default function Map() {
   const dispatch = useDispatch()
   let params = useParams()
   const albumId = params.albumId
-  
+
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   })
@@ -29,7 +30,7 @@ export default function Map() {
   const [hide, setHide] = useState(true)
   const [center, setCenter] = useState({
     lat: null,
-    lng: null
+    lng: null,
   })
 
   ///////////////////////////////// Renders Google Map
@@ -42,13 +43,12 @@ export default function Map() {
     setMap(map)
   }, [])
 
-
   const onUnmount = useCallback(function callback(map) {
     setMap(null)
   }, [])
   /////////////////
   //////////////////////////////////
-  
+
   useEffect(() => {
     dispatch(fetchAlbumDetail(albumId))
     console.log('albumdetail in useEffect: ', albumDetail)
@@ -57,29 +57,27 @@ export default function Map() {
   const albumDetail = useSelector((state) => state.album.albumDetail)
   console.log('AlbumDetail in map.jsx: ', albumDetail)
 
-  const imageGeoData = useSelector((state) =>  {
+  const imageGeoData = useSelector((state) => {
     console.log('imageGeoData in map.jsx: ', state)
     return state.album.albumDetail.geolocation
   })
   // console.log(imageGeoData[0].lat)
 
-
   useEffect(() => {
     setCenter({
       lat: albumDetail.place.lat,
       lng: albumDetail.place.lng,
-      })
+    })
   }, [])
 
   console.log('center: ', center)
 
-
-  let imagePosition 
+  let imagePosition
   if (imageGeoData[0]) {
     imagePosition = {
-        lat: imageGeoData[0].lat,
-        lng: imageGeoData[0].lng,
-      }
+      lat: imageGeoData[0].lat,
+      lng: imageGeoData[0].lng,
+    }
   }
   // const imagePosition = {
   //   lat: imageGeoData[0].lat,
@@ -95,50 +93,64 @@ export default function Map() {
   const imgLocation = imageGeoData.map((img) => {
     // console.log(img.lat)
     return (
-        <Marker 
-          key={img.imageId} 
-          position={{lat: img.lat, lng: img.lng}} 
-          icon={{ url: (`http://localhost:4000/${img.imageId}`), scaledSize: new window.google.maps.Size(70, 50) }} 
-        />
+      <Marker
+        key={img.imageId}
+        position={{ lat: img.lat, lng: img.lng }}
+        icon={{
+          url: `http://localhost:4000/${img.imageId}`,
+          scaledSize: new window.google.maps.Size(70, 50),
+        }}
+      />
     )
   })
 
-  const sideImageDisplay = albumDetail.images.map(img => {
+  const sideImageDisplay = albumDetail.images.map((img) => {
     return (
       <div key={img.images}>
-        <img src={`http://localhost:4000/${img}`} alt={img.images}/>
+        <img src={`http://localhost:4000/${img}`} alt={img.images} />
       </div>
     )
   })
 
   return (
     <div>
-      <Link to={`/`}>Back to Gallery</Link> / <Link to={`/upload/${albumId}`}>Back to Album</Link>
-
+      <Link to={`/`}>Back to Gallery</Link> /{' '}
+      <Link to={`/upload/${albumId}`}>Back to Album</Link>
       <div className='flex'>
-        <div className='flex-col'>
-          {sideImageDisplay}
-        </div>
+        <div className='flex-col'>{sideImageDisplay}</div>
 
         {isLoaded ? (
-        <>
-          <button onClick={() => setHide(!hide)}>{!hide ? 'REVEAL' : 'HIDE'}</button>
-          <GoogleMap
-            mapContainerStyle={containerStyle}
-            center={center}
-            zoom={8}
-            onLoad={onLoad}
-            onUnmount={onUnmount}
-          >
-            {hide && imgLocation}
-          </GoogleMap>
-        </>
-      ) : (
-        <>
-          <h1>is loading...</h1>
-        </>
-      )}
+          <>
+            <button onClick={() => setHide(!hide)}>{!hide ? 'REVEAL' : 'HIDE'}</button>
+            <GoogleMap
+              mapContainerStyle={containerStyle}
+              center={center}
+              zoom={8}
+              onLoad={onLoad}
+              onUnmount={onUnmount}
+            >
+              {hide && imgLocation}
+              <MarkerClusterer>
+                {(clusterer) =>
+                  imageGeoData.map((location) => (
+                    <Marker
+                      key={location.imageId}
+                      position={{ lat: location.lat, lng: location.lng }}
+                      averageCenter={true}
+                      clusterer={clusterer}
+                      gridSize={30}
+                    />
+                  ))
+                }
+              </MarkerClusterer>{' '}
+            </GoogleMap>
+          </>
+        ) : (
+          <>
+            <h1>is loading...</h1>
+          </>
+        )}
+      </div>
     </div>
-  </div>
-)}
-
+  )
+}
