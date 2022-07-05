@@ -20,7 +20,7 @@ function ImageUpload() {
   const navigate = useNavigate()
 
   // state to trigger geofetchdata useEffect
-  const [data, setData] = useState(undefined)
+  // const [data, setData] = useState(undefined)
 
   // const imageGeoData = useSelector((state) => {
   //   console.log('imageGeodata: ', state)
@@ -32,9 +32,9 @@ function ImageUpload() {
     return state.album.albumDetail
   })
 
-  const albumDetailImages = useSelector((state) => {
+  const albumDetailGeo = useSelector((state) => {
     // console.log(state)
-    return state.album.albumDetail.images
+    return state.album.albumDetail.geolocation
   })
 
   // useEffect(() => {
@@ -101,15 +101,14 @@ function ImageUpload() {
       }
     })
   }
-
+  console.log(albumDetail.geolocation.map((i) => console.log(i.lat)))
+  console.log(albumDetail.geolocation)
   return (
     <>
       <Link to='/'>Back to Gallery</Link>
       <div>---------------------------------------------------------</div>
       <div>Place of visit: {albumDetail && albumDetail.place.placeName}</div>
-      <div>---------------------------------------------------------</div>
       <div>Album Name: {albumDetail && albumDetail.name}</div>
-      <div>---------------------------------------------------------</div>
       <div>Album Description: {albumDetail && albumDetail.description}</div>
       <div>---------------------------------------------------------</div>
 
@@ -117,10 +116,6 @@ function ImageUpload() {
         <button onClick={() => dispatch(handleAlbumDelete(albumId))}>DELETE Album</button>
       </div>
       <div>---------------------------------------------------------</div>
-
-      {/* <div>
-        <button onClick={() => dispatch(uploadGeoData(albumId))}>Click me to upload Photo geolocation</button>
-      </div> */}
 
       <div>---------------------------------------------------------</div>
 
@@ -145,6 +140,12 @@ function ImageUpload() {
             </div>
           )}
         </Dropzone>
+
+        {albumDetail.geolocation.map((image) => image.lat === 1010101) && (
+          <p>hi I am an error message</p>
+        )}
+        {/* Please delete image(s) without GPS data and upload only the image(s) with GPS
+        data */}
 
         {albumDetail &&
           albumDetail.images.map((image, idx) => {

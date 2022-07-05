@@ -54,9 +54,13 @@ export const uploadImageWithGeoData = async (albumId, data, configParam) => {
   const res = await axios.put(`/albums/upload/${albumId}`, data, configParam)
   const resData = res.data.result.images
   const resGeo = await axios.put(`/albums/geoUpdate/${albumId}`)
-  const resGeoData = resGeo.data.result.geolocation
+  console.log('this is resGeo: ', resGeo)
+  let resGeoData
+  if (resGeo.data.result.geolocation !== [false]) {
+    resGeoData = resGeo.data.result.geolocation
+  }
   const resGeoPlace = resGeo.data.result.place
-  console.log('this is resgeo: ', resGeo)
+  console.log('this is resgeodata: ', resGeoData)
   return {
     type: UPLOAD_IMAGE_WITH_GEO,
     payload: {
