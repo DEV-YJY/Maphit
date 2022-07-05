@@ -20,13 +20,10 @@ function ImageUpload() {
   const albumId = params.albumId
   const navigate = useNavigate()
 
-  // state to trigger geofetchdata useEffect
-  // const [data, setData] = useState(undefined)
-
-  // const imageGeoData = useSelector((state) => {
-  //   console.log('imageGeodata: ', state)
-  //   return state.album.albumDetail
-  // })
+  const [dialog, setDialog] = useState({
+    message: '',
+    isLoading: false,
+  })
 
   const albumDetail = useSelector((state) => {
     // console.log(state)
@@ -87,6 +84,13 @@ function ImageUpload() {
   }
   ///////////////Drop-zone/////////////////
 
+  const handleDialog = (message, isLoading) => {
+    setDialog({
+      message,
+      isLoading,
+    })
+  }
+
   const handleDelete = (albumId, imageName) => {
     dispatch(removeImage(albumId, imageName)).then((res) => {
       if (res.payload.status) {
@@ -96,12 +100,29 @@ function ImageUpload() {
   }
 
   const handleAlbumDelete = (albumId) => {
-    dispatch(deleteAlbum(albumId)).then((res) => {
-      if (res.payload.status) {
-        navigate('/')
-      }
-    })
+    handleDialog('Are you sure?', true)
+    console.log('im dialog: ', dialog)
+
+    // dispatch(deleteAlbum(albumId)).then((res) => {
+    //   if (res.payload.status) {
+    //     navigate('/')
+    //   }
+    // })
   }
+
+  const deleteConfirm = (choice) => {
+    if (choice) {
+      dispatch(deleteAlbum(albumId)).then((res) => {
+        if (res.payload.status) {
+          navigate('/')
+        }
+      })
+      handleDialog('', false)
+    } else {
+      handleDialog('', false)
+    }
+  }
+
   console.log(albumDetail.geolocation.map((i) => console.log(i.lat)))
   console.log(albumDetail.geolocation)
   return (
@@ -162,7 +183,9 @@ function ImageUpload() {
             )
           })}
       </div>
-      <DeleteDialog message='text' />
+      {dialog.isLoading && (
+        <DeleteDialog onDialog={deleteConfirm} message={dialog.message} />
+      )}
     </>
   )
 }
