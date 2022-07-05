@@ -3,16 +3,14 @@ import AddAlbum from './components/AddAlbum'
 import Gallery from './components/Gallery'
 import Album from './components/Album'
 import Map from './components/Map'
-// import {ToastContainer} from 'react-toastify'
-// import 'react-toastify/dist/ReactToastify.css'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { Routes, Route } from 'react-router-dom'
-import Tcomponent from './components/Tcomponent'
 
 function App() {
   return (
     <div>
-      {/* <ToastContainer/> */}
-      <Tcomponent />
+      <ToastContainer />
       <div>
         {/* // isAuthenticated ? render below otherwise : render /auth */}
         <Routes>
