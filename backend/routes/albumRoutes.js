@@ -152,16 +152,27 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
 
     Album.findById(albumId).exec((err, album) => {
       rawImgArr = album.images
+      console.log('this is rawImgarr: ', rawImgArr)
       imgArr = rawImgArr.map((imgName) => `uploads/${imgName}`)
       // console.log(imgArr)
 
       async function getGps(filePath) {
         let result = await exifr.gps(filePath)
-        let newData = {
-          imageId: filePath.slice(8),
-          lat: result.latitude,
-          lng: result.longitude,
+        let newData
+        if (result) {
+          newData = {
+            imageId: filePath.slice(8),
+            lat: result.latitude,
+            lng: result.longitude,
+          }
+        } else if (result === undefined) {
+          newData = {
+            imageId: filePath.slice(8),
+            lat: 1010101,
+            lng: 1010101,
+          }
         }
+
         console.log('1 inside newData: ', newData)
         // imgData.push(newData)
         console.log('2 inside imgdata: ', imgData)
@@ -226,7 +237,15 @@ router.put('/removeImage/:albumId', async (req, res) => {
     },
     {
       // pull to remove image by filename
-      $pull: { images: fileName },
+
+      $pull: {
+        images: fileName,
+        geolocation: {
+          imageId: fileName,
+          lat: 1010101,
+          lng: 1010101,
+        },
+      },
     },
     {
       new: true,
