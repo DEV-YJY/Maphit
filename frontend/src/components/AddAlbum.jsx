@@ -7,6 +7,23 @@ import PlacesAutocomplete from 'react-places-autocomplete'
 import { geocodeByAddress, geocodeByPlaceId, getLatLng } from 'react-places-autocomplete'
 function AddAlbum(props) {
   // console.log(props)
+  const [formErrors, setFormErros] = useState({})
+  const [isSubmit, setisSubmit] = useState(false)
+
+  const validate = (values) => {
+    const errors = {}
+    if (!values.name) {
+      errors.name = 'Album name is required'
+    }
+    if (!values.description) {
+      errors.description = 'Description is required'
+    }
+    if (!values.placeVisited) {
+      errors.placeVisited = 'Place visited is required'
+    }
+    return errors
+  }
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
   // Album name and desc
@@ -28,6 +45,8 @@ function AddAlbum(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setFormErros(validate(values))
+    setisSubmit(true)
     dispatch(addAlbum(values)).then((res) => {
       if (res.payload.status) {
         // console.log('payload.result: ', res.payload.result)
@@ -35,6 +54,13 @@ function AddAlbum(props) {
       }
     })
   }
+
+  useEffect(() => {
+    console.log(formErrors)
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      console.log(values)
+    }
+  }, [formErrors])
 
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value)
@@ -52,7 +78,6 @@ function AddAlbum(props) {
       place: {
         lat: coordinates.lat,
         lng: coordinates.lng,
-        // placeName
         placeName: address,
       },
     })
@@ -65,7 +90,7 @@ function AddAlbum(props) {
         <h2 className='text-3xl font-semibold'>Album Detail</h2>
         <div className='flex space-x-4'>
           <div className='w-1/2'>
-            <label>Album Name </label>
+            <label>Name </label>
             <input
               className='border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
               type='text'
@@ -75,7 +100,6 @@ function AddAlbum(props) {
               onChange={handleInputChange}
             />
           </div>
-
           <div className='w-1/2'>
             <label>Description</label>
             <input
@@ -86,6 +110,10 @@ function AddAlbum(props) {
             />
           </div>
         </div>
+        <div className='flex space-x-64 mt-0 text-red-600 text-xs'>
+          <p>{formErrors.name}</p>
+          <p>{formErrors.description}</p>
+        </div>
 
         <PlacesAutocomplete value={address} onChange={setAddress} onSelect={handleSelect}>
           {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
@@ -94,11 +122,14 @@ function AddAlbum(props) {
               <input
                 className='border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
                 required='true'
+                name='placeVisited'
                 {...getInputProps({
                   placeholder: 'Enter the Country/City visited here ...',
                 })}
               />
               <div>
+                <p>{formErrors.placeVisited}</p>
+
                 {loading && <div>Loading...</div>}
                 {suggestions.map((suggestion) => {
                   const className = suggestion.active
