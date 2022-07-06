@@ -101,7 +101,7 @@ router.get('/:albumId', (req, res) => {
 })
 
 // UPLOAD image to a specific album
-router.put('/upload/:albumId', upload.array('image', 5), (req, res) => {
+router.put('/upload/:albumId', upload.array('image'), (req, res) => {
   try {
     const albumId = req.params.albumId
     // console.log(req.params)
@@ -123,11 +123,11 @@ router.put('/upload/:albumId', upload.array('image', 5), (req, res) => {
         new: true,
       }
     ).exec((err, data) => {
-      if (images.length > 5) {
-        console.log('too many images!!!!')
-        res.status(500).send('No images added')
-        return
-      }
+      // if (images.length > 5) {
+      //   console.log('too many images!!!!')
+      //   res.status(500).send('No images added')
+      //   return
+      // }
       return res.json({
         status: 200,
         message: 'Upload image(s) successfully',
