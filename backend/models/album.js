@@ -32,15 +32,19 @@ const albumSchema = new mongoose.Schema({
     placeName: { type: String, required: true },
     _id: false,
   },
-  images: {
-    type: [String],
-    required: false,
-  },
   geolocation: [
     {
       imageId: { type: String, required: true },
       lat: { type: Number, required: true },
       lng: { type: Number, required: true },
+      _id: false,
+    },
+  ],
+  imageCloudData: [
+    {
+      imageName: { type: String, required: false },
+      cloudinaryId: { type: String, required: false },
+      url: { type: String, required: false },
       _id: false,
     },
   ],

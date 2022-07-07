@@ -1,5 +1,14 @@
 const multer = require('multer')
 const path = require('path')
+const { CloudinaryStorage } = require('multer-storage-cloudinary')
+const cloudinary = require('cloudinary').v2
+
+const storage = new CloudinaryStorage({
+  cloudinary: cloudinary,
+  // filename: function (req, file, cb) {
+  //   cb(null, `${Date.now()}-${file.originalname}`)
+  // },
+})
 
 // Multer config
 module.exports = multer({
