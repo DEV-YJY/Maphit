@@ -58,7 +58,7 @@ router.delete('/delete/:albumId', async (req, res) => {
 
     Album.findByIdAndRemove(albumId).exec((err, data) => {
       // console.log(data)
-      cloudinary.api.delete_resources(data.cloudinaryId)
+      cloudinary.api.delete_resources(data.imageCloudData.map((id) => id.cloudinaryId))
       res.json({
         status: 200,
         message: 'Album removed successfully',
