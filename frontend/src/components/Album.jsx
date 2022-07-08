@@ -98,6 +98,23 @@ function ImageUpload() {
     })
   }
 
+  function checkImageWithoutGps() {
+    let imageHasGps =
+      Object.keys(albumDetail).length !== 0 &&
+      albumDetail.geolocation
+        .map((image, idx) => (image.lat === 1010101 ? idx + 1 : ''))
+        .filter(String)
+        .join(', ')
+    if (imageHasGps.length > 0) {
+      return (
+        <p className='text-red-600 text-xs'>
+          Image {imageHasGps} is missing GPS. Please upload only image(s) with GPS.
+        </p>
+      )
+    }
+  }
+  console.log(checkImageWithoutGps())
+
   return (
     <>
       <Link to='/'>Back to Gallery</Link>
@@ -137,18 +154,14 @@ function ImageUpload() {
           )}
         </Dropzone>
 
-        {Object.keys(albumDetail).length !== 0 &&
-          albumDetail?.geolocation.map((image) => image.lat === 1010101) && (
-            <p>hi I am an error message</p>
-          )}
-        {/* Please delete image(s) without GPS data and upload only the image(s) with GPS
-        data */}
+        {Object.keys(albumDetail).length !== 0 && checkImageWithoutGps()}
 
         {Object.keys(albumDetail).length !== 0 &&
           albumDetail?.imageCloudData.map((image, idx) => {
             return (
               <div key={idx}>
                 <img alt={image.imageId} src={image.url} />
+                <p>{idx + 1}</p>
                 <div>
                   <button onClick={() => handleImageDelete(albumId, image)}>
                     Delete Image
