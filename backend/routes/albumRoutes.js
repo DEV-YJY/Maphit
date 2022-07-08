@@ -172,7 +172,7 @@ router.put('/upload/:albumId', upload.array('image'), async (req, res) => {
     return res.json({
       status: 200,
       message: 'Image(s) uploaded successfully',
-      result: realResult[realResult.length - 1],
+      result: realResult[0],
     })
   } catch (err) {
     console.log('i am a catch error: ', err)
@@ -245,11 +245,12 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
           }
         } else if (result === undefined) {
           newData = {
-            imageId: filePath,
+            imageId: filePath /* + '-' + 'noGps' */,
             lat: 1010101,
             lng: 1010101,
           }
         }
+        // return error message when no geo?
 
         console.log('1 inside newData: ', newData)
         console.log('2 inside imgdata: ', imgData)
@@ -400,21 +401,29 @@ router.put('/removeImage/:albumId', async (req, res) => {
     // need to delte from mongoDB
     const albumId = req.params.albumId
 
-    console.log('req.body: ', req)
+    // console.log('req.body: ', req)
 
-    const imageName = req.body.fileName.split('-')[0]
+    const imageName = req.body.fileName
     const idToDelete = req.body.fileName.split('-')[1]
     const urlToDelete = req.body.fileName.split('-')[2]
-    console.log('to delete1', idToDelete)
-    console.log('to delete2', urlToDelete)
+    let imageNameToDelete
+    // if (req.body.fileName.split('-')[3]) {
+    //   imageNameToDelete = req.body.fileName
+    // } else {
+    //   imageNameToDelete = req.
+    // }
+    // console.log('to delete1: ', imageName)
+    // console.log('to delete2: ', idToDelete)
+    // console.log('to delete3: ', urlToDelete)
 
     // image not being deleted from mongoDB
     // images deletes from cloudinary
     const imageToDelete = {
-      imageName: imageName,
+      imageName: req.body.fileName,
       cloudinaryId: idToDelete,
       url: urlToDelete,
     }
+    // console.log('to delete obj: ', imageToDelete)
 
     let album = await Album.findById(req.params.albumId)
     // console.log(album)
@@ -427,22 +436,23 @@ router.put('/removeImage/:albumId', async (req, res) => {
       },
       {
         // pull to remove image by filename
-
         $pull: {
-          // images: imageName,
           geolocation: {
-            imageId: imageName,
-            lat: 1010101,
-            lng: 1010101,
+            imageId: urlToDelete,
           },
-          imageCloudData: [
-            {
-              imageName: imageName,
-              cloudinaryId: idToDelete,
-              url: urlToDelete,
-            },
-          ],
+          // works to remove image with no gps
+          // geolocation: {
+          //   imageId: ,
+          //   lat: 1010101,
+          //   lng: 1010101,
+          // },
+          imageCloudData: {
+            imageName: imageName,
+            cloudinaryId: idToDelete,
+            url: urlToDelete,
+          },
         },
+        // make another $pull query and move second geolocation in?
       },
       {
         new: true,
@@ -456,7 +466,7 @@ router.put('/removeImage/:albumId', async (req, res) => {
             result: err,
           })
         }
-
+        console.log(data)
         return res.json({
           status: 200,
           message: 'Image removed successfully',
@@ -465,7 +475,7 @@ router.put('/removeImage/:albumId', async (req, res) => {
       }
     )
   } catch (err) {
-    console.log(err)
+    res.status(500).send(err)
   }
 })
 

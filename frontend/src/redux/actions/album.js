@@ -61,6 +61,7 @@ export const uploadImageWithGeoData = async (albumId, data, configParam) => {
   }
   const resGeoPlace = resGeo.data.result.place
   console.log('this is resgeodata: ', resGeoData)
+
   return {
     type: UPLOAD_IMAGE_WITH_GEO,
     payload: {

@@ -91,23 +91,9 @@ function ImageUpload() {
     })
   }
 
-  const handleDelete = (albumId, imageName) => {
-    dispatch(removeImage(albumId, imageName)).then((res) => {
-      if (res.payload.status) {
-        toast.success(res.payload.message)
-      }
-    })
-  }
-
   const handleAlbumDelete = (albumId) => {
-    handleDialog('Are you sure?', true)
-    console.log('im dialog: ', dialog)
-
-    // dispatch(deleteAlbum(albumId)).then((res) => {
-    //   if (res.payload.status) {
-    //     navigate('/')
-    //   }
-    // })
+    handleDialog('Are you sure you want to delete this album?', true)
+    // console.log('im dialog: ', dialog)
   }
 
   const deleteConfirm = (choice) => {
@@ -123,8 +109,17 @@ function ImageUpload() {
     }
   }
 
+  const handleImageDelete = (albumId, imageName) => {
+    dispatch(removeImage(albumId, imageName)).then((res) => {
+      if (res.payload.status) {
+        toast.success(res.payload.message)
+      }
+    })
+  }
+
   console.log(albumDetail.geolocation.map((i) => console.log(i.lat)))
   console.log(albumDetail.geolocation)
+
   return (
     <>
       <Link to='/'>Back to Gallery</Link>
@@ -175,7 +170,7 @@ function ImageUpload() {
               <div key={idx}>
                 <img alt={image.name} src={`http://localhost:4000/${image}`} />
                 <div>
-                  <button onClick={() => handleDelete(albumId, image)}>
+                  <button onClick={() => handleImageDelete(albumId, image)}>
                     Delete Image
                   </button>
                 </div>

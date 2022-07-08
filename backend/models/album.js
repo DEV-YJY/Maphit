@@ -35,8 +35,8 @@ const albumSchema = new mongoose.Schema({
   geolocation: [
     {
       imageId: { type: String, required: true },
-      lat: { type: Number, required: true },
-      lng: { type: Number, required: true },
+      lat: { type: Number, required: false },
+      lng: { type: Number, required: false },
       _id: false,
     },
   ],
