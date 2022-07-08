@@ -64,9 +64,7 @@ function AddAlbum(props) {
 
   const handleSelect = async (value) => {
     const results = await geocodeByAddress(value)
-    // console.log('this is results: ', results)
     const latlng = await getLatLng(results[0])
-    // console.log('this is latlng: ', latlng)
     setAddress(value)
     setCoordinates(latlng)
     // console.log('this is cooridnates: ', coordinates)
@@ -99,6 +97,7 @@ function AddAlbum(props) {
               placeholder='Enter album name'
               onChange={handleInputChange}
             />
+            <p className='text-red-600 text-xs'>{formErrors.name}</p>
           </div>
           <div className='w-1/2'>
             <label>Description</label>
@@ -108,11 +107,8 @@ function AddAlbum(props) {
               placeholder='Enter description'
               onChange={handleInputChange}
             />
+            <p className='text-red-600 text-xs'>{formErrors.description}</p>
           </div>
-        </div>
-        <div className='flex space-x-64 mt-0 text-red-600 text-xs'>
-          <p>{formErrors.name}</p>
-          <p>{formErrors.description}</p>
         </div>
 
         <PlacesAutocomplete value={address} onChange={setAddress} onSelect={handleSelect}>
@@ -127,9 +123,8 @@ function AddAlbum(props) {
                   placeholder: 'Enter the Country/City visited here ...',
                 })}
               />
+              <p className='text-red-600 text-xs'>{formErrors.placeVisited}</p>
               <div>
-                <p>{formErrors.placeVisited}</p>
-
                 {loading && <div>Loading...</div>}
                 {suggestions.map((suggestion) => {
                   const className = suggestion.active

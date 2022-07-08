@@ -83,12 +83,16 @@ function GridGalleryCard({ album, show }) {
         {/*         Error handling required: component breaks when
         theres no photo in the album.
         Below breaks
- */}{' '}
-        <img
-          className='rounded-lg p-1 bg-white border'
-          src={album.imageCloudData[0].url}
-          alt={album.imageCloudData[0].cloudinaryId}
-        />
+ */}
+        {album.imageCloudData.length > 0 ? (
+          <img
+            className='rounded-lg p-1 bg-white border'
+            src={album.imageCloudData[0].url}
+            alt={album.imageCloudData[0].cloudinaryId}
+          />
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   )

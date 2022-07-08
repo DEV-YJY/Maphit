@@ -26,39 +26,16 @@ function ImageUpload() {
   })
 
   const albumDetail = useSelector((state) => {
-    console.log(state.album)
+    // console.log(state.album)
     return state.album.albumDetail
   })
 
   // dispatch(fetchAlbumDetail(albumId))
 
   useEffect(() => {
-    console.log('useEffect fetchAlbumDetail fired')
+    // console.log('useEffect fetchAlbumDetail fired')
     dispatch(fetchAlbumDetail(albumId))
   }, [])
-
-  // const albumDetailGeo = useSelector((state) => {
-  //   // console.log(state)
-  //   return state.album.albumDetail.geolocation
-  // })
-
-  // useEffect(() => {
-  //   setData(albumDetail)
-  // }, [albumDetail])
-
-  // console.log('albumDetail: ', albumDetail)
-
-  // must fetch an album detail on its first mount
-
-  // useEffect(() => {
-  //   dispatch(fetchAlbumDetail(albumId))
-  // }, [albumDetail])
-
-  // useEffect(() => {
-  //   if(albumDetailImages !== []) {
-  //     dispatch(uploadGeoData(albumId))
-  //   }
-  // }, [albumDetailImages])
 
   // useEffect(() => {
   //   console.log('_________________')
@@ -160,10 +137,10 @@ function ImageUpload() {
           )}
         </Dropzone>
 
-        {/* {albumDetail &&
+        {Object.keys(albumDetail).length !== 0 &&
           albumDetail?.geolocation.map((image) => image.lat === 1010101) && (
             <p>hi I am an error message</p>
-          )} */}
+          )}
         {/* Please delete image(s) without GPS data and upload only the image(s) with GPS
         data */}
 

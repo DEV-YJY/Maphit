@@ -130,7 +130,7 @@ export default function Map() {
             <GoogleMap
               mapContainerStyle={containerStyle}
               center={center}
-              zoom={8}
+              zoom={9}
               onLoad={onLoad}
               onUnmount={onUnmount}
             >
