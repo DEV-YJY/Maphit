@@ -104,10 +104,10 @@ export default function Map() {
     )
   })
 
-  const sideImageDisplay = albumDetail.images.map((img) => {
+  const sideImageDisplay = albumDetail.imageCloudData.map((img) => {
     return (
-      <div key={img.images}>
-        <img src={`http://localhost:4000/${img}`} alt={img.images} />
+      <div key={img.cloudinaryId}>
+        <img src={img.url} alt={img.url} />
       </div>
     )
   })
@@ -143,7 +143,7 @@ export default function Map() {
                         key={location.imageId}
                         position={{ lat: location.lat, lng: location.lng }}
                         icon={{
-                          url: `http://localhost:4000/${location.imageId}`,
+                          url: location.imageId,
                           scaledSize: new window.google.maps.Size(80, 60),
                         }}
                         clusterer={clusterer}
