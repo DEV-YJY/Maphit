@@ -397,37 +397,16 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
 ///////////////////// cloudinary delete image trial
 router.put('/removeImage/:albumId', async (req, res) => {
   try {
-    // need to delete from cloudinary
-    // need to delte from mongoDB
     const albumId = req.params.albumId
-
-    // console.log('req.body: ', req)
-
+    console.log('albumID: ', albumId)
     const imageName = req.body.fileName
     const idToDelete = req.body.fileName.split('-')[1]
     const urlToDelete = req.body.fileName.split('-')[2]
-    let imageNameToDelete
-    // if (req.body.fileName.split('-')[3]) {
-    //   imageNameToDelete = req.body.fileName
-    // } else {
-    //   imageNameToDelete = req.
-    // }
+
     // console.log('to delete1: ', imageName)
     // console.log('to delete2: ', idToDelete)
     // console.log('to delete3: ', urlToDelete)
 
-    // image not being deleted from mongoDB
-    // images deletes from cloudinary
-    const imageToDelete = {
-      imageName: req.body.fileName,
-      cloudinaryId: idToDelete,
-      url: urlToDelete,
-    }
-    // console.log('to delete obj: ', imageToDelete)
-
-    let album = await Album.findById(req.params.albumId)
-    // console.log(album)
-    // console.log('cloud id to delete: ', album.cloudinary_id)
     await cloudinary.uploader.destroy(idToDelete)
 
     Album.findOneAndUpdate(
@@ -440,19 +419,12 @@ router.put('/removeImage/:albumId', async (req, res) => {
           geolocation: {
             imageId: urlToDelete,
           },
-          // works to remove image with no gps
-          // geolocation: {
-          //   imageId: ,
-          //   lat: 1010101,
-          //   lng: 1010101,
-          // },
           imageCloudData: {
             imageName: imageName,
             cloudinaryId: idToDelete,
             url: urlToDelete,
           },
         },
-        // make another $pull query and move second geolocation in?
       },
       {
         new: true,
