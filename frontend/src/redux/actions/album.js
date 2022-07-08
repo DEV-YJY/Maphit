@@ -15,7 +15,7 @@ export const fetchAlbums = () => {
   const res = axios.get('/albums').then((res) => {
     // console.log('fetch Albums: ', res.data.result)
     // return res.data.result[0].images
-    console.log(res.data)
+    console.log(res)
     return res.data
   })
   // console.log('payload: ', res)
@@ -110,7 +110,7 @@ export const removeImage = (albumId, imageName) => {
 
 export const fetchAlbumDetail = (albumId) => {
   const res = axios.get(`/albums/${albumId}`).then((res) => {
-    // console.log('albumdetail from action', res)
+    console.log('albumdetail from action', res)
     return res.data
   })
   return {

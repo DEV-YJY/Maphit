@@ -79,15 +79,15 @@ function GridGalleryCard({ album, show }) {
           <div className='absolute inset-0 z-10 flex transition duration-200 ease-in'>
             <div className='flex items-center justify-center mx-auto text-white z-10 self-center uppercase  text-center tracking-widest text-sm rounded-lg p-1 border absolute inset-0 bg-black ease-in opacity-0 hover:opacity-70 duration-300 transition'>
               {/* <div className='mx-auto text-white z-10 self-center uppercase tracking-widest text-sm opacity-0 hover:opacity-100'> */}
-              {album.place.placeName} ({album.images.length}){/* </div> */}
+              {album.place.placeName} ({album.imageCloudData.length}){/* </div> */}
             </div>
           </div>
         </Link>
 
         <img
           className='rounded-lg p-1 bg-white border'
-          src={`http://localhost:4000/${album.images[0]}`}
-          alt={album.images[0]}
+          src={album.imageCloudData[0].url}
+          alt={album.imageCloudData[0].cloudinaryId}
         />
       </div>
     </div>

@@ -26,14 +26,14 @@ function ImageUpload() {
   })
 
   const albumDetail = useSelector((state) => {
-    // console.log(state)
+    console.log(state.album)
     return state.album.albumDetail
   })
 
-  const albumDetailGeo = useSelector((state) => {
-    // console.log(state)
-    return state.album.albumDetail.geolocation
-  })
+  // const albumDetailGeo = useSelector((state) => {
+  //   // console.log(state)
+  //   return state.album.albumDetail.geolocation
+  // })
 
   // useEffect(() => {
   //   setData(albumDetail)
@@ -43,14 +43,13 @@ function ImageUpload() {
 
   // must fetch an album detail on its first mount
   useEffect(() => {
+    console.log('useEffect fetchAlbumDetail fired')
     dispatch(fetchAlbumDetail(albumId))
   }, [])
 
   // useEffect(() => {
-  //   if (albumDetail) {
-  //   dispatch(uploadGeoData(albumId))
-  //   console.log('The Album Detail in useEffect: ', albumDetail)
-  // }}, [])
+  //   dispatch(fetchAlbumDetail(albumId))
+  // }, [albumDetail])
 
   // useEffect(() => {
   //   if(albumDetailImages !== []) {
@@ -77,7 +76,7 @@ function ImageUpload() {
 
     dispatch(uploadImageWithGeoData(albumId, formData, config)).then((res) => {
       if (res.payload.resGeo.status === 200) {
-        console.log(res)
+        // console.log(res)
         toast.success(res.payload.resGeo.data.message)
       }
     })
@@ -117,14 +116,11 @@ function ImageUpload() {
     })
   }
 
-  console.log(albumDetail.geolocation.map((i) => console.log(i.lat)))
-  console.log(albumDetail.geolocation)
-
   return (
     <>
       <Link to='/'>Back to Gallery</Link>
       <div>---------------------------------------------------------</div>
-      <div>Place of visit: {albumDetail && albumDetail.place.placeName}</div>
+      <div> Place of visit: {albumDetail && albumDetail.place.placeName}</div>
       <div>Album Name: {albumDetail && albumDetail.name}</div>
       <div>Album Description: {albumDetail && albumDetail.description}</div>
       <div>---------------------------------------------------------</div>
@@ -133,7 +129,6 @@ function ImageUpload() {
         <button onClick={() => dispatch(handleAlbumDelete(albumId))}>DELETE Album</button>
       </div>
       <div>---------------------------------------------------------</div>
-
       <div>---------------------------------------------------------</div>
 
       <div>
@@ -141,7 +136,6 @@ function ImageUpload() {
       </div>
 
       <div>---------------------------------------------------------</div>
-
       <div>---------------------------------------------------------</div>
 
       <div>
@@ -150,6 +144,7 @@ function ImageUpload() {
             <div>
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
+
                 {/* FIVE images max at a time */}
                 <p>Drag 'n' drop image files here, or click to select images</p>
                 <p>---------------------------------------------------------</p>
@@ -158,17 +153,18 @@ function ImageUpload() {
           )}
         </Dropzone>
 
-        {albumDetail.geolocation.map((image) => image.lat === 1010101) && (
-          <p>hi I am an error message</p>
-        )}
+        {/* {albumDetail &&
+          albumDetail?.geolocation.map((image) => image.lat === 1010101) && (
+            <p>hi I am an error message</p>
+          )} */}
         {/* Please delete image(s) without GPS data and upload only the image(s) with GPS
         data */}
 
         {albumDetail &&
-          albumDetail.images.map((image, idx) => {
+          albumDetail?.imageCloudData.map((image, idx) => {
             return (
               <div key={idx}>
-                <img alt={image.name} src={`http://localhost:4000/${image}`} />
+                <img alt={image.imageId} src={image.url} />
                 <div>
                   <button onClick={() => handleImageDelete(albumId, image)}>
                     Delete Image

@@ -11,11 +11,7 @@ import {
 // INITIAL STATE
 export const initialState = {
   albumList: [],
-  albumDetail: {
-    geolocation: [],
-    images: [],
-    place: {},
-  },
+  albumDetail: {},
 }
 
 // REDUCER
