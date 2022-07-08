@@ -20,7 +20,7 @@ const albumReducer = (state = initialState, action) => {
     case FETCH_ALBUMS:
       return {
         ...state,
-        albumList: [...action.payload.result],
+        albumList: [...action.payload],
         // albumDetail: {
         //   ...action.payload.result,
         // },
@@ -28,7 +28,7 @@ const albumReducer = (state = initialState, action) => {
     case FETCH_ALBUM_DETAIL:
       return {
         ...state,
-        albumDetail: action.payload.result,
+        albumDetail: action.payload,
       }
     case UPLOAD_IMAGE:
       return {

@@ -30,6 +30,13 @@ function ImageUpload() {
     return state.album.albumDetail
   })
 
+  // dispatch(fetchAlbumDetail(albumId))
+
+  useEffect(() => {
+    console.log('useEffect fetchAlbumDetail fired')
+    dispatch(fetchAlbumDetail(albumId))
+  }, [])
+
   // const albumDetailGeo = useSelector((state) => {
   //   // console.log(state)
   //   return state.album.albumDetail.geolocation
@@ -39,13 +46,9 @@ function ImageUpload() {
   //   setData(albumDetail)
   // }, [albumDetail])
 
-  console.log('albumDetail: ', albumDetail)
+  // console.log('albumDetail: ', albumDetail)
 
   // must fetch an album detail on its first mount
-  useEffect(() => {
-    console.log('useEffect fetchAlbumDetail fired')
-    dispatch(fetchAlbumDetail(albumId))
-  }, [])
 
   // useEffect(() => {
   //   dispatch(fetchAlbumDetail(albumId))
@@ -64,7 +67,7 @@ function ImageUpload() {
   // }, [data])
 
   ///////////////Drop-zone/////////////////
-  const dropImage = (file) => {
+  const dropImage = async (file) => {
     // GET data from HTML to JS Obj
     let formData = new FormData()
     const config = {
@@ -74,12 +77,13 @@ function ImageUpload() {
       return formData.append('image', file)
     })
 
-    dispatch(uploadImageWithGeoData(albumId, formData, config)).then((res) => {
+    await dispatch(uploadImageWithGeoData(albumId, formData, config)).then((res) => {
       if (res.payload.resGeo.status === 200) {
         // console.log(res)
         toast.success(res.payload.resGeo.data.message)
       }
     })
+    await dispatch(fetchAlbumDetail(albumId))
   }
   ///////////////Drop-zone/////////////////
 
@@ -109,6 +113,7 @@ function ImageUpload() {
   }
 
   const handleImageDelete = (albumId, imageName) => {
+    // console.log(imageName)
     dispatch(removeImage(albumId, imageName)).then((res) => {
       if (res.payload.status) {
         toast.success(res.payload.message)
@@ -120,24 +125,26 @@ function ImageUpload() {
     <>
       <Link to='/'>Back to Gallery</Link>
       <div>---------------------------------------------------------</div>
-      <div> Place of visit: {albumDetail && albumDetail.place.placeName}</div>
-      <div>Album Name: {albumDetail && albumDetail.name}</div>
-      <div>Album Description: {albumDetail && albumDetail.description}</div>
+      <div>
+        Place of visit:
+        {Object.keys(albumDetail).length !== 0 && albumDetail.place.placeName}
+      </div>
+      <div>Album Name: {Object.keys(albumDetail).length !== 0 && albumDetail.name}</div>
+      <div>
+        Album Description:{' '}
+        {Object.keys(albumDetail).length !== 0 && albumDetail.description}
+      </div>
       <div>---------------------------------------------------------</div>
-
       <div>
         <button onClick={() => dispatch(handleAlbumDelete(albumId))}>DELETE Album</button>
       </div>
       <div>---------------------------------------------------------</div>
       <div>---------------------------------------------------------</div>
-
       <div>
         <Link to={`/upload/${albumId}/map`}>Map it</Link>
       </div>
-
       <div>---------------------------------------------------------</div>
       <div>---------------------------------------------------------</div>
-
       <div>
         <Dropzone onDrop={dropImage}>
           {({ getRootProps, getInputProps }) => (
@@ -160,7 +167,7 @@ function ImageUpload() {
         {/* Please delete image(s) without GPS data and upload only the image(s) with GPS
         data */}
 
-        {albumDetail &&
+        {Object.keys(albumDetail).length !== 0 &&
           albumDetail?.imageCloudData.map((image, idx) => {
             return (
               <div key={idx}>

@@ -14,11 +14,9 @@ import {
 export const fetchAlbums = () => {
   const res = axios.get('/albums').then((res) => {
     // console.log('fetch Albums: ', res.data.result)
-    // return res.data.result[0].images
-    console.log(res)
-    return res.data
+    // console.log(res)
+    return res.data.result
   })
-  // console.log('payload: ', res)
   return {
     type: FETCH_ALBUMS,
     payload: res,
@@ -41,7 +39,7 @@ export const addAlbum = (data) => {
 
 export const deleteAlbum = (albumId) => {
   const res = axios.delete(`/albums/delete/${albumId}`).then((res) => {
-    console.log(res.data)
+    console.log('resData from deleteAlbum action: ', res.data)
     return res.data
   })
   return {
@@ -75,7 +73,7 @@ export const uploadImageWithGeoData = async (albumId, data, configParam) => {
 
 export const uploadImage = (albumId, data, configParam) => {
   const res = axios.put(`/albums/upload/${albumId}`, data, configParam).then((res) => {
-    // console.log(res.data)
+    console.log('res.data from uploadImage action: ', res.data)
     return res.data
   })
   return {
@@ -84,22 +82,12 @@ export const uploadImage = (albumId, data, configParam) => {
   }
 }
 
-// export const uploadGeoData = async (albumId) => {
-//   const res = await axios.put(`/albums/geoUpdate/${albumId}`)
-//   const resData = res.data.result.geolocation
-//   // console.log(resData)
-//   return {
-//     type: UPLOAD_GEODATA,
-//     payload: resData,
-//   }
-// }
-
 export const removeImage = (albumId, imageName) => {
   const res = axios
     // fileName = what is defined in the routes
-    .put(`/albums/removeImage/${albumId}`, { fileName: imageName })
+    .put(`/albums/removeImage/${albumId}`, { fileName: imageName.imageName })
     .then((res) => {
-      // console.log(res.data)
+      // console.log('res.data from action: ', res.data)
       return res.data
     })
   return {
@@ -111,7 +99,7 @@ export const removeImage = (albumId, imageName) => {
 export const fetchAlbumDetail = (albumId) => {
   const res = axios.get(`/albums/${albumId}`).then((res) => {
     console.log('albumdetail from action', res)
-    return res.data
+    return res.data.result
   })
   return {
     type: FETCH_ALBUM_DETAIL,
@@ -129,6 +117,16 @@ export const fetchAlbumDetail = (albumId) => {
 //       payload: resData,
 //     })
 //     dispatch(uploadGeoData(albumId))
+//   }
+// }
+
+// export const uploadGeoData = async (albumId) => {
+//   const res = await axios.put(`/albums/geoUpdate/${albumId}`)
+//   const resData = res.data.result.geolocation
+//   // console.log(resData)
+//   return {
+//     type: UPLOAD_GEODATA,
+//     payload: resData,
 //   }
 // }
 

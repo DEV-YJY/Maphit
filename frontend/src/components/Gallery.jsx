@@ -5,8 +5,6 @@ import { Link } from 'react-router-dom'
 import VisibilitySensor from 'react-visibility-sensor'
 
 function Gallery() {
-  // const [imagesShownArray, setImagesShownArray] = useState('')
-
   const dispatch = useDispatch()
   // console.log('fetchAlbum in gallery: ', fetchAlbums())
 
@@ -15,9 +13,8 @@ function Gallery() {
   // }, [albumList])
 
   useEffect(() => {
-    dispatch(
-      fetchAlbums()
-    ) /* .then(setImagesShownArray(Array(albumList.length).fill(false))) */
+    dispatch(fetchAlbums())
+    // console.log('useEffet fired')
   }, [])
 
   // const imagesVisibleChange = (idx, isVisible) => {
@@ -31,10 +28,11 @@ function Gallery() {
 
   const albumList = useSelector((state) => {
     // console.log('state: ', state)
-    // console.log(state.album)
     return state.album.albumList
   })
   console.log('albumList:', albumList)
+  // imageCloudData not being read from the state
+  // console.log(albumList.imageCloudData[0])
 
   return (
     <>
@@ -44,7 +42,6 @@ function Gallery() {
         <Link to='/add'>Add Trip Album</Link>
       </div>
       <div>---------------------------------------</div>
-
       <div className='grid grid-cols-3 gap-3 place-items-center items-start'>
         {albumList !== [] &&
           albumList.map((album, idx) => (
@@ -79,11 +76,14 @@ function GridGalleryCard({ album, show }) {
           <div className='absolute inset-0 z-10 flex transition duration-200 ease-in'>
             <div className='flex items-center justify-center mx-auto text-white z-10 self-center uppercase  text-center tracking-widest text-sm rounded-lg p-1 border absolute inset-0 bg-black ease-in opacity-0 hover:opacity-70 duration-300 transition'>
               {/* <div className='mx-auto text-white z-10 self-center uppercase tracking-widest text-sm opacity-0 hover:opacity-100'> */}
-              {album.place.placeName} ({album.imageCloudData.length}){/* </div> */}
+              {album.place.placeName} ({album.imageCloudData.length})
             </div>
           </div>
         </Link>
-
+        {/*         Error handling required: component breaks when
+        theres no photo in the album.
+        Below breaks
+ */}{' '}
         <img
           className='rounded-lg p-1 bg-white border'
           src={album.imageCloudData[0].url}
