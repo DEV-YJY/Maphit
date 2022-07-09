@@ -216,12 +216,16 @@ export default function Map() {
                       <Marker
                         key={location.imageId}
                         position={{ lat: location.lat, lng: location.lng }}
-                        icon={{
-                          url: location.imageId,
-                          scaledSize: new window.google.maps.Size(80, 60),
-                        }}
                         clusterer={clusterer}
                         onClick={() => setSelectedMarker(location)}
+                        // icon={{
+                        //   url: selectedMarker.imageId,
+                        //   scaledSize: new window.google.maps.Size(80, 60),
+                        // }}
+                        icon={{
+                          url: '/photo.png',
+                          scaledSize: new window.google.maps.Size(40, 40),
+                        }}
                       />
                     ))
                   }
@@ -230,8 +234,13 @@ export default function Map() {
               {selectedMarker && (
                 <InfoWindow
                   position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+                  onCloseClick={() => setSelectedMarker(null)}
                 >
-                  <div>image modal</div>
+                  <img
+                    className='w-64'
+                    src={selectedMarker.imageId}
+                    alt={selectedMarker.imageId}
+                  />
                 </InfoWindow>
               )}
             </GoogleMap>
