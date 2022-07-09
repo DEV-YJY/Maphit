@@ -118,10 +118,16 @@ function ImageUpload() {
         .map((image, idx) => (image.lat === 1010101 ? idx + 1 : ''))
         .filter(String)
         .join(', ')
-    if (imageHasGps.length > 0) {
+    if (imageHasGps.length === 1) {
       return (
         <p className='text-red-600 text-xs'>
           Image {imageHasGps} is missing GPS. Please upload only image(s) with GPS.
+        </p>
+      )
+    } else if (imageHasGps.length > 1) {
+      return (
+        <p className='text-red-600 text-xs'>
+          Images {imageHasGps} are missing GPS. Please upload only image(s) with GPS.
         </p>
       )
     }
@@ -175,7 +181,7 @@ function ImageUpload() {
         <div
           className={
             modal
-              ? 'w-full h-screen fixed top-0 left-0 flex justify-center items-center bg-black z-50'
+              ? 'w-full h-screen fixed top-0 left-0 flex justify-center items-center bg-black z-40'
               : 'h-5 invisible'
             // : 'w-full h-screen fixed top-0 left-0 flex justify-center items-center bg-black  duration-300 invisible scale-0 opacity-0 overflow-hidden z-50'
           } /* transition ease-in duration-300 invisible scale-0 opacity-0 overflow-hidden z-50 */
@@ -183,14 +189,14 @@ function ImageUpload() {
           <img
             className={
               modal
-                ? 'opacity-100 scale-100 max-w-lg w-auto box-border'
+                ? 'opacity-100 scale-100 max-w-lg  box-border w-96'
                 : 'w-auto max-w-full max-h-full h-auto block box-border pt-5 px-0 pb-5 my-0 mx-auto'
             }
             src={tempImgSrc}
             alt={tempImgSrc}
           />
           <svg
-            className='fixed right-5 top-4 w-8 h-8 bg-black text-white cursor-pointer'
+            className='fixed right-5 top-4 w-8 h-8 bg-black text-white cursor-pointer z-40'
             onClick={() => setModal(false)}
             xmlns='http://www.w3.org/2000/svg'
             class='h-6 w-6'

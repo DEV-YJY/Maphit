@@ -15,7 +15,7 @@ import {
 
 const containerStyle = {
   width: '100%',
-  height: '95vh',
+  height: '85vh',
 }
 
 export default function Map() {
@@ -49,11 +49,6 @@ export default function Map() {
   /////////////////
   //////////////////////////////////
 
-  useEffect(() => {
-    dispatch(fetchAlbumDetail(albumId))
-    console.log('albumdetail in useEffect: ', albumDetail)
-  }, [])
-
   const albumDetail = useSelector((state) => state.album.albumDetail)
   console.log('AlbumDetail in map.jsx: ', albumDetail)
 
@@ -61,28 +56,22 @@ export default function Map() {
     console.log('imageGeoData in map.jsx: ', state)
     return state.album.albumDetail.geolocation
   })
+
+  useEffect(() => {
+    dispatch(fetchAlbumDetail(albumId))
+    console.log('albumdetail in useEffect: ', albumDetail)
+  }, [])
+
   // console.log(imageGeoData[0].lat)
 
   useEffect(() => {
     setCenter({
-      lat: albumDetail.place.lat,
-      lng: albumDetail.place.lng,
+      lat: Object.keys(albumDetail).length !== 0 && albumDetail.place.lat,
+      lng: Object.keys(albumDetail).length !== 0 && albumDetail.place.lng,
     })
   }, [])
 
   console.log('center: ', center)
-
-  let imagePosition
-  if (imageGeoData[0]) {
-    imagePosition = {
-      lat: imageGeoData[0].lat,
-      lng: imageGeoData[0].lng,
-    }
-  }
-  // const imagePosition = {
-  //   lat: imageGeoData[0].lat,
-  //   lng: imageGeoData[0].lng,
-  // }
 
   // let markerSize
   // if (new window.google()) {
@@ -90,27 +79,29 @@ export default function Map() {
   // }
 
   ///////////////// not working
-  const imgLocation = imageGeoData.map((img) => {
-    // console.log(img.lat)
-    return (
-      <Marker
-        key={img.imageId}
-        position={{ lat: img.lat, lng: img.lng }}
-        icon={{
-          url: `http://localhost:4000/${img.imageId}`,
-          scaledSize: new window.google.maps.Size(70, 50),
-        }}
-      />
-    )
-  })
+  // const imgLocation = imageGeoData?.map((img) => {
+  //   return (
+  //     <Marker
+  //       key={img.imageId}
+  //       position={{ lat: img.lat, lng: img.lng }}
+  //       icon={{
+  //         url: `http://localhost:4000/${img.imageId}`,
+  //         scaledSize: new window.google.maps.Size(70, 50),
+  //       }}
+  //     />
+  //   )
+  // })
 
-  const sideImageDisplay = albumDetail.imageCloudData.map((img) => {
-    return (
-      <div key={img.cloudinaryId}>
-        <img src={img.url} alt={img.url} />
-      </div>
-    )
-  })
+  let sideImageDisplay
+  if (Object.keys(albumDetail).length !== 0) {
+    sideImageDisplay = albumDetail.imageCloudData.map((img) => {
+      return (
+        <div key={img.cloudinaryId}>
+          <img src={img.url} alt={img.url} />
+        </div>
+      )
+    })
+  }
 
   const clusterOptions = {
     averageCenter: true,
@@ -118,15 +109,14 @@ export default function Map() {
   }
 
   return (
-    <div>
+    <>
       <Link to={`/`}>Back to Gallery</Link> /{' '}
       <Link to={`/upload/${albumId}`}>Back to Album</Link>
-      <div className='flex'>
-        <div className='flex-col'>{sideImageDisplay}</div>
-
-        {isLoaded ? (
-          <>
-            <button onClick={() => setHide(!hide)}>{!hide ? 'REVEAL' : 'HIDE'}</button>
+      <div className='flex'>{sideImageDisplay}</div>
+      {isLoaded ? (
+        <div>
+          <button onClick={() => setHide(!hide)}>{!hide ? 'REVEAL' : 'HIDE'}</button>
+          {Object.keys(albumDetail).length !== 0 && (
             <GoogleMap
               mapContainerStyle={containerStyle}
               center={center}
@@ -153,13 +143,13 @@ export default function Map() {
                 </MarkerClusterer>
               )}
             </GoogleMap>
-          </>
-        ) : (
-          <>
-            <h1>is loading...</h1>
-          </>
-        )}
-      </div>
-    </div>
+          )}
+        </div>
+      ) : (
+        <div>
+          <h1>is loading...</h1>
+        </div>
+      )}
+    </>
   )
 }
