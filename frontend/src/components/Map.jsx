@@ -35,11 +35,8 @@ export default function Map() {
 
   ///////////////////////////////// Renders Google Map
   const [map, setMap] = useState(null)
-  // const [toggleEachPhoto, setToggleEachPhoto] = useState(null)
 
   const onLoad = useCallback(function callback(map) {
-    // const bounds = new window.google.maps.LatLngBounds(center)
-    // map.fitBounds(bounds)
     setMap(map)
   }, [])
 
@@ -69,7 +66,7 @@ export default function Map() {
       lat: Object.keys(albumDetail).length !== 0 && albumDetail.place.lat,
       lng: Object.keys(albumDetail).length !== 0 && albumDetail.place.lng,
     })
-  }, [])
+  }, [albumDetail])
 
   console.log('center: ', center)
 
@@ -96,8 +93,10 @@ export default function Map() {
   if (Object.keys(albumDetail).length !== 0) {
     sideImageDisplay = albumDetail.imageCloudData.map((img) => {
       return (
-        <div key={img.cloudinaryId}>
-          <img src={img.url} alt={img.url} />
+        <div key={img.cloudinaryId} className=''>
+          <div className='c'>
+            <img src={img.url} alt={img.url} />
+          </div>
         </div>
       )
     })
