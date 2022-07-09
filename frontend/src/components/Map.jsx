@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAlbumDetail } from '../redux/actions/album'
@@ -15,6 +15,7 @@ import {
   useJsApiLoader,
   Marker,
   MarkerClusterer,
+  InfoWindow,
 } from '@react-google-maps/api'
 
 const containerStyle = {
@@ -36,12 +37,13 @@ export default function Map() {
     lat: null,
     lng: null,
   })
+  const [selectedMarker, setSelectedMarker] = useState(null)
 
   const settings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 6,
     slidesToScroll: 4,
     initialSlide: 0,
     responsive: [
@@ -128,15 +130,23 @@ export default function Map() {
   //   )
   // })
 
+  const slider = useRef(null)
+
   let topImageDisplay
   if (Object.keys(albumDetail).length !== 0) {
     topImageDisplay = albumDetail.imageCloudData.map((img) => {
       return (
-        <div key={img.cloudinaryId} className='card'>
-          <div className='card-top'>
-            <img src={img.url} alt={img.url} />
+        <div
+          key={img.cloudinaryId}
+          className='rounded-lg h-28 overflow-hidden mx-auto w-3/4'
+        >
+          <div className='rounded-lg flex justify-center w-full h-full '>
+            <img
+              className='border rounded-lg object-fit w-4/5 h-full'
+              src={img.url}
+              alt={img.url}
+            />
           </div>
-          <div className='card-bottom'></div>
         </div>
       )
     })
@@ -149,9 +159,45 @@ export default function Map() {
 
   return (
     <>
-      {/* <Link to={`/`}>Back to Gallery</Link> /{' '}
-      <Link to={`/upload/${albumId}`}>Back to Album</Link> */}
-      <Slider {...settings}>{topImageDisplay}</Slider>
+      <Link to={`/`}>Back to Gallery</Link> /{' '}
+      <Link to={`/upload/${albumId}`}>Back to Album</Link>
+      <Slider ref={slider} {...settings}>
+        {topImageDisplay}
+      </Slider>
+      <button
+        className='absolute left-px top-16'
+        onClick={() => slider?.current?.slickPrev()}
+      >
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          class='h-5 w-5'
+          viewBox='0 0 20 20'
+          fill='currentColor'
+        >
+          <path
+            fill-rule='evenodd'
+            d='M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z'
+            clip-rule='evenodd'
+          />
+        </svg>
+      </button>
+      <button
+        className='absolute right-px top-16'
+        onClick={() => slider?.current?.slickNext()}
+      >
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          class='h-5 w-5'
+          viewBox='0 0 20 20'
+          fill='currentColor'
+        >
+          <path
+            fill-rule='evenodd'
+            d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z'
+            clip-rule='evenodd'
+          />
+        </svg>
+      </button>
       {isLoaded ? (
         <div>
           <button onClick={() => setHide(!hide)}>{!hide ? 'REVEAL' : 'HIDE'}</button>
@@ -175,10 +221,18 @@ export default function Map() {
                           scaledSize: new window.google.maps.Size(80, 60),
                         }}
                         clusterer={clusterer}
+                        onClick={() => setSelectedMarker(location)}
                       />
                     ))
                   }
                 </MarkerClusterer>
+              )}
+              {selectedMarker && (
+                <InfoWindow
+                  position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
+                >
+                  <div>image modal</div>
+                </InfoWindow>
               )}
             </GoogleMap>
           )}
