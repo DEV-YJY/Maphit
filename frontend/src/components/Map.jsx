@@ -2,6 +2,10 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAlbumDetail } from '../redux/actions/album'
+
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
+import Slider from 'react-slick'
 // import env from 'react-dotenv'
 
 import {
@@ -32,6 +36,41 @@ export default function Map() {
     lat: null,
     lng: null,
   })
+
+  const settings = {
+    dots: true,
+    infinite: false,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 4,
+    initialSlide: 0,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+          infinite: true,
+          dots: true,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  }
 
   ///////////////////////////////// Renders Google Map
   const [map, setMap] = useState(null)
@@ -89,14 +128,15 @@ export default function Map() {
   //   )
   // })
 
-  let sideImageDisplay
+  let topImageDisplay
   if (Object.keys(albumDetail).length !== 0) {
-    sideImageDisplay = albumDetail.imageCloudData.map((img) => {
+    topImageDisplay = albumDetail.imageCloudData.map((img) => {
       return (
-        <div key={img.cloudinaryId} className=''>
-          <div className='c'>
+        <div key={img.cloudinaryId} className='card'>
+          <div className='card-top'>
             <img src={img.url} alt={img.url} />
           </div>
+          <div className='card-bottom'></div>
         </div>
       )
     })
@@ -109,9 +149,9 @@ export default function Map() {
 
   return (
     <>
-      <Link to={`/`}>Back to Gallery</Link> /{' '}
-      <Link to={`/upload/${albumId}`}>Back to Album</Link>
-      <div className='flex'>{sideImageDisplay}</div>
+      {/* <Link to={`/`}>Back to Gallery</Link> /{' '}
+      <Link to={`/upload/${albumId}`}>Back to Album</Link> */}
+      <Slider {...settings}>{topImageDisplay}</Slider>
       {isLoaded ? (
         <div>
           <button onClick={() => setHide(!hide)}>{!hide ? 'REVEAL' : 'HIDE'}</button>
@@ -123,7 +163,6 @@ export default function Map() {
               onLoad={onLoad}
               onUnmount={onUnmount}
             >
-              {/* {hide && imgLocation} */}
               {hide && (
                 <MarkerClusterer options={clusterOptions}>
                   {(clusterer) =>
