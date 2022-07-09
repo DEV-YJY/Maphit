@@ -11,7 +11,6 @@ import {
   uploadImageWithGeoData,
 } from '../redux/actions/album'
 import { toast } from 'react-toastify'
-// DROP-ZONE
 import Dropzone from 'react-dropzone'
 
 function ImageUpload() {
@@ -125,7 +124,7 @@ function ImageUpload() {
       </div>
       <div>Album Name: {Object.keys(albumDetail).length !== 0 && albumDetail.name}</div>
       <div>
-        Album Description:{' '}
+        Album Description:
         {Object.keys(albumDetail).length !== 0 && albumDetail.description}
       </div>
       <div>---------------------------------------------------------</div>
@@ -146,7 +145,6 @@ function ImageUpload() {
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
 
-                {/* FIVE images max at a time */}
                 <p>Drag 'n' drop image files here, or click to select images</p>
                 <p>---------------------------------------------------------</p>
               </div>
@@ -156,20 +154,29 @@ function ImageUpload() {
 
         {Object.keys(albumDetail).length !== 0 && checkImageWithoutGps()}
 
-        {Object.keys(albumDetail).length !== 0 &&
-          albumDetail?.imageCloudData.map((image, idx) => {
-            return (
-              <div key={idx}>
-                <img alt={image.imageId} src={image.url} />
-                <p>{idx + 1}</p>
-                <div>
-                  <button onClick={() => handleImageDelete(albumId, image)}>
-                    Delete Image
-                  </button>
+        <div className='columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-2 w-[1200px] mx-auto space-y-3 pb-28'>
+          {Object.keys(albumDetail).length !== 0 &&
+            albumDetail?.imageCloudData.map((image, idx) => {
+              return (
+                <div
+                  className='break-inside-avoid border border-stone-900 shadow-2xl rounded-lg'
+                  key={idx}
+                >
+                  <img
+                    className='rounded-t-lg w-full'
+                    alt={image.imageId}
+                    src={image.url}
+                  />
+                  <div className='flex'>
+                    <p>{idx + 1}</p>
+                    <button onClick={() => handleImageDelete(albumId, image)}>
+                      Delete Image
+                    </button>
+                  </div>
                 </div>
-              </div>
-            )
-          })}
+              )
+            })}
+        </div>
       </div>
       {dialog.isLoading && (
         <DeleteDialog onDialog={deleteConfirm} message={dialog.message} />
