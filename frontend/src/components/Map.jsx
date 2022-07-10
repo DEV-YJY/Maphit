@@ -55,7 +55,7 @@ export default function Map() {
       {
         breakpoint: 1024,
         settings: {
-          slidesToShow: 3,
+          slidesToShow: 4,
           slidesToScroll: 3,
           infinite: true,
           dots: true,
@@ -72,7 +72,7 @@ export default function Map() {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 1,
+          slidesToShow: 2,
           slidesToScroll: 1,
         },
       },
@@ -153,15 +153,15 @@ export default function Map() {
       return (
         <div
           key={img.cloudinaryId}
-          className='rounded-lg h-28 overflow-hidden mx-auto w-3/4'
+          className='rounded-lg h-28 overflow-hidden mx-auto w-3/4 shadow-lg '
         >
           <div
-            className='rounded-lg flex justify-center w-full h-full '
+            className=' rounded-lg flex justify-center w-full h-full '
             // extract url on click
             onClick={() => handleSelect(img.url)}
           >
             <img
-              className='border rounded-lg object-scale-down w-4/5 h-full cursor-pointer'
+              className=' border border-black rounded-lg object-scale-down w-4/5 h-full cursor-pointer bg-gray-100'
               src={img.url}
               alt={img.url}
             />
@@ -177,49 +177,34 @@ export default function Map() {
   }
 
   return (
-    <>
-      <Link to={`/`}>Back to Gallery</Link> /{' '}
-      <Link to={`/upload/${albumId}`}>Back to Album</Link>
+    <div className=''>
+      <div className='flex justify-center'>
+        <Link className='flex mr-5' to={`/`}>
+          <img className='w-6' src='/arrow-left.png' alt='arrow-left' /> <p>To Gallery</p>
+        </Link>
+        <Link className='flex ml-5' to={`/upload/${albumId}`}>
+          <p>To Album</p>
+          <img className='w-6' src='/arrow-right.png' alt='arrow-right' />
+        </Link>
+      </div>
       <Slider ref={slider} {...settings}>
         {topImageDisplay}
       </Slider>
       <button
-        className='absolute left-px top-16'
+        className='absolute left-[0.5] top-16'
         onClick={() => slider?.current?.slickPrev()}
       >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          class='h-5 w-5'
-          viewBox='0 0 20 20'
-          fill='currentColor'
-        >
-          <path
-            fill-rule='evenodd'
-            d='M10 18a8 8 0 100-16 8 8 0 000 16zm.707-10.293a1 1 0 00-1.414-1.414l-3 3a1 1 0 000 1.414l3 3a1 1 0 001.414-1.414L9.414 11H13a1 1 0 100-2H9.414l1.293-1.293z'
-            clip-rule='evenodd'
-          />
-        </svg>
+        <img className='w-6' src='/arrow-left.png' alt='arrow-left' />
       </button>
       <button
-        className='absolute right-px top-16'
+        className='absolute -right-1.5 top-16'
         onClick={() => slider?.current?.slickNext()}
       >
-        <svg
-          xmlns='http://www.w3.org/2000/svg'
-          class='h-5 w-5'
-          viewBox='0 0 20 20'
-          fill='currentColor'
-        >
-          <path
-            fill-rule='evenodd'
-            d='M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z'
-            clip-rule='evenodd'
-          />
-        </svg>
+        <img className='w-6' src='/arrow-right.png' alt='arrow-right' />
       </button>
       {isLoaded ? (
         <div>
-          <div className='flex'>
+          <div className='flex justify-around mt-4'>
             <button onClick={() => setHideAllMarkers(!hideAllMarkers)}>
               {!hideAllMarkers ? 'Reval Markers' : 'Hide Markers'}
             </button>
@@ -279,6 +264,6 @@ export default function Map() {
           <h1>is loading...</h1>
         </div>
       )}
-    </>
+    </div>
   )
 }

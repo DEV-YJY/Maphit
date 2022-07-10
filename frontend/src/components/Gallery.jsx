@@ -46,7 +46,7 @@ function Gallery() {
         {albumList !== [] &&
           albumList.map((album, idx) => (
             <Link to={`/upload/${album._id}`}>
-              <div className='relative flex items-center justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group '>
+              <div className='relative flex flex-wra items-center justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group '>
                 {album.imageCloudData.length > 0 ? (
                   <>
                     <img
@@ -64,8 +64,15 @@ function Gallery() {
                   </>
                 ) : (
                   <>
-                    <img src='/empty.png' alt='empty-icon' />
-                    <p className='text-xl '>This Album is Empty</p>
+                    <div className='flex flex-col items-center'>
+                      <img
+                        className='w-8 text-center'
+                        src='/empty.png'
+                        alt='empty-icon'
+                      />
+                      <p className='text-xl mb-4'>This Album is Empty</p>
+                      <p className='text-md'>Click to Add Some Photos</p>
+                    </div>
                   </>
                 )}
               </div>
