@@ -27,16 +27,20 @@ export default function Map() {
   const dispatch = useDispatch()
   let params = useParams()
   const albumId = params.albumId
+  const slider = useRef(null)
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   })
 
   const [hide, setHide] = useState(true)
+  const [switchCenter, setSwitchCenter] = useState(false)
+  const [zoom, setZoom] = useState(9)
   const [center, setCenter] = useState({
     lat: null,
     lng: null,
   })
+
   const [selectedMarker, setSelectedMarker] = useState(null)
 
   const settings = {
@@ -130,7 +134,17 @@ export default function Map() {
   //   )
   // })
 
-  const slider = useRef(null)
+  const handleSelect = (img) => {
+    let selectedImg = albumDetail.geolocation.filter(
+      (imgOfInterest) => imgOfInterest.imageId === img
+    )
+    setCenter({
+      lat: selectedImg[0].lat,
+      lng: selectedImg[0].lng,
+    })
+    setSwitchCenter(!switchCenter)
+    setZoom(13)
+  }
 
   let topImageDisplay
   if (Object.keys(albumDetail).length !== 0) {
@@ -140,9 +154,13 @@ export default function Map() {
           key={img.cloudinaryId}
           className='rounded-lg h-28 overflow-hidden mx-auto w-3/4'
         >
-          <div className='rounded-lg flex justify-center w-full h-full '>
+          <div
+            className='rounded-lg flex justify-center w-full h-full '
+            // extract url on click
+            onClick={() => handleSelect(img.url)}
+          >
             <img
-              className='border rounded-lg object-fit w-4/5 h-full'
+              className='border rounded-lg object-scale-down w-4/5 h-full cursor-pointer'
               src={img.url}
               alt={img.url}
             />
@@ -200,12 +218,14 @@ export default function Map() {
       </button>
       {isLoaded ? (
         <div>
-          <button onClick={() => setHide(!hide)}>{!hide ? 'REVEAL' : 'HIDE'}</button>
+          <div className='flex'>
+            <button onClick={() => setHide(!hide)}>{!hide ? 'REVEAL' : 'HIDE'}</button>
+          </div>
           {Object.keys(albumDetail).length !== 0 && (
             <GoogleMap
               mapContainerStyle={containerStyle}
               center={center}
-              zoom={9}
+              zoom={zoom}
               onLoad={onLoad}
               onUnmount={onUnmount}
             >
