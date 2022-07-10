@@ -157,19 +157,6 @@ function AddAlbum(props) {
             Save
           </button>
         </div>
-
-        {/* <form>
-        <label>
-          Album Name:
-          <input type="text" name="name" />
-        </label>
-        <label>
-          Description:
-          <input type="textarea" name="name" />
-        </label>
-        <button>Save</button>
-        <input type="submit" value="Submit" /> 
-      </form>  */}
       </form>
     </>
   )

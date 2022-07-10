@@ -35,18 +35,18 @@ function Gallery() {
   return (
     <>
       <h3>Gallery</h3>
-      <div>---------------------------------------</div>
       <div className='flex justify-center'>
         <Link to='/add'>
           <img src='/add.png' alt='add-icon' />
         </Link>
       </div>
       {/* sm:columns-2 md:columns-3 lg:columns-4 */}
-      <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-3 items-start place-items-start'>
+      {/* grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 sm:justify-center gap-3 */}
+      <div className='flex flex-wrap justify-center items-center place-items-start'>
         {albumList !== [] &&
           albumList.map((album, idx) => (
             <Link to={`/upload/${album._id}`}>
-              <div className='relative flex flex-wra items-center justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group '>
+              <div className='relative flex flex-wrap items-center mx-7 my-7 justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group '>
                 {album.imageCloudData.length > 0 ? (
                   <>
                     <img
