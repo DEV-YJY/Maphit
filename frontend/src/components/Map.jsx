@@ -46,9 +46,10 @@ export default function Map() {
 
   const settings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     speed: 500,
-    slidesToShow: 6,
+    rows: 1,
+    slidesToShow: 5,
     slidesToScroll: 4,
     initialSlide: 0,
     responsive: [
@@ -57,7 +58,8 @@ export default function Map() {
         settings: {
           slidesToShow: 4,
           slidesToScroll: 3,
-          infinite: true,
+          rows: 1,
+          infinite: false,
           dots: true,
         },
       },
@@ -67,6 +69,8 @@ export default function Map() {
           slidesToShow: 2,
           slidesToScroll: 2,
           initialSlide: 2,
+          infinite: false,
+          dots: true,
         },
       },
       {
@@ -74,6 +78,8 @@ export default function Map() {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
+          infinite: false,
+          dots: true,
         },
       },
     ],
@@ -173,7 +179,14 @@ export default function Map() {
 
   const clusterOptions = {
     averageCenter: true,
-    gridSize: 30,
+    gridSize: 50,
+    imageSizes: [80],
+    // need to change the font size within the cluster
+    // styles: [
+    //   {
+    //     fontSize: [150],
+    //   },
+    // ],
   }
 
   return (

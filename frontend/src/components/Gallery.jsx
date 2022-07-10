@@ -56,7 +56,11 @@ function Gallery() {
                           Math.floor(Math.random() * album.imageCloudData.length)
                         ].url
                       }
-                      alt={album.imageCloudData[0].cloudinaryId}
+                      alt={
+                        album.imageCloudData[
+                          Math.floor(Math.random() * album.imageCloudData.length)
+                        ].cloudinaryId
+                      }
                     />
                     <p className='text-center group-hover:scale-100 absolute uppercase text-2xl font-black transition-all duration-500 ease-in-out transform scale-150 text-gray-50 opacity-70 '>
                       {album.name} <br /> - <br /> {album.place.placeName}
