@@ -42,7 +42,8 @@ function Gallery() {
         <Link to='/add'>Add Trip Album</Link>
       </div>
       <div>---------------------------------------</div>
-      <div className='grid grid-cols-3 gap-3 place-items-center items-start'>
+      {/* sm:columns-2 md:columns-3 lg:columns-4 */}
+      <div className='grid lg:grid-cols-4 md:grid-cols-3 gap-3 place-items-center items-start '>
         {albumList !== [] &&
           albumList.map((album, idx) => (
             // <VisibilitySensor
@@ -68,16 +69,16 @@ function GridGalleryCard({ album, show }) {
     <div>
       <div>Album name: {album.name}</div>
       <div
-        className={`relative top-1/2 transform transition ease-in opacity-100 duration-500 ${
+        className={`max-w-[336px] relative top-1/2 transform transition ease-in opacity-100 duration-500 ${
           show ? '' : 'translate-y-16 opacity-0'
         }`}
       >
         <Link to={`/upload/${album._id}`}>
-          <div className='absolute inset-0 z-10 flex transition duration-200 ease-in'>
-            <div className='flex items-center justify-center mx-auto text-white z-10 self-center uppercase text-center tracking-widest text-sm rounded-lg p-1 border absolute inset-0 bg-black ease-in opacity-0 hover:opacity-70 duration-300 transition'>
-              {/* <div className='mx-auto text-white z-10 self-center uppercase tracking-widest text-sm opacity-0 hover:opacity-100'> */}
+          <div className='shadow-xl rounded-2xl absolute inset-0 z-10 flex transition duration-200 ease-in'>
+            <div className='absolute flex items-center justify-center mx-auto text-white z-10 self-center uppercase text-center tracking-widest text-sm rounded-2xl p-1 border absolute inset-0 bg-black ease-in opacity-0 hover:opacity-70 duration-300 transition'>
               {album.place.placeName} ({album.imageCloudData.length})
-            </div>
+            </div>{' '}
+            {/* transition-all duration-500 ease-in-out transform */}
           </div>
         </Link>
         {/*         Error handling required: component breaks when
@@ -86,12 +87,16 @@ function GridGalleryCard({ album, show }) {
  */}
         {album.imageCloudData.length > 0 ? (
           <img
-            className='rounded-lg p-1 bg-white border'
-            src={album.imageCloudData[0].url}
+            className='absoulte rounded-2xl p-1 bg-white border hover:scale-150'
+            src={
+              album.imageCloudData[0].url
+            } /* transition-all duration-500 ease-in-out transform bg-center bg-cover */
             alt={album.imageCloudData[0].cloudinaryId}
           />
         ) : (
-          <div></div>
+          <div className='h-28 border rounded-2xl'>
+            <p>This Album is Empty</p>
+          </div>
         )}
       </div>
     </div>

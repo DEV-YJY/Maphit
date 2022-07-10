@@ -189,7 +189,7 @@ function ImageUpload() {
           <img
             className={
               modal
-                ? 'opacity-100 scale-100 max-w-lg  box-border w-96'
+                ? 'opacity-100 scale-100 max-w-lg box-border w-96'
                 : 'w-auto max-w-full max-h-full h-auto block box-border pt-5 px-0 pb-5 my-0 mx-auto'
             }
             src={tempImgSrc}
