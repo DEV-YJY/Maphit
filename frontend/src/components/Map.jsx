@@ -64,7 +64,7 @@ export default function Map() {
         },
       },
       {
-        breakpoint: 600,
+        breakpoint: 768,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2,
@@ -76,7 +76,7 @@ export default function Map() {
       {
         breakpoint: 480,
         settings: {
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 2,
           infinite: false,
           dots: true,
@@ -167,7 +167,7 @@ export default function Map() {
             onClick={() => handleSelect(img.url)}
           >
             <img
-              className=' border border-black rounded-lg object-scale-down w-4/5 h-full cursor-pointer bg-gray-100'
+              className='border border-black rounded-lg object-cover w-4/5 h-full cursor-pointer bg-gray-100'
               src={img.url}
               alt={img.url}
             />
@@ -190,10 +190,11 @@ export default function Map() {
   }
 
   return (
-    <div className='flex flex-col mx-auto justify-center lg:max-w-[63rem] md:max-w-2xl '>
+    <div className='flex flex-col mx-auto justify-center lg:w-11/12 md:w-11/12 '>
       <div className='flex justify-center'>
         <Link className='flex mr-5' to={`/`}>
-          <img className='w-6' src='/arrow-left.png' alt='arrow-left' /> <p>To Gallery</p>
+          <img className='w-6' src='/arrow-left.png' alt='arrow-left' />
+          <p>To Gallery</p>
         </Link>
         <Link className='flex ml-5' to={`/upload/${albumId}`}>
           <p>To Album</p>
@@ -206,7 +207,7 @@ export default function Map() {
       </Slider>
       <div className='flex justify-center my-0'>
         <img
-          className='w-6 mr-20 cursor-pointer z-50'
+          className='w-6 mr-24 cursor-pointer z-50'
           onClick={() => slider?.current?.slickPrev()}
           src='/arrow-left.png'
           alt='arrow-left'
