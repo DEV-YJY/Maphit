@@ -77,7 +77,7 @@ export default function Map() {
         breakpoint: 480,
         settings: {
           slidesToShow: 2,
-          slidesToScroll: 1,
+          slidesToScroll: 2,
           infinite: false,
           dots: true,
         },
@@ -190,7 +190,7 @@ export default function Map() {
   }
 
   return (
-    <div className=''>
+    <div className='flex flex-col mx-auto justify-center lg:max-w-[63rem] md:max-w-2xl '>
       <div className='flex justify-center'>
         <Link className='flex mr-5' to={`/`}>
           <img className='w-6' src='/arrow-left.png' alt='arrow-left' /> <p>To Gallery</p>
@@ -200,24 +200,27 @@ export default function Map() {
           <img className='w-6' src='/arrow-right.png' alt='arrow-right' />
         </Link>
       </div>
+
       <Slider ref={slider} {...settings}>
         {topImageDisplay}
       </Slider>
-      <button
-        className='absolute left-[0.5] top-16'
-        onClick={() => slider?.current?.slickPrev()}
-      >
-        <img className='w-6' src='/arrow-left.png' alt='arrow-left' />
-      </button>
-      <button
-        className='absolute -right-1.5 top-16'
-        onClick={() => slider?.current?.slickNext()}
-      >
-        <img className='w-6' src='/arrow-right.png' alt='arrow-right' />
-      </button>
+      <div className='flex justify-center my-0'>
+        <img
+          className='w-6 mr-20 cursor-pointer z-50'
+          onClick={() => slider?.current?.slickPrev()}
+          src='/arrow-left.png'
+          alt='arrow-left'
+        />
+        <img
+          className='w-6 cursor-pointer z-50'
+          onClick={() => slider?.current?.slickNext()}
+          src='/arrow-right.png'
+          alt='arrow-right'
+        />
+      </div>
       {isLoaded ? (
-        <div>
-          <div className='flex justify-around mt-4'>
+        <div className='mt-0'>
+          <div className='flex justify-around'>
             <button onClick={() => setHideAllMarkers(!hideAllMarkers)}>
               {!hideAllMarkers ? 'Reval Markers' : 'Hide Markers'}
             </button>
