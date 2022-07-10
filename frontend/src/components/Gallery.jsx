@@ -31,39 +31,50 @@ function Gallery() {
     return state.album.albumList
   })
   console.log('albumList:', albumList)
-  // imageCloudData not being read from the state
-  // console.log(albumList.imageCloudData[0])
 
   return (
     <>
       <h3>Gallery</h3>
       <div>---------------------------------------</div>
-      <div>
-        <Link to='/add'>Add Trip Album</Link>
+      <div className='flex justify-center'>
+        <Link to='/add'>
+          <img src='/add.png' alt='add-icon' />
+        </Link>
       </div>
-      <div>---------------------------------------</div>
       {/* sm:columns-2 md:columns-3 lg:columns-4 */}
-      <div className='grid lg:grid-cols-4 md:grid-cols-3 gap-3 place-items-center items-start '>
+      <div className='grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-3 items-start place-items-start'>
         {albumList !== [] &&
           albumList.map((album, idx) => (
-            // <VisibilitySensor
-            //   key={idx}
-            //   partialVisibility={true}
-            //   offset={{ bottom: 80 }}
-            //   onChange={({ isVisible }) => imagesVisibleChange(idx, isVisible)}
-            // >
-            <GridGalleryCard
-              album={album}
-              show={true} /* show={imagesShownArray[idx]}  */
-            />
-            // </VisibilitySensor>
+            <Link to={`/upload/${album._id}`}>
+              <div className='relative flex items-center justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group '>
+                {album.imageCloudData.length > 0 ? (
+                  <>
+                    <img
+                      className='group-hover:scale-150 w-full h-full transition-all duration-500 ease-in-out transform bg-center bg-cover'
+                      src={
+                        album.imageCloudData[
+                          Math.floor(Math.random() * album.imageCloudData.length)
+                        ].url
+                      }
+                      alt={album.imageCloudData[0].cloudinaryId}
+                    />
+                    <p className='text-center group-hover:scale-100 absolute uppercase text-2xl font-black transition-all duration-500 ease-in-out transform scale-150 text-gray-50 opacity-70 '>
+                      {album.name} <br /> - <br /> {album.place.placeName}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    <img src='/empty.png' alt='empty-icon' />
+                    <p className='text-xl '>This Album is Empty</p>
+                  </>
+                )}
+              </div>
+            </Link>
           ))}
       </div>
     </>
   )
 }
-// block duration-500 relative transform transition-all translate-y-12 ease-out
-// top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
 function GridGalleryCard({ album, show }) {
   return (
     <div>
@@ -74,27 +85,21 @@ function GridGalleryCard({ album, show }) {
         }`}
       >
         <Link to={`/upload/${album._id}`}>
-          <div className='shadow-xl rounded-2xl absolute inset-0 z-10 flex transition duration-200 ease-in'>
-            <div className='absolute flex items-center justify-center mx-auto text-white z-10 self-center uppercase text-center tracking-widest text-sm rounded-2xl p-1 border absolute inset-0 bg-black ease-in opacity-0 hover:opacity-70 duration-300 transition'>
+          <div className='shadow-xl rounded-2x absolute inset-0 z-10 flex transition duration-200 ease-in'>
+            <div className=' flex items-center justify-center mx-auto text-white z-10 self-center uppercase text-center tracking-widest text-sm rounded-2xl p-1 border absolute inset-0 bg-black ease-in opacity-0 hover:opacity-70 duration-300 transition'>
               {album.place.placeName} ({album.imageCloudData.length})
-            </div>{' '}
-            {/* transition-all duration-500 ease-in-out transform */}
+            </div>
           </div>
         </Link>
-        {/*         Error handling required: component breaks when
-        theres no photo in the album.
-        Below breaks
- */}
+
         {album.imageCloudData.length > 0 ? (
           <img
-            className='absoulte rounded-2xl p-1 bg-white border hover:scale-150'
-            src={
-              album.imageCloudData[0].url
-            } /* transition-all duration-500 ease-in-out transform bg-center bg-cover */
+            className='rounded-2xl p-1 bg-white border hover:scale-125'
+            src={album.imageCloudData[0].url}
             alt={album.imageCloudData[0].cloudinaryId}
           />
         ) : (
-          <div className='h-28 border rounded-2xl'>
+          <div className='h-28 border'>
             <p>This Album is Empty</p>
           </div>
         )}
