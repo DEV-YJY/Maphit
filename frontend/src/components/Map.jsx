@@ -33,7 +33,8 @@ export default function Map() {
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
   })
 
-  const [hide, setHide] = useState(true)
+  const [hideAllMarkers, setHideAllMarkers] = useState(true)
+  const [revealImages, setRevealImages] = useState(true)
   const [switchCenter, setSwitchCenter] = useState(false)
   const [zoom, setZoom] = useState(9)
   const [center, setCenter] = useState({
@@ -219,7 +220,12 @@ export default function Map() {
       {isLoaded ? (
         <div>
           <div className='flex'>
-            <button onClick={() => setHide(!hide)}>{!hide ? 'REVEAL' : 'HIDE'}</button>
+            <button onClick={() => setHideAllMarkers(!hideAllMarkers)}>
+              {!hideAllMarkers ? 'Reval Markers' : 'Hide Markers'}
+            </button>
+            <button onClick={() => setRevealImages(!revealImages)}>
+              {!revealImages ? 'Switch to Images' : 'Switch to Markers'}
+            </button>
           </div>
           {Object.keys(albumDetail).length !== 0 && (
             <GoogleMap
@@ -229,7 +235,7 @@ export default function Map() {
               onLoad={onLoad}
               onUnmount={onUnmount}
             >
-              {hide && (
+              {hideAllMarkers && (
                 <MarkerClusterer options={clusterOptions}>
                   {(clusterer) =>
                     imageGeoData.map((location) => (
@@ -243,8 +249,10 @@ export default function Map() {
                         //   scaledSize: new window.google.maps.Size(80, 60),
                         // }}
                         icon={{
-                          url: '/photo.png',
-                          scaledSize: new window.google.maps.Size(40, 40),
+                          url: revealImages ? '/photo.png' : location.imageId,
+                          scaledSize: revealImages
+                            ? new window.google.maps.Size(40, 40)
+                            : new window.google.maps.Size(80, 60),
                         }}
                       />
                     ))
