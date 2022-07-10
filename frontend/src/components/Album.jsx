@@ -85,7 +85,7 @@ function ImageUpload() {
   }
 
   const handleAlbumDelete = (albumId) => {
-    handleDialog('Are you sure you want to delete this album?', true)
+    handleDialog('Delete this album?', true)
     // console.log('im dialog: ', dialog)
   }
 
@@ -102,7 +102,7 @@ function ImageUpload() {
     }
   }
 
-  const handleImageDelete = (albumId, imageName) => {
+  const handleImageDelete = async (albumId, imageName) => {
     // console.log(imageName)
     dispatch(removeImage(albumId, imageName)).then((res) => {
       if (res.payload.status) {
@@ -183,7 +183,7 @@ function ImageUpload() {
         <div
           className={
             modal
-              ? 'w-full h-screen fixed top-0 left-0 flex justify-center items-center bg-black z-40'
+              ? 'w-full h-screen fixed top-0 left-0 flex justify-center items-center bg-black z-30'
               : 'h-5 invisible'
             // : 'w-full h-screen fixed top-0 left-0 flex justify-center items-center bg-black  duration-300 invisible scale-0 opacity-0 overflow-hidden z-50'
           } /* transition ease-in duration-300 invisible scale-0 opacity-0 overflow-hidden z-50 */
@@ -191,28 +191,22 @@ function ImageUpload() {
           <img
             className={
               modal
-                ? 'opacity-100 scale-100 max-w-lg box-border w-96'
-                : 'w-auto max-w-full max-h-full h-auto block box-border pt-5 px-0 pb-5 my-0 mx-auto'
+                ? 'opacity-100 scale-100 max-w-lg box-border w-96 z-40'
+                : 'w-auto max-w-full max-h-full h-auto block box-border pt-5 px-0 pb-5 my-0 mx-auto z-40'
             }
             src={tempImgSrc}
             alt={tempImgSrc}
           />
-          <svg
-            className='fixed right-5 top-4 w-8 h-8 bg-black text-white cursor-pointer z-40'
+          <img
+            className={
+              modal
+                ? 'fixed right-5 top-4 w-8 h-8 text-white cursor-pointer z-40'
+                : 'invisible'
+            }
+            src='/x.png'
+            alt='x'
             onClick={() => setModal(false)}
-            xmlns='http://www.w3.org/2000/svg'
-            class='h-6 w-6'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-            stroke-width='2'
-          >
-            <path
-              stroke-linecap='round'
-              stroke-linejoin='round'
-              d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
-            />
-          </svg>
+          />
         </div>
         <div className='sm:columns-1 md:columns-3 lg:columns-4 sm:w-[470px] md:w-[750px] lg:w-[1200px] gap-2  mx-auto space-y-3 pb-28'>
           {Object.keys(albumDetail).length !== 0 &&
@@ -221,20 +215,23 @@ function ImageUpload() {
                 <div
                   className='break-inside-avoid border border-stone-900 shadow-2xl rounded-lg bg-'
                   key={idx}
-                  onClick={() => enlargeImg(image.url)}
                 >
                   <div className='bg-black rounded-lg'>
                     <img
                       className='rounded-t-lg w-full hover:opacity-70 cursor-pointer duration-300 transition ease-in'
+                      onClick={() => enlargeImg(image.url)}
                       alt={image.imageId}
                       src={image.url}
                     />
                   </div>
-                  <div className='flex justify-between'>
+                  <div className='flex justify-between '>
                     <p className='ml-2'>{idx + 1}</p>
-                    <button onClick={() => handleImageDelete(albumId, image)}>
-                      <img className='w-5' src='/delete.png' alt='rubbish-bin' />
-                    </button>
+                    <img
+                      className='max-w-full h-4 mt-[6px] mr-[8px] cursor-pointer'
+                      onClick={() => handleImageDelete(albumId, image)}
+                      src='/delete.png'
+                      alt='rubbish-bin'
+                    />
                   </div>
                 </div>
               )
