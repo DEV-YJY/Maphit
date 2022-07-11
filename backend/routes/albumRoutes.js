@@ -85,7 +85,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-// GET albumById
+// GET albumById // fetchAlbumDetail
 router.get('/:albumId', (req, res) => {
   const albumId = req.params.albumId
   Album.findById(albumId).exec((err, albums) => {
@@ -106,37 +106,10 @@ router.get('/:albumId', (req, res) => {
 
 ///////////////// CLOUDINARY IMAGE UPLOAD TRIAL
 router.put('/upload/:albumId', upload.array('image'), async (req, res) => {
+  console.log('!!!!!!!!made it')
   try {
     const albumId = req.params.albumId
     let imageFiles = req.files
-
-    // let multiplePicturePromise = imageFiles.map((image) =>
-    //   cloudinary.uploader.upload(image.path)
-    // )
-
-    // let imageResponses = await Promise.all(multiplePicturePromise)
-
-    // imageResponses.map(async (i) => {
-    //   await Album.findOneAndUpdate(
-    //     {
-    //       _id: albumId,
-    //     },
-    //     {
-    //       $push: {
-    //         imageCloudData: [
-    //           {
-    //             imageName: i.original_filename,
-    //             cloudinaryId: i.public_id,
-    //             url: i.url,
-    //           },
-    //         ],
-    //       },
-    //     },
-    //     {
-    //       new: true,
-    //     }
-    //   )
-    // })
 
     let realResult = await Promise.all(
       imageFiles.map(async (image) => {
@@ -175,54 +148,10 @@ router.put('/upload/:albumId', upload.array('image'), async (req, res) => {
       result: realResult[0],
     })
   } catch (err) {
-    console.log('i am a catch error: ', err)
-    return res.send(err)
+    // console.log('i am a catch error: ', err)
+    return res.sendStatus(500).send('Server error, fail to remove image')
   }
 })
-
-/////////////////////////////////
-
-// UPLOAD image to a specific album
-// router.put('/upload/:albumId', upload.array('image'), (req, res) => {
-//   try {
-//     const albumId = req.params.albumId
-//     // console.log(req.params)
-//     // console.log('req.files: ', req.files)
-//     const images = []
-//     const inputFiles = req.files
-
-//     // add filename to images array
-//     inputFiles.map((file) => images.push(file.filename))
-
-//     Album.findOneAndUpdate(
-//       {
-//         _id: albumId,
-//       },
-//       {
-//         $push: { images: images },
-//       },
-//       {
-//         new: true,
-//       }
-//     ).exec((err, data) => {
-//       // if (images.length > 5) {
-//       //   console.log('too many images!!!!')
-//       //   res.status(500).send('No images added')
-//       //   return
-//       // }
-//       return res.json({
-//         status: 200,
-//         message: 'Upload image(s) successfully',
-//         result: data,
-//       })
-//     })
-//   } catch (err) {
-//     console.log(err)
-//     res.status(500).send('Server error')
-//   }
-// })
-
-/////////////
 
 ///////////////////////////////// CLOUDINARY IMAGE GEODATA EXTRACTION TRIAL
 router.put('/geoUpdate/:albumId', async (req, res) => {
@@ -304,7 +233,7 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
       })
     })
   } catch (err) {
-    console.log(err)
+    // console.log(err)
     res.status(500).send(err)
   }
 })
@@ -434,7 +363,7 @@ router.put('/removeImage/:albumId', async (req, res) => {
         if (err) {
           return res.json({
             status: 500,
-            message: 'Server error, fail to remove image',
+            message: 'Server error, fail to remove an image',
             result: err,
           })
         }
@@ -452,7 +381,6 @@ router.put('/removeImage/:albumId', async (req, res) => {
 })
 
 ///////////////////////////////
-
 /////////////////////////////////////////////////////////////////////
 //
 //
