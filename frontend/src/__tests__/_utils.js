@@ -4,7 +4,7 @@ export const mockState = {
       name: 'Summer holiday',
       description: 'it was fun',
       geolocation: [],
-      images: ['hi.jpeg'],
+      imageCloudData: ['hi.jpeg'],
       place: {
         lat: 123,
         lng: 456,

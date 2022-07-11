@@ -45,7 +45,7 @@ export default function Map() {
   const [selectedMarker, setSelectedMarker] = useState(null)
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: false,
     speed: 500,
     rows: 1,
@@ -60,7 +60,7 @@ export default function Map() {
           slidesToScroll: 3,
           rows: 1,
           infinite: false,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -70,7 +70,7 @@ export default function Map() {
           slidesToScroll: 2,
           initialSlide: 2,
           infinite: false,
-          dots: true,
+          dots: false,
         },
       },
       {
@@ -79,7 +79,7 @@ export default function Map() {
           slidesToShow: 1,
           slidesToScroll: 2,
           infinite: false,
-          dots: true,
+          dots: false,
         },
       },
     ],
@@ -263,11 +263,12 @@ export default function Map() {
               )}
               {selectedMarker && (
                 <InfoWindow
+                  className=''
                   position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
                   onCloseClick={() => setSelectedMarker(null)}
                 >
                   <img
-                    className='w-64'
+                    className=''
                     src={selectedMarker.imageId}
                     alt={selectedMarker.imageId}
                   />
