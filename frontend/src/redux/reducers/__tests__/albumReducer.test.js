@@ -1,4 +1,4 @@
-import { FETCH_ALBUMS } from '../../actions/type'
+import { FETCH_ALBUMS, FETCH_ALBUM_DETAIL } from '../../actions/type'
 import albumReducer from '../albumReducer'
 
 const initialState = {
@@ -45,7 +45,7 @@ describe('albumReducer()', () => {
   it('returns the correct state for FETCH_ALBUMS', () => {
     const action = {
       type: FETCH_ALBUMS,
-      payload: mockState,
+      payload: mockState.albumList,
     }
 
     const expectedState = {
@@ -54,8 +54,29 @@ describe('albumReducer()', () => {
     }
 
     const outPutState = albumReducer(initialState, action)
+    expect.assertions(2)
+    // console.log('outPUTSTATE: ', outPutState.albumList)
+    // console.log('initialState: ', initialState)
+    expect(outPutState.albumList).toEqual(expectedState.albumList)
+    expect(outPutState.albumList).not.toBe(initialState)
+  })
 
-    console.log(outPutState)
-    expect(outPutState.albumList.albumList).toEqual(expectedState.albumList)
+  it('returns the correct state for FETCH_ALBUM_DETAIL', () => {
+    const action = {
+      type: FETCH_ALBUM_DETAIL,
+      payload: mockState.albumDetail,
+    }
+
+    const expectedState = {
+      albumList: [],
+      albumDetail: mockState.albumDetail,
+    }
+
+    const outputState = albumReducer(initialState, action)
+    expect.assertions(2)
+    console.log('outputState', outputState)
+    console.log('expectedState', expectedState)
+    expect(outputState).toStrictEqual(expectedState)
+    expect(outputState).not.toBe(expectedState)
   })
 })
