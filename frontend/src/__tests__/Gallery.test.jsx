@@ -87,11 +87,10 @@ describe('<Gallery />', () => {
         </Router>
       </Provider>
     )
-    console.log(history)
-    const addTripAlbum = screen.getByText('Add Trip Album')
-    // console.log(addTripAlbum)
+    const addTripAlbum = screen.getAllByRole('img')
+    console.log('this is addTrip: ', addTripAlbum[0])
     expect(history.location.pathname).toBe('/')
-    await fireEvent.click(addTripAlbum)
+    await fireEvent.click(addTripAlbum[0])
     expect(history.location.pathname).toBe('/add')
     // check that the content changed to the new page
     // not working

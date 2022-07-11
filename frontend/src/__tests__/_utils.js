@@ -4,7 +4,13 @@ export const mockState = {
       name: 'Summer holiday',
       description: 'it was fun',
       geolocation: [],
-      imageCloudData: ['hi.jpeg'],
+      imageCloudData: [
+        {
+          cloudinaryId: 'someId',
+          imageName: 'someName',
+          url: 'someUrl',
+        },
+      ],
       place: {
         lat: 123,
         lng: 456,
@@ -15,12 +21,20 @@ export const mockState = {
       {
         description: 'Had so much fun',
         name: 'Summer holiday',
-        place: {
-          lat: 123,
-          lng: 456,
-          placeName: 'Singapore',
-        },
-        images: ['123.jpg', '456.jpg'],
+        place: [
+          {
+            lat: 123,
+            lng: 456,
+            placeName: 'Singapore',
+          },
+        ],
+        imageCloudData: [
+          {
+            cloudinaryId: 'someId',
+            imageName: 'someName',
+            url: 'someUrl',
+          },
+        ],
       },
     ],
   },

@@ -46,7 +46,10 @@ function Gallery() {
         {albumList !== [] &&
           albumList.map((album, idx) => (
             <Link to={`/upload/${album._id}`}>
-              <div className='relative flex flex-wrap items-center mx-7 my-7 justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group '>
+              <div
+                className='relative flex flex-wrap items-center mx-7 my-7 justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group'
+                key={album.imageCloudData.url}
+              >
                 {album.imageCloudData.length > 0 ? (
                   <>
                     <img
