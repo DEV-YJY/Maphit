@@ -1,6 +1,7 @@
 import {
   FETCH_ALBUMS,
   FETCH_ALBUM_DETAIL,
+  REMOVE_IMAGE,
   UPLOAD_IMAGE,
   UPLOAD_IMAGE_WITH_GEO,
 } from '../../actions/type'
@@ -114,5 +115,67 @@ describe('albumReducer()', () => {
     // console.log(outputState.albumDetail.place)
     // console.log('expected: ', expectedState.albumDetail.place)
     expect(outputState.albumDetail.place).toStrictEqual(expectedState.albumDetail.place)
+  })
+
+  it('returns the correct state for REMOVE_IMAGE action', () => {
+    const fakeState = {
+      albumDetail: {
+        name: 'fake album Name',
+        description: 'fake album description',
+        geolocation: [
+          {
+            imageId: 'fake Id',
+            lat: 123,
+            lng: 456,
+          },
+        ],
+        place: {
+          lat: 123,
+          lng: 456,
+          placeName: 'fake place name',
+        },
+        imageCloudData: [
+          {
+            cloudinaryId: 'fakeCloudId',
+            imageName: 'fake image name',
+            url: 'fakeCloudUrl',
+          },
+        ],
+      },
+    }
+
+    const action = {
+      type: REMOVE_IMAGE,
+      payload: {
+        name: 'fake album Name',
+        description: 'fake album description',
+        geolocation: [],
+        place: {
+          lat: 123,
+          lng: 456,
+          placeName: 'fake place name',
+        },
+        imageCloudData: [],
+      },
+    }
+
+    const expectedState = {
+      albumDetail: {
+        name: 'fake album Name',
+        description: 'fake album description',
+        geolocation: [],
+        place: {
+          lat: 123,
+          lng: 456,
+          placeName: 'fake place name',
+        },
+        imageCloudData: [],
+      },
+    }
+
+    const outputState = albumReducer(fakeState, action)
+    expect.assertions(1)
+    // console.log(outputState)
+    expect(expectedState).toStrictEqual(outputState)
   })
 })

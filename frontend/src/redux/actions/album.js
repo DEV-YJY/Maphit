@@ -88,7 +88,7 @@ export const removeImage = (albumId, imageName) => {
     .put(`/albums/removeImage/${albumId}`, { fileName: imageName.imageName })
     .then((res) => {
       // console.log('res.data from action: ', res.data)
-      return res.data
+      return res.data.result
     })
   return {
     type: REMOVE_IMAGE,
