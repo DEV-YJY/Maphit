@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAlbums } from '../redux/actions/album'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import VisibilitySensor from 'react-visibility-sensor'
 
 function Gallery() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   // console.log('fetchAlbum in gallery: ', fetchAlbums())
 
   // useEffect(() => {
@@ -26,6 +27,10 @@ function Gallery() {
   //   }
   // }
 
+  const handleDirectToAlbum = (album) => {
+    navigate(`/upload/${album}`)
+  }
+
   const albumList = useSelector((state) => {
     // console.log('state: ', state)
     return state.album.albumList
@@ -45,42 +50,41 @@ function Gallery() {
       <div className='flex flex-wrap justify-center items-center place-items-start'>
         {albumList !== [] &&
           albumList.map((album, idx) => (
-            <Link to={`/upload/${album._id}`}>
-              <div className='relative flex flex-wrap items-center mx-7 my-7 justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group'>
-                {album.imageCloudData.length > 0 ? (
-                  <>
-                    <img
-                      className='group-hover:scale-150 w-full h-full transition-all duration-500 ease-in-out transform bg-center bg-cover'
-                      src={
-                        album.imageCloudData[
-                          Math.floor(Math.random() * album.imageCloudData.length)
-                        ].url
-                      }
-                      alt={
-                        album.imageCloudData[
-                          Math.floor(Math.random() * album.imageCloudData.length)
-                        ].cloudinaryId
-                      }
-                    />
-                    <p className='text-center group-hover:scale-100 absolute uppercase text-2xl font-black transition-all duration-500 ease-in-out transform scale-150 text-gray-50 opacity-70 '>
-                      {album.name} <br /> - <br /> {album.place.placeName}
-                    </p>
-                  </>
-                ) : (
-                  <>
-                    <div className='flex flex-col items-center'>
-                      <img
-                        className='w-8 text-center'
-                        src='/empty.png'
-                        alt='empty-icon'
-                      />
-                      <p className='text-xl mb-4'>This Album is Empty</p>
-                      <p className='text-md'>Click to Add Some Photos</p>
-                    </div>
-                  </>
-                )}
-              </div>
-            </Link>
+            <div
+              onClick={() => handleDirectToAlbum(album._id)}
+              className='relative flex flex-wrap items-center mx-7 my-7 justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group'
+            >
+              {album.imageCloudData.length > 0 ? (
+                // <Link to={`/upload/${album._id}`}>
+                <>
+                  <img
+                    className='object-cover group-hover:scale-150 w-full h-full transition-all duration-500 ease-in-out transform bg-center bg-cover'
+                    src={
+                      album.imageCloudData[
+                        Math.floor(Math.random() * album.imageCloudData.length)
+                      ].url
+                    }
+                    alt={
+                      album.imageCloudData[
+                        Math.floor(Math.random() * album.imageCloudData.length)
+                      ].cloudinaryId
+                    }
+                  />
+                  <p className='text-center group-hover:scale-100 absolute uppercase text-2xl font-black transition-all duration-500 ease-in-out transform scale-150 text-gray-50 opacity-70 '>
+                    {album.name} <br /> - <br /> {album.place.placeName}
+                  </p>
+                </>
+              ) : (
+                // </Link>
+                <>
+                  <div className='flex flex-col items-center'>
+                    <img className='w-8 text-center' src='/empty.png' alt='empty-icon' />
+                    <p className='text-xl mb-4'>This Album is Empty</p>
+                    <p className='text-md'>Click to Add Some Photos</p>
+                  </div>
+                </>
+              )}
+            </div>
           ))}
       </div>
     </>
