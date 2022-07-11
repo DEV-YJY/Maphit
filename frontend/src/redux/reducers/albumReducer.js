@@ -21,9 +21,6 @@ const albumReducer = (state = initialState, action) => {
       return {
         ...state,
         albumList: action.payload,
-        // albumDetail: {
-        //   ...action.payload.result,
-        // },
       }
     case FETCH_ALBUM_DETAIL:
       return {
@@ -37,10 +34,10 @@ const albumReducer = (state = initialState, action) => {
       }
     case UPLOAD_IMAGE_WITH_GEO:
       return {
-        ...state,
+        // ...state,
         albumDetail: {
           ...state.albumDetail,
-          images: action.payload.res,
+          // images: action.payload.res,
           geolocation: action.payload.resGeoData,
           place: action.payload.resGeoPlace,
         },
@@ -51,7 +48,6 @@ const albumReducer = (state = initialState, action) => {
         albumDetail: action.payload.result,
       }
     default:
-      // console.log('albumReducer: ', state)
       return state
   }
 }

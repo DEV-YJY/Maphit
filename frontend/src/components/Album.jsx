@@ -28,7 +28,7 @@ function ImageUpload() {
   const navigate = useNavigate()
 
   const albumDetail = useSelector((state) => {
-    // console.log(state.album)
+    console.log(state)
     return state.album.albumDetail
   })
 

@@ -52,7 +52,7 @@ function Gallery() {
           albumList.map((album, idx) => (
             <div
               onClick={() => handleDirectToAlbum(album._id)}
-              className='relative flex flex-wrap items-center mx-7 my-7 justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group'
+              className='relative flex flex-wrap items-center cursor-pointer mx-7 my-7 justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group'
             >
               {album.imageCloudData.length > 0 ? (
                 // <Link to={`/upload/${album._id}`}>

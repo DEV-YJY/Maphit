@@ -1,4 +1,9 @@
-import { FETCH_ALBUMS, FETCH_ALBUM_DETAIL } from '../../actions/type'
+import {
+  FETCH_ALBUMS,
+  FETCH_ALBUM_DETAIL,
+  UPLOAD_IMAGE,
+  UPLOAD_IMAGE_WITH_GEO,
+} from '../../actions/type'
 import albumReducer from '../albumReducer'
 
 const initialState = {
@@ -42,7 +47,7 @@ const mockState = {
 }
 
 describe('albumReducer()', () => {
-  it('returns the correct state for FETCH_ALBUMS', () => {
+  it('returns the correct state for FETCH_ALBUMS action', () => {
     const action = {
       type: FETCH_ALBUMS,
       payload: mockState.albumList,
@@ -61,7 +66,7 @@ describe('albumReducer()', () => {
     expect(outPutState.albumList).not.toBe(initialState)
   })
 
-  it('returns the correct state for FETCH_ALBUM_DETAIL', () => {
+  it('returns the correct state for FETCH_ALBUM_DETAIL action', () => {
     const action = {
       type: FETCH_ALBUM_DETAIL,
       payload: mockState.albumDetail,
@@ -78,5 +83,36 @@ describe('albumReducer()', () => {
     console.log('expectedState', expectedState)
     expect(outputState).toStrictEqual(expectedState)
     expect(outputState).not.toBe(expectedState)
+  })
+
+  it('returns the correct state for UPLOAD_IMAGE_WITH_GEO action', () => {
+    const action = {
+      type: UPLOAD_IMAGE_WITH_GEO,
+      payload: {
+        resGeoData: [
+          {
+            imageId: 'fake Id',
+            lat: 123,
+            lng: 456,
+          },
+        ],
+        resGeoPlace: {
+          lat: 123,
+          lng: 456,
+          placeName: 'fake place name',
+        },
+      },
+    }
+
+    const expectedState = {
+      albumList: [],
+      albumDetail: mockState.albumDetail,
+    }
+
+    const outputState = albumReducer(initialState, action)
+
+    // console.log(outputState.albumDetail.place)
+    // console.log('expected: ', expectedState.albumDetail.place)
+    expect(outputState.albumDetail.place).toStrictEqual(expectedState.albumDetail.place)
   })
 })
