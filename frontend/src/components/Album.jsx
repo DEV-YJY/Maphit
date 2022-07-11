@@ -139,7 +139,7 @@ function ImageUpload() {
   }
 
   return (
-    <>
+    <div className='mx-auto w-11/12'>
       <Link to='/'>Back to Gallery</Link>
       <div>---------------------------------------------------------</div>
       <div>
@@ -208,7 +208,7 @@ function ImageUpload() {
             onClick={() => setModal(false)}
           />
         </div>
-        <div className='sm:columns-1 md:columns-3 lg:columns-4 sm:w-[470px] md:w-[750px] lg:w-[1200px] gap-2  mx-auto space-y-3 pb-28'>
+        <div className='sm:columns-1 md:columns-3 lg:columns-4 gap-2 mx-auto space-y-3 pb-28'>
           {Object.keys(albumDetail).length !== 0 &&
             albumDetail?.imageCloudData.map((image, idx) => {
               return (
@@ -241,7 +241,7 @@ function ImageUpload() {
       {dialog.isLoading && (
         <DeleteDialog onDialog={deleteConfirm} message={dialog.message} />
       )}
-    </>
+    </div>
   )
 }
 
