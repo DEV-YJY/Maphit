@@ -15,7 +15,6 @@ export const fetchAlbums = async () => {
   const res = await axios.get('/albums').then((res) => {
     // console.log('fetch Albums: ', res.data.result)
     // console.log(res)
-    console.log(res)
     return res.data.result
   })
   return {
@@ -24,9 +23,9 @@ export const fetchAlbums = async () => {
   }
 }
 
-export const addAlbum = (data) => {
+export const addAlbum = async (data) => {
   // console.log(coordinates)
-  const res = axios.post('/albums/add', data).then((res) => {
+  const res = await axios.post('/albums/add', data).then((res) => {
     // console.log('addAlbum: ', res)
     // console.log('addAlubm-data: ', data)
     return res.data
