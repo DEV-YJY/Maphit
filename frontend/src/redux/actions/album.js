@@ -11,10 +11,11 @@ import {
 } from './type'
 
 // ACTION CREATORS
-export const fetchAlbums = () => {
-  const res = axios.get('/albums').then((res) => {
+export const fetchAlbums = async () => {
+  const res = await axios.get('/albums').then((res) => {
     // console.log('fetch Albums: ', res.data.result)
     // console.log(res)
+    console.log(res)
     return res.data.result
   })
   return {
@@ -39,7 +40,7 @@ export const addAlbum = (data) => {
 
 export const deleteAlbum = (albumId) => {
   const res = axios.delete(`/albums/delete/${albumId}`).then((res) => {
-    console.log('resData from deleteAlbum action: ', res.data)
+    // console.log('resData from deleteAlbum action: ', res.data)
     return res.data
   })
   return {
@@ -52,13 +53,13 @@ export const uploadImageWithGeoData = async (albumId, data, configParam) => {
   const res = await axios.put(`/albums/upload/${albumId}`, data, configParam)
   const resData = res.data.result.images
   const resGeo = await axios.put(`/albums/geoUpdate/${albumId}`)
-  console.log('this is resGeo: ', resGeo)
+  // console.log('this is resGeo: ', resGeo)
   let resGeoData
   if (resGeo.data.result.geolocation !== [false]) {
     resGeoData = resGeo.data.result.geolocation
   }
   const resGeoPlace = resGeo.data.result.place
-  console.log('this is resgeodata: ', resGeoData)
+  // console.log('this is resgeodata: ', resGeoData)
 
   return {
     type: UPLOAD_IMAGE_WITH_GEO,
@@ -73,7 +74,7 @@ export const uploadImageWithGeoData = async (albumId, data, configParam) => {
 
 export const uploadImage = (albumId, data, configParam) => {
   const res = axios.put(`/albums/upload/${albumId}`, data, configParam).then((res) => {
-    console.log('res.data from uploadImage action: ', res.data)
+    // console.log('res.data from uploadImage action: ', res.data)
     return res.data
   })
   return {
@@ -98,7 +99,7 @@ export const removeImage = (albumId, imageName) => {
 
 export const fetchAlbumDetail = (albumId) => {
   const res = axios.get(`/albums/${albumId}`).then((res) => {
-    console.log('albumdetail from action', res)
+    // console.log('albumdetail from action', res)
     return res.data.result
   })
   return {
