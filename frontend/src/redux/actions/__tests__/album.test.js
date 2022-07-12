@@ -56,7 +56,7 @@ describe('addAlbum() action', () => {
 ///////////////////////////////////////// :(
 describe('deleteAlbum() action', () => {
   it('returns correct type and payload on successfull call', async () => {
-    // expect.assertions(1)
+    expect.assertions(2)
     const fakeAlbumId = '62ccb80395dcefc6b0605825'
     const fakeAlbumData = {
       status: 200,
@@ -76,11 +76,12 @@ describe('deleteAlbum() action', () => {
       },
     }
     const scope = nock('http://localhost')
-      .delete(`/albums/delete${fakeAlbumId}`)
+      .delete(`/albums/delete/${fakeAlbumId}`)
       .reply(200, fakeAlbumData)
-    const result = await deleteAlbum()
+    const result = await deleteAlbum(fakeAlbumId)
     console.log(result)
-    expect(result).toBeTruthy()
+    expect(result.type).toBe('DELETE_ALBUM')
+    expect(result.payload).toStrictEqual(fakeAlbumData)
     scope.done()
   })
 })

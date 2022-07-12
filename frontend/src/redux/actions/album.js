@@ -40,7 +40,7 @@ export const addAlbum = async (data) => {
 export const deleteAlbum = async (albumId) => {
   const res = await axios.delete(`/albums/delete/${albumId}`).then((res) => {
     // console.log('resData from deleteAlbum action: ', res.data)
-    console.log(res.data)
+    // console.log(res.data)
     return res.data
   })
   return {

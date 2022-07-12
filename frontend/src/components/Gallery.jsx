@@ -36,7 +36,8 @@ function Gallery() {
     return state.album.albumList
   })
   // console.log('albumList:', albumList)
-
+  console.log('albumList')
+  console.log(albumList)
   return (
     <>
       <h3>Gallery</h3>

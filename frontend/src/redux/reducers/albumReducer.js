@@ -16,6 +16,12 @@ export const initialState = {
 
 // REDUCER
 const albumReducer = (state = initialState, action) => {
+  console.log('state', state)
+  console.log('action', action)
+  console.log('result', {
+    ...state,
+    albumDetail: action.payload,
+  })
   switch (action.type) {
     case FETCH_ALBUMS:
       return {
@@ -34,7 +40,7 @@ const albumReducer = (state = initialState, action) => {
       }
     case UPLOAD_IMAGE_WITH_GEO:
       return {
-        // ...state,
+        ...state,
         albumDetail: {
           ...state.albumDetail,
           // images: action.payload.res,
