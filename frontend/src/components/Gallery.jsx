@@ -32,12 +32,12 @@ function Gallery() {
   }
 
   const albumList = useSelector((state) => {
-    console.log('state inside albumList: ', state.album)
+    // console.log('state inside albumList: ', state.album)
     return state.album.albumList
   })
   // console.log('albumList:', albumList)
-  console.log('albumList')
-  console.log(albumList)
+  // console.log('albumList')
+  // console.log(albumList)
   return (
     <>
       <h3>Gallery</h3>
@@ -72,8 +72,10 @@ function Gallery() {
                     }
                   />
                   <p className='text-center group-hover:scale-100 absolute uppercase text-2xl font-black transition-all duration-500 ease-in-out transform scale-150 text-gray-50 opacity-70 '>
-                    {album.name} <br /> <br />{' '}
-                    {album.place.placeName.split(',').slice(-2).join(',')}
+                    {album.name}
+                    <br /> <br />
+                    {album.place.placeName}
+                    {/* .split(',').slice(-2).join(',') */}
                   </p>
                 </>
               ) : (

@@ -75,7 +75,7 @@ describe('<Gallery />', () => {
     expect(fetchAlbums).toHaveBeenCalled()
   })
 
-  // Test Link
+  // Test Link ---->> broken
   it('routes to a AddAlbum component on click', async () => {
     expect.assertions(2)
     const history = createMemoryHistory({ initialEntries: ['/'] })
@@ -88,7 +88,7 @@ describe('<Gallery />', () => {
       </Provider>
     )
     const addTripAlbum = screen.getAllByRole('img')
-    console.log('this is addTrip: ', addTripAlbum[0])
+    // console.log('this is addTrip: ', addTripAlbum[0])
     expect(history.location.pathname).toBe('/')
     await fireEvent.click(addTripAlbum[0])
     expect(history.location.pathname).toBe('/add')
