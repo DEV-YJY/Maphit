@@ -209,15 +209,12 @@ function ImageUpload() {
             onClick={() => setModal(false)}
           />
         </div>
-        <div className='sm:columns-1 md:columns-3 lg:columns-4 gap-2 mx-auto space-y-3 pb-28'>
+        <div className='sm:columns-1 md:columns-3 lg:columns-4 gap-2 mx-auto space-y-3 pb-28 rounded-t-lg'>
           {Object.keys(albumDetail).length !== 0 &&
             albumDetail?.imageCloudData.map((image, idx) => {
               return (
-                <div
-                  className='break-inside-avoid border border-stone-900 shadow-2xl rounded-lg bg-'
-                  key={idx}
-                >
-                  <div className='bg-black rounded-lg'>
+                <div className='break-inside-avoid shadow-2xl rounded-t-lg bg-' key={idx}>
+                  <div className='bg-black rounded-t-lg'>
                     <img
                       className='rounded-t-lg w-full hover:opacity-70 cursor-pointer duration-300 transition ease-in'
                       onClick={() => enlargeImg(image.url)}

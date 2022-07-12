@@ -113,28 +113,5 @@ export const fetchAlbumDetail = async (albumId) => {
   }
 }
 
-// export const uploadGeoData = (albumId) => {
-//   return async (dispatch) => {
-//     const res = await axios.put(`/albums/geoUpdate/${albumId}`)
-//     const resData = res.data.result.geolocation
-//     // console.log(resData)
-//     await dispatch({
-//       type: UPLOAD_GEODATA,
-//       payload: resData,
-//     })
-//     dispatch(uploadGeoData(albumId))
-//   }
-// }
-
-// export const uploadGeoData = async (albumId) => {
-//   const res = await axios.put(`/albums/geoUpdate/${albumId}`)
-//   const resData = res.data.result.geolocation
-//   // console.log(resData)
-//   return {
-//     type: UPLOAD_GEODATA,
-//     payload: resData,
-//   }
-// }
-
 // Client ==> API ==> DB ==> API ==> Client
 //       noGeo   Geo     Geo     Geo

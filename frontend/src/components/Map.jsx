@@ -177,6 +177,16 @@ export default function Map() {
     })
   }
 
+  const handleHideMarker = () => {
+    setHideAllMarkers(!hideAllMarkers)
+    setSelectedMarker(null)
+  }
+
+  const handleSwitchMarker = () => {
+    setRevealImages(!revealImages)
+    setSelectedMarker(null)
+  }
+
   const clusterOptions = {
     averageCenter: true,
     gridSize: 50,
@@ -190,7 +200,7 @@ export default function Map() {
   }
 
   return (
-    <div className='flex flex-col mx-auto justify-center lg:w-11/12 md:w-11/12 '>
+    <div className='flex flex-col mx-auto justify-center lg:w-11/12 md:w-11/12 mt-3'>
       <div className='flex justify-center'>
         <Link className='flex mr-5' to={`/`}>
           <img className='w-6' src='/arrow-left.png' alt='arrow-left' />
@@ -222,10 +232,10 @@ export default function Map() {
       {isLoaded ? (
         <div className='mt-0'>
           <div className='flex justify-around'>
-            <button onClick={() => setHideAllMarkers(!hideAllMarkers)}>
+            <button onClick={() => handleHideMarker()}>
               {!hideAllMarkers ? 'Reval Markers' : 'Hide Markers'}
             </button>
-            <button onClick={() => setRevealImages(!revealImages)}>
+            <button onClick={() => handleSwitchMarker()}>
               {!revealImages ? 'Switch to Images' : 'Switch to Markers'}
             </button>
           </div>
