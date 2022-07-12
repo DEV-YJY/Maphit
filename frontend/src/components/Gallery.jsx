@@ -32,10 +32,10 @@ function Gallery() {
   }
 
   const albumList = useSelector((state) => {
-    // console.log('state: ', state)
+    console.log('state inside albumList: ', state.album)
     return state.album.albumList
   })
-  console.log('albumList:', albumList)
+  // console.log('albumList:', albumList)
 
   return (
     <>
