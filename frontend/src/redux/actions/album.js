@@ -12,40 +12,43 @@ import {
 
 // ACTION CREATORS
 export const fetchAlbums = async () => {
-  const res = await axios.get('/albums').then((res) => {
-    // console.log('fetch Albums: ', res.data.result)
-    // console.log(res)
-    return res.data.result
-  })
+  const res = await axios.get('/albums')
+  // .then((res) => {
+  // console.log('fetch Albums: ', res.data.result)
+  // console.log(res)
+  //   return res.data.result
+  // })
   return {
     type: FETCH_ALBUMS,
-    payload: res,
+    payload: res.data.result,
   }
 }
 
 export const addAlbum = async (data) => {
   // console.log(coordinates)
-  const res = await axios.post('/albums/add', data).then((res) => {
-    // console.log('addAlbum: ', res)
-    // console.log('addAlubm-data: ', data)
-    return res.data
-  })
+  const res = await axios.post('/albums/add', data)
+  // .then((res) => {
+  // console.log('addAlbum: ', res)
+  // console.log('addAlubm-data: ', data)
+  //   return res.data
+  // })
   // console.log('payload: ', res)
   return {
     type: ADD_ALBUM,
-    payload: res,
+    payload: res.data,
   }
 }
 
 export const deleteAlbum = async (albumId) => {
-  const res = await axios.delete(`/albums/delete/${albumId}`).then((res) => {
-    // console.log('resData from deleteAlbum action: ', res.data)
-    // console.log(res.data)
-    return res.data
-  })
+  const res = await axios.delete(`/albums/delete/${albumId}`)
+  // .then((res) => {
+  // console.log('resData from deleteAlbum action: ', res.data)
+  console.log(res.data)
+  //   return res.data
+  // })
   return {
     type: DELETE_ALBUM,
-    payload: res,
+    payload: res.data,
   }
 }
 
@@ -73,38 +76,40 @@ export const uploadImageWithGeoData = async (albumId, data, configParam) => {
 }
 
 export const uploadImage = (albumId, data, configParam) => {
-  const res = axios.put(`/albums/upload/${albumId}`, data, configParam).then((res) => {
-    // console.log('res.data from uploadImage action: ', res.data)
-    return res.data
-  })
+  const res = axios.put(`/albums/upload/${albumId}`, data, configParam)
+  // .then((res) => {
+  // console.log('res.data from uploadImage action: ', res.data)
+  // return res.data
+  // })
   return {
     type: UPLOAD_IMAGE,
-    payload: res,
+    payload: res.data,
   }
 }
 
-export const removeImage = (albumId, imageName) => {
-  const res = axios
+export const removeImage = async (albumId, imageName) => {
+  const res = await axios
     // fileName = what is defined in the routes
     .put(`/albums/removeImage/${albumId}`, { fileName: imageName.imageName })
-    .then((res) => {
-      // console.log('res.data from action: ', res.data)
-      return res.data.result
-    })
+  // .then((res) => {
+  //   console.log('res.data from action: ', res)
+  //   return res.data
+  // })
   return {
     type: REMOVE_IMAGE,
-    payload: res,
+    payload: res.data,
   }
 }
 
-export const fetchAlbumDetail = (albumId) => {
-  const res = axios.get(`/albums/${albumId}`).then((res) => {
-    // console.log('albumdetail from action', res)
-    return res.data.result
-  })
+export const fetchAlbumDetail = async (albumId) => {
+  const res = await axios.get(`/albums/${albumId}`)
+  // .then((res) => {
+  // console.log('albumdetail from action', res)
+  //   return res.data.result
+  // })
   return {
     type: FETCH_ALBUM_DETAIL,
-    payload: res,
+    payload: res.data.result,
   }
 }
 

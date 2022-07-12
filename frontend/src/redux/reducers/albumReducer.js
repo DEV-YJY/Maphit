@@ -51,7 +51,7 @@ const albumReducer = (state = initialState, action) => {
     case REMOVE_IMAGE:
       return {
         ...state,
-        albumDetail: action.payload,
+        albumDetail: action.payload.result,
       }
     default:
       return state

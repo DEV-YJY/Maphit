@@ -105,6 +105,7 @@ function ImageUpload() {
   const handleImageDelete = async (albumId, imageName) => {
     // console.log(imageName)
     dispatch(removeImage(albumId, imageName)).then((res) => {
+      console.log(res)
       if (res.payload.status) {
         toast.success(res.payload.message)
       }

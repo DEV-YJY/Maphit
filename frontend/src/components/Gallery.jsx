@@ -53,13 +53,13 @@ function Gallery() {
           albumList.map((album, idx) => (
             <div
               onClick={() => handleDirectToAlbum(album._id)}
-              className='relative flex flex-wrap items-center cursor-pointer mx-7 my-7 justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group'
+              className='bg-black relative flex flex-wrap items-center cursor-pointer mx-7 my-7 justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group'
             >
               {album.imageCloudData.length > 0 ? (
                 // <Link to={`/upload/${album._id}`}>
                 <>
                   <img
-                    className='object-cover group-hover:scale-150 w-full h-full transition-all duration-500 ease-in-out transform bg-center bg-cover'
+                    className='object-cover group-hover:opacity-50 group-hover:scale-150 w-full h-full transition-all duration-500 ease-in-out transform bg-center bg-cover'
                     src={
                       album.imageCloudData[
                         Math.floor(Math.random() * album.imageCloudData.length)
@@ -78,10 +78,14 @@ function Gallery() {
               ) : (
                 // </Link>
                 <>
-                  <div className='flex flex-col items-center'>
-                    <img className='w-8 text-center' src='/empty.png' alt='empty-icon' />
+                  <div className='bg-white px-5 py-1 rounded-2xl flex flex-col items-center'>
+                    <img
+                      className='mt-10 w-8 text-center'
+                      src='/empty.png'
+                      alt='empty-icon'
+                    />
                     <p className='text-xl mb-4'>This Album is Empty</p>
-                    <p className='text-md'>Click to Add Some Photos</p>
+                    <p className='text-md mb-20'>Click to Add Some Photos</p>
                   </div>
                 </>
               )}
