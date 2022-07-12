@@ -144,8 +144,6 @@ describe('fetchAlbumDetail() action', () => {
   it('returns the correct type and payload on successfull call', async () => {
     const fakeAlbumId = 'abcd1234'
     const fakeRes = {
-      status: 200,
-      message: 'Retrieved album successfully',
       result: {
         place: {
           lat: 123,
@@ -166,8 +164,9 @@ describe('fetchAlbumDetail() action', () => {
       .reply(200, fakeRes)
 
     const result = await fetchAlbumDetail(fakeAlbumId)
-    expect(result.type).toStrictEqual('FETCH_ALBUM_DETAIL')
-    scope.done()
     console.log(result)
+    expect(result.type).toStrictEqual('FETCH_ALBUM_DETAIL')
+    expect(result.payload).toStrictEqual(fakeRes.result)
+    scope.done()
   })
 })
