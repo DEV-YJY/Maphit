@@ -60,7 +60,7 @@ describe('addAlbum() action', () => {
     scope.done()
   })
 })
-///////////////////////////////////////// :(
+
 describe('deleteAlbum() action', () => {
   it('returns correct type and payload on successfull call', async () => {
     expect.assertions(2)

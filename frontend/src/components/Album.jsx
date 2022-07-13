@@ -16,6 +16,10 @@ import Dropzone from 'react-dropzone'
 function ImageUpload() {
   const [modal, setModal] = useState(false)
   const [tempImgSrc, setTempImgSrc] = useState('')
+  const [tempInfo, setTempInfo] = useState({
+    imageName: '',
+    idx: '',
+  })
 
   const [dialog, setDialog] = useState({
     message: '',
@@ -102,16 +106,6 @@ function ImageUpload() {
     }
   }
 
-  const handleImageDelete = async (albumId, imageName) => {
-    // console.log(imageName)
-    dispatch(removeImage(albumId, imageName)).then((res) => {
-      console.log(res)
-      if (res.payload.status) {
-        toast.success(res.payload.message)
-      }
-    })
-  }
-
   const checkImageWithoutGps = () => {
     let imageHasGps =
       Object.keys(albumDetail).length !== 0 &&
@@ -134,9 +128,29 @@ function ImageUpload() {
     }
   }
 
-  const enlargeImg = (imgId) => {
+  const enlargeImg = (imgId, imgName, idx) => {
     setTempImgSrc(imgId)
     setModal(true)
+    setTempInfo({
+      imageName: imgName,
+      idx: idx,
+    })
+    console.log(tempInfo.idx)
+  }
+
+  const handleImageDelete = async () => {
+    const { imageName, idx } = tempInfo
+    await dispatch(removeImage(albumId, imageName)).then((res) => {
+      console.log(tempInfo)
+      if (res.payload.status) {
+        toast.success(`Image ${idx + 1} was removed successfully`)
+      }
+    })
+    setTempInfo({
+      imageName: '',
+      idx: '',
+    })
+    setModal(false)
   }
 
   return (
@@ -208,28 +222,39 @@ function ImageUpload() {
             alt='x'
             onClick={() => setModal(false)}
           />
+          <img
+            className='cursor-pointer opacity-100'
+            // onClick={() => handleImageDelete(albumId, )}
+            src='/rubbish-bin-white.png'
+            alt='rubbish-bin'
+            onClick={() => handleImageDelete()}
+          />
         </div>
+
         <div className='sm:columns-1 md:columns-3 lg:columns-4 gap-2 mx-auto space-y-3 pb-28 rounded-t-lg'>
           {Object.keys(albumDetail).length !== 0 &&
             albumDetail?.imageCloudData.map((image, idx) => {
               return (
-                <div className='break-inside-avoid shadow-2xl rounded-t-lg bg-' key={idx}>
+                <div className='break-inside-avoid shadow-2xl rounded-lg bg-' key={idx}>
                   <div className='bg-black rounded-t-lg'>
                     <img
                       className='rounded-t-lg w-full hover:opacity-70 cursor-pointer duration-300 transition ease-in'
-                      onClick={() => enlargeImg(image.url)}
+                      onClick={() => enlargeImg(image.url, image, idx)}
                       alt={image.imageId}
                       src={image.url}
                     />
                   </div>
+                  {/* <img
+                    className='relative cursor-pointer opacity-0'
+                    onClick={() => handleImageDelete(albumId, image, idx)}
+                    src='/delete.png'
+                    alt='rubbish-bin'
+                  /> */}
                   <div className='flex justify-between '>
+                    {/* -mt-5 to remove white space? */}
                     <p className='ml-2'>{idx + 1}</p>
-                    <img
-                      className='max-w-full h-4 mt-[6px] mr-[8px] cursor-pointer'
-                      onClick={() => handleImageDelete(albumId, image)}
-                      src='/delete.png'
-                      alt='rubbish-bin'
-                    />
+
+                    {/* max-w-full h-4 mt-[6px] mr-[8px] cursor-pointer relative bottom-6 left-[7.5rem] text-white white opacity-100 group-hover:opacity-100 */}
                   </div>
                 </div>
               )
