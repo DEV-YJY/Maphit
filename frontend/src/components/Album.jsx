@@ -154,47 +154,41 @@ function ImageUpload() {
   }
 
   return (
-    <div className='mx-auto w-11/12'>
+    <div className='mx-auto mt-3 w-11/12'>
       <Link to='/'>Back to Gallery</Link>
-      <div>---------------------------------------------------------</div>
-      <div>
-        Place of visit:
-        {Object.keys(albumDetail).length !== 0 && albumDetail.place.placeName}
+      <div className='flex justify-around mt-3'>
+        {Object.keys(albumDetail).length !== 0 && (
+          <div className='flex flex-col items-center'>
+            <h3>{albumDetail.name}</h3>
+            <h3>{albumDetail.place.placeName}</h3>
+            <h3>{albumDetail.description}</h3>
+          </div>
+        )}
+        <div>
+          <Link to={`/upload/${albumId}/map`}>Map it</Link>
+        </div>
+        <div>
+          <button onClick={() => dispatch(handleAlbumDelete(albumId))}>
+            <img className='w-5' src='/delete.png' alt='rubbish-bin' />
+          </button>
+        </div>
       </div>
-      <div>Album Name: {Object.keys(albumDetail).length !== 0 && albumDetail.name}</div>
-      <div>
-        Album Description:
-        {Object.keys(albumDetail).length !== 0 && albumDetail.description}
-      </div>
-      <div>---------------------------------------------------------</div>
-      <div>
-        <button onClick={() => dispatch(handleAlbumDelete(albumId))}>
-          <img className='w-5' src='/delete.png' alt='rubbish-bin' /> Delete Album
-        </button>
-      </div>
-      <div>---------------------------------------------------------</div>
-      <div>---------------------------------------------------------</div>
-      <div>
-        <Link to={`/upload/${albumId}/map`}>Map it</Link>
-      </div>
-      <div>---------------------------------------------------------</div>
-      <div>---------------------------------------------------------</div>
+
       <div>
         <Dropzone onDrop={dropImage}>
           {({ getRootProps, getInputProps }) => (
-            <div>
+            <div className='flex justify-center'>
               <div {...getRootProps()}>
                 <input {...getInputProps()} />
 
-                <p>Drag 'n' drop image files here, or click to select images</p>
-                <p>---------------------------------------------------------</p>
+                <img className='cursor-pointer' src='/add-image.png' alt='add-img' />
               </div>
             </div>
           )}
         </Dropzone>
-
-        {Object.keys(albumDetail).length !== 0 && checkImageWithoutGps()}
-
+        <div className='text-center'>
+          {Object.keys(albumDetail).length !== 0 && checkImageWithoutGps()}
+        </div>
         <div
           className={
             modal
