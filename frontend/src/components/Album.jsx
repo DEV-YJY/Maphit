@@ -223,7 +223,7 @@ function ImageUpload() {
             onClick={() => setModal(false)}
           />
           <img
-            className='cursor-pointer opacity-100'
+            className='absolute right-5 w-8 cursor-pointer opacity-100'
             // onClick={() => handleImageDelete(albumId, )}
             src='/rubbish-bin-white.png'
             alt='rubbish-bin'
@@ -231,32 +231,26 @@ function ImageUpload() {
           />
         </div>
 
-        <div className='sm:columns-1 md:columns-3 lg:columns-4 gap-2 mx-auto space-y-3 pb-28 rounded-t-lg'>
+        <div className='sm:columns-1 md:columns-3 lg:columns-4 gap-[0.8rem] mx-5 space-y-4 pb-28 rounded-t-lg'>
           {Object.keys(albumDetail).length !== 0 &&
             albumDetail?.imageCloudData.map((image, idx) => {
               return (
-                <div className='break-inside-avoid shadow-2xl rounded-lg bg-' key={idx}>
-                  <div className='bg-black rounded-t-lg'>
-                    <img
-                      className='rounded-t-lg w-full hover:opacity-70 cursor-pointer duration-300 transition ease-in'
-                      onClick={() => enlargeImg(image.url, image, idx)}
-                      alt={image.imageId}
-                      src={image.url}
-                    />
-                  </div>
-                  {/* <img
-                    className='relative cursor-pointer opacity-0'
-                    onClick={() => handleImageDelete(albumId, image, idx)}
-                    src='/delete.png'
-                    alt='rubbish-bin'
-                  /> */}
-                  <div className='flex justify-between '>
+                <>
+                  <div className='break-inside-avoid shadow-2xl rounded-lg' key={idx}>
+                    <div className='bg-black rounded-lg relative'>
+                      <img
+                        className='rounded-lg w-full object-contain hover:opacity-70 cursor-pointer duration-300 transition ease-in'
+                        onClick={() => enlargeImg(image.url, image, idx)}
+                        alt={image.imageId}
+                        src={image.url}
+                      />
+                    </div>
+                    <p className='text-center'>{idx + 1}</p>
                     {/* -mt-5 to remove white space? */}
-                    <p className='ml-2'>{idx + 1}</p>
 
                     {/* max-w-full h-4 mt-[6px] mr-[8px] cursor-pointer relative bottom-6 left-[7.5rem] text-white white opacity-100 group-hover:opacity-100 */}
                   </div>
-                </div>
+                </>
               )
             })}
         </div>

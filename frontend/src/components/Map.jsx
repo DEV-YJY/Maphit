@@ -50,14 +50,14 @@ export default function Map() {
     speed: 500,
     rows: 1,
     slidesToShow: 5,
-    slidesToScroll: 4,
+    slidesToScroll: 1,
     initialSlide: 0,
     responsive: [
       {
         breakpoint: 1024,
         settings: {
           slidesToShow: 4,
-          slidesToScroll: 3,
+          slidesToScroll: 1,
           rows: 1,
           infinite: false,
           dots: false,
@@ -77,7 +77,7 @@ export default function Map() {
         breakpoint: 480,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 2,
+          slidesToScroll: 1,
           infinite: false,
           dots: false,
         },
