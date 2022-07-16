@@ -244,7 +244,7 @@ function ImageUpload() {
                         src={image.url}
                       />
                     </div>
-                    <p className='text-center'>{idx + 1}</p>
+                    <p className='text-center bg-white rounded-b-xl'>{idx + 1}</p>
                     {/* -mt-5 to remove white space? */}
 
                     {/* max-w-full h-4 mt-[6px] mr-[8px] cursor-pointer relative bottom-6 left-[7.5rem] text-white white opacity-100 group-hover:opacity-100 */}

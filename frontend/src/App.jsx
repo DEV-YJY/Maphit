@@ -6,10 +6,13 @@ import Map from './components/Map'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Routes, Route } from 'react-router-dom'
+import useDarkMode from './hook/useDarkMode'
+import Nav from './components/Nav'
 
 function App() {
   return (
-    <div>
+    <div className='text-blue-600 dark:bg-black transition duration-500'>
+      <Nav />
       <ToastContainer />
       <div>
         {/* // isAuthenticated ? render below otherwise : render /auth */}

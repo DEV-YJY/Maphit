@@ -40,7 +40,7 @@ function Gallery() {
   // console.log(albumList)
   return (
     <>
-      <div className='flex justify-center mt-3'>
+      <div className='flex justify-center pt-3'>
         <Link to='/add'>
           <img src='/add.png' alt='add-icon' />
         </Link>

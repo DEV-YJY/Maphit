@@ -217,7 +217,7 @@ export default function Map() {
       </Slider>
       <div className='flex justify-center my-0 mt-2'>
         <img
-          className='w-6 mr-24 cursor-pointer z-50'
+          className='w-6 mr-24 cursor-pointer z-50 '
           onClick={() => slider?.current?.slickPrev()}
           src='/arrow-left.png'
           alt='arrow-left'
