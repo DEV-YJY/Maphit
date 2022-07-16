@@ -154,39 +154,43 @@ function ImageUpload() {
 
   return (
     <div className='mx-auto mt-3 w-11/12'>
-      <Link to='/'>Back to Gallery</Link>
+      <div className='flex justify-between'>
+        <Link className='ml-5' to='/'>
+          Back to Gallery
+        </Link>
+        <div>
+          <button onClick={() => dispatch(handleAlbumDelete(albumId))}>
+            <img className='w-5 mr-5' src='/delete.png' alt='rubbish-bin' />
+          </button>
+        </div>
+      </div>
       <div className='flex justify-around mt-3'>
         {Object.keys(albumDetail).length !== 0 && (
-          <div className='flex flex-col items-center'>
-            <h3>{albumDetail.name}</h3>
-            <h3>{albumDetail.place.placeName}</h3>
-            <h3>{albumDetail.description}</h3>
+          <div className='flex flex-col items-center mb-2'>
+            <h3>Name: {albumDetail.name}</h3>
+            <h3>Place: {albumDetail.place.placeName}</h3>
+            <h3>Description: {albumDetail.description}</h3>
           </div>
         )}
-        <div>
+      </div>
+
+      <div>
+        <div className='flex justify-around mb-2'>
+          <Dropzone onDrop={dropImage}>
+            {({ getRootProps, getInputProps }) => (
+              <div className='flex justify-center'>
+                <div {...getRootProps()}>
+                  <input {...getInputProps()} />
+                  <img className='cursor-pointer' src='/add-image.png' alt='add-img' />
+                </div>
+              </div>
+            )}
+          </Dropzone>
           <Link to={`/upload/${albumId}/map`}>
             <img src='/map.png' alt='map' />
           </Link>
         </div>
-        <div>
-          <button onClick={() => dispatch(handleAlbumDelete(albumId))}>
-            <img className='w-5' src='/delete.png' alt='rubbish-bin' />
-          </button>
-        </div>
-      </div>
 
-      <div>
-        <Dropzone onDrop={dropImage}>
-          {({ getRootProps, getInputProps }) => (
-            <div className='flex justify-center'>
-              <div {...getRootProps()}>
-                <input {...getInputProps()} />
-
-                <img className='cursor-pointer' src='/add-image.png' alt='add-img' />
-              </div>
-            </div>
-          )}
-        </Dropzone>
         <div className='text-center'>
           {Object.keys(albumDetail).length !== 0 && checkImageWithoutGps()}
         </div>
@@ -231,10 +235,10 @@ function ImageUpload() {
             albumDetail?.imageCloudData.map((image, idx) => {
               return (
                 <>
-                  <div className='break-inside-avoid shadow-2xl rounded-lg' key={idx}>
-                    <div className='bg-black rounded-lg relative'>
+                  <div className='break-inside-avoid shadow-2xl rounded-xl' key={idx}>
+                    <div className='bg-black rounded-t-xl relative'>
                       <img
-                        className='rounded-lg w-full object-contain hover:opacity-70 cursor-pointer duration-300 transition ease-in'
+                        className='rounded-t-xl w-full object-contain hover:opacity-70 cursor-pointer duration-300 transition ease-in'
                         onClick={() => enlargeImg(image.url, image, idx)}
                         alt={image.imageId}
                         src={image.url}

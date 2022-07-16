@@ -201,7 +201,7 @@ export default function Map() {
 
   return (
     <div className='flex flex-col mx-auto justify-center lg:w-11/12 md:w-11/12 mt-3'>
-      <div className='flex justify-center'>
+      <div className='flex justify-center mb-3'>
         <Link className='flex mr-5' to={`/`}>
           <img className='w-6' src='/arrow-left.png' alt='arrow-left' />
           <p>To Gallery</p>
@@ -215,7 +215,7 @@ export default function Map() {
       <Slider ref={slider} {...settings}>
         {topImageDisplay}
       </Slider>
-      <div className='flex justify-center my-0'>
+      <div className='flex justify-center my-0 mt-2'>
         <img
           className='w-6 mr-24 cursor-pointer z-50'
           onClick={() => slider?.current?.slickPrev()}
