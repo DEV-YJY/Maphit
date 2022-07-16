@@ -106,7 +106,6 @@ router.get('/:albumId', (req, res) => {
 
 ///////////////// CLOUDINARY IMAGE UPLOAD TRIAL
 router.put('/upload/:albumId', upload.array('image'), async (req, res) => {
-  console.log('!!!!!!!!made it')
   try {
     const albumId = req.params.albumId
     let imageFiles = req.files

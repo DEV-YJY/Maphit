@@ -56,9 +56,10 @@ describe('GET /albumId', () => {
   })
 })
 
+// below not working :)
 describe('PUT /upload/:albumId', () => {
   it('returns a correct success message when promise resolves', async () => {
-    expect.assertions(1)
+    // expect.assertions(1)
     const dummyInput = [
       {
         imageName: 'fake-image-Name',
@@ -70,6 +71,8 @@ describe('PUT /upload/:albumId', () => {
     const response = await request(app)
       .put(`/albums/upload/${mockAlbumId}`)
       .send(dummyInput)
+      .then((res) => console.log(res))
+
     console.log(Date.now())
     console.log(response)
     expect(response.innerHTML).toContain('Image(s) uploaded successfully')

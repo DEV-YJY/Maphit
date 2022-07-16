@@ -30,5 +30,3 @@ module.exports = multer({
     cb(null, true)
   },
 })
-
-// for cloudinary??
