@@ -3,10 +3,8 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import DeleteDialog from './DeleteDialog'
 import {
-  uploadImage,
   removeImage,
   fetchAlbumDetail,
-  uploadGeoData,
   deleteAlbum,
   uploadImageWithGeoData,
 } from '../redux/actions/album'
@@ -116,13 +114,14 @@ function ImageUpload() {
     if (imageHasGps.length === 1) {
       return (
         <p className='text-red-600 text-xs'>
-          Image {imageHasGps} is missing GPS. Please upload only image(s) with GPS.
+          Image {imageHasGps} is missing GPS. <br /> Please upload only image(s) with GPS.
         </p>
       )
     } else if (imageHasGps.length > 1) {
       return (
         <p className='text-red-600 text-xs'>
-          Images {imageHasGps} are missing GPS. Please upload only image(s) with GPS.
+          Images {imageHasGps} are missing GPS. <br /> Please upload only image(s) with
+          GPS.
         </p>
       )
     }
@@ -165,7 +164,9 @@ function ImageUpload() {
           </div>
         )}
         <div>
-          <Link to={`/upload/${albumId}/map`}>Map it</Link>
+          <Link to={`/upload/${albumId}/map`}>
+            <img src='/map.png' alt='map' />
+          </Link>
         </div>
         <div>
           <button onClick={() => dispatch(handleAlbumDelete(albumId))}>
