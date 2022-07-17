@@ -66,7 +66,7 @@ function Gallery() {
           albumList.map((album, idx) => (
             <div
               onClick={() => handleDirectToAlbum(album._id)}
-              className='bg-black relative flex flex-wrap items-center cursor-pointer mx-7 my-7 justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group'
+              className='bg-black border relative flex flex-wrap items-center cursor-pointer mx-7 my-7 justify-center m-3 overflow-hidden shadow-xl w-60 h-60 rounded-2xl group'
             >
               {album.imageCloudData.length > 0 ? (
                 // <Link to={`/upload/${album._id}`}>
@@ -94,7 +94,7 @@ function Gallery() {
               ) : (
                 // </Link>
                 <>
-                  <div className='bg-white px-6 py-2 rounded-2xl flex flex-col items-center'>
+                  <div className='bg-white text-black px-6 py-2 rounded-2xl flex flex-col items-center'>
                     <img
                       className='mt-10 w-8 text-center'
                       src='/empty.png'

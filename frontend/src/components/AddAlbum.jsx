@@ -82,9 +82,11 @@ function AddAlbum(props) {
   }, [coordinates])
 
   return (
-    <>
-      <Link to='/'>Back to Gallery</Link>
-      <form className='px-4 my-32 max-w-3xl mx-auto space-y-6'>
+    <div className='pt-3'>
+      <Link className='ml-10' to='/'>
+        Back to Gallery
+      </Link>
+      <form className='px-4 my-28 max-w-3xl mx-auto space-y-6'>
         <h2 className='text-3xl font-semibold'>Album Detail</h2>
         <div className='flex space-x-4'>
           <div className='w-1/2'>
@@ -157,7 +159,7 @@ function AddAlbum(props) {
           </button>
         </div>
       </form>
-    </>
+    </div>
   )
 }
 

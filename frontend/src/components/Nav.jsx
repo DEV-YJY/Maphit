@@ -4,12 +4,12 @@ import useDarkMode from '../hook/useDarkMode'
 function Nav() {
   const [colourTheme, setTheme] = useDarkMode()
   return (
-    <div className='fixed top-0 right-0 bg-blue-400'>
+    <div className='fixed top-2 right-1 '>
       <span>
         {colourTheme === 'light' ? (
-          <p onClick={() => setTheme(colourTheme)}>Light</p>
+          <img onClick={() => setTheme(colourTheme)} src='/sun.png' alt='sun' />
         ) : (
-          <p onClick={() => setTheme(colourTheme)}>Dark</p>
+          <img onClick={() => setTheme(colourTheme)} src='/moon.png' alt='moon' />
         )}
       </span>
     </div>
