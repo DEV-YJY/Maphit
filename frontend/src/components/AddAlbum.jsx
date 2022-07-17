@@ -82,17 +82,17 @@ function AddAlbum(props) {
   }, [coordinates])
 
   return (
-    <div className='pt-3'>
-      <Link className='ml-10' to='/'>
+    <div className='pt-3 mx-10 h-screen'>
+      <Link className='ml-5 flex flex-wrap' to='/'>
         Back to Gallery
       </Link>
-      <form className='px-4 my-28 max-w-3xl mx-auto space-y-6'>
+      <form className='px-4 my-20 max-w-3xl mx-auto space-y-6'>
         <h2 className='text-3xl font-semibold'>Album Detail</h2>
         <div className='flex space-x-4'>
           <div className='w-1/2'>
             <label>Name </label>
             <input
-              className='border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
+              className='text-black border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
               type='text'
               // NAME needs to be matched with Schema name
               name='name'
@@ -104,7 +104,7 @@ function AddAlbum(props) {
           <div className='w-1/2'>
             <label>Description</label>
             <input
-              className='border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
+              className='text-black border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
               name='description'
               placeholder='Enter description'
               onChange={handleInputChange}
@@ -118,7 +118,7 @@ function AddAlbum(props) {
             <div>
               <label>Name of the Country or the City visited</label>
               <input
-                className='border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
+                className='text-black border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
                 name='placeVisited'
                 {...getInputProps({
                   placeholder: 'Enter the Country/City visited here ...',
@@ -142,7 +142,7 @@ function AddAlbum(props) {
                         style,
                       })}
                     >
-                      <span>{suggestion.description}</span>
+                      <span className='text-black'>{suggestion.description}</span>
                     </div>
                   )
                 })}
@@ -150,7 +150,7 @@ function AddAlbum(props) {
             </div>
           )}
         </PlacesAutocomplete>
-        <div className='flex justify-center'>
+        <div className='flex justify-center pb-42'>
           <button
             className='rounded uppercase font-bold tracking-wider bg-teal-600 px-4 py-2 text-white'
             onClick={handleSubmit}

@@ -10,7 +10,7 @@ import Nav from './components/Nav'
 
 function App() {
   return (
-    <div className='text-black dark:text-darkModeTxt dark:bg-darkModeBg transition duration-500'>
+    <div className='text-black bg-gray-100 dark:text-darkModeTxt dark:bg-darkModeBg transition duration-700'>
       <Nav />
       <ToastContainer />
       <div>
