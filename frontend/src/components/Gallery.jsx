@@ -2,9 +2,15 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAlbums } from '../redux/actions/album'
 import { Link, useNavigate } from 'react-router-dom'
+import useDarkMode from '../hook/useDarkMode'
+
 import VisibilitySensor from 'react-visibility-sensor'
+import Nav from './Nav'
 
 function Gallery() {
+  const [colourTheme, setTheme] = useDarkMode()
+  console.log(colourTheme)
+
   const dispatch = useDispatch()
   const navigate = useNavigate()
   // console.log('fetchAlbum in gallery: ', fetchAlbums())
@@ -41,8 +47,16 @@ function Gallery() {
   return (
     <>
       <div className='flex justify-center pt-3'>
+        {/* {colourTheme === 'light' ? (
         <Link to='/add'>
           <img src='/add.png' alt='add-icon' />
+        </Link> ) : (
+        <Link to='/add'>
+        <img src='/add.png' alt='add-icon' />
+      </Link>  
+        )} */}
+        <Link to='/add'>
+          <img className='w-12' src='/add-album.png' alt='add-icon' />
         </Link>
       </div>
       {/* sm:columns-2 md:columns-3 lg:columns-4 */}
@@ -80,7 +94,7 @@ function Gallery() {
               ) : (
                 // </Link>
                 <>
-                  <div className='bg-white px-5 py-1 rounded-2xl flex flex-col items-center'>
+                  <div className='bg-white px-6 py-2 rounded-2xl flex flex-col items-center'>
                     <img
                       className='mt-10 w-8 text-center'
                       src='/empty.png'

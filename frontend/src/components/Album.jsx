@@ -153,14 +153,14 @@ function ImageUpload() {
   }
 
   return (
-    <div className='mx-auto mt-3 w-11/12'>
+    <div className='mx-auto pt-3 w-11/12'>
       <div className='flex justify-between'>
         <Link className='ml-5' to='/'>
           Back to Gallery
         </Link>
         <div>
           <button onClick={() => dispatch(handleAlbumDelete(albumId))}>
-            <img className='w-5 mr-5' src='/delete.png' alt='rubbish-bin' />
+            <img className='w-8 mr-8' src='/delete-colour.png' alt='rubbish-bin' />
           </button>
         </div>
       </div>
@@ -181,7 +181,11 @@ function ImageUpload() {
               <div className='flex justify-center'>
                 <div {...getRootProps()}>
                   <input {...getInputProps()} />
-                  <img className='cursor-pointer' src='/add-image.png' alt='add-img' />
+                  <img
+                    className='cursor-pointer w-10 h-10'
+                    src='/add-image.png'
+                    alt='add-img'
+                  />
                 </div>
               </div>
             )}
@@ -244,7 +248,9 @@ function ImageUpload() {
                         src={image.url}
                       />
                     </div>
-                    <p className='text-center bg-white rounded-b-xl'>{idx + 1}</p>
+                    <p className='text-center bg-white rounded-b-xl text-black'>
+                      {idx + 1}
+                    </p>
                     {/* -mt-5 to remove white space? */}
 
                     {/* max-w-full h-4 mt-[6px] mr-[8px] cursor-pointer relative bottom-6 left-[7.5rem] text-white white opacity-100 group-hover:opacity-100 */}

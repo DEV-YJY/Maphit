@@ -200,7 +200,7 @@ export default function Map() {
   }
 
   return (
-    <div className='flex flex-col mx-auto justify-center lg:w-11/12 md:w-11/12 mt-3'>
+    <div className='flex flex-col mx-auto justify-center lg:w-11/12 md:w-11/12 pt-3'>
       <div className='flex justify-center mb-3'>
         <Link className='flex mr-5' to={`/`}>
           <img className='w-6' src='/arrow-left.png' alt='arrow-left' />
