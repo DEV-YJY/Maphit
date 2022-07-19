@@ -9,7 +9,7 @@ function Nav() {
       <Link className='ml-5' to='/'>
         To Gallery
       </Link>
-      <div className='mr-5'>
+      <div className='mr-2'>
         {colourTheme === 'light' ? (
           <button className='' onClick={() => setTheme(colourTheme)}>
             <div className='w-6 h-6 md:w-7 md:h-7 relative rounded-full transition duration-500 transform bg-yellow-400 -translate-x-2 p-1 '>

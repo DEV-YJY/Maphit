@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchAlbumDetail } from '../redux/actions/album'
+import useDarkMode from '../hook/useDarkMode'
 
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
@@ -29,6 +30,7 @@ export default function Map() {
   let params = useParams()
   const albumId = params.albumId
   const slider = useRef(null)
+  const [colourTheme, setTheme] = useDarkMode()
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
@@ -202,17 +204,49 @@ export default function Map() {
 
   return (
     <div className='flex flex-col mx-auto lg:w-11/12 md:w-11/12 pt-3'>
-      <div className='flex justify-center mb-3'>
-        <Nav />
-        {/* <Link className='flex mr-5' to={`/`}>
+      <div className='flex justify-between mb-2 mx-auto w-full'>
+        <div className='flex justify-start items-center w-full'>
+          <Link className='ml-3 mr-2' to='/'>
+            Gallery
+          </Link>
+          {colourTheme === 'light' ? (
+            <img
+              className='w-5 h-5 transition duration-1000 transform'
+              src='/slash-white.png'
+              alt='white-slash'
+            />
+          ) : (
+            <img
+              className='w-5 h-5 transition duration-1000 transform'
+              src='/slash.png'
+              alt='black-slash'
+            />
+          )}
+          <Link className='ml-1' to={`/upload/${albumId}`}>
+            <p>Album</p>
+          </Link>
+        </div>
+        <div className='ml-2 mr-2'>
+          {colourTheme === 'light' ? (
+            <button className='' onClick={() => setTheme(colourTheme)}>
+              <div className='w-6 h-6 md:w-7 md:h-7 relative rounded-full transition duration-500 transform bg-yellow-400 -translate-x-2 p-1 '>
+                <img src='/sun.png' alt='sun' />
+              </div>
+            </button>
+          ) : (
+            <button className='' onClick={() => setTheme(colourTheme)}>
+              <div className='w-6 h-6 md:w-7 md:h-7 relative rounded-full transition duration-500 transform bg-gray-400 -translate-x-2 p-1 '>
+                <img src='/moon.png' alt='moon' />
+              </div>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* <Link className='flex mr-5' to={`/`}>
           <img className='w-6' src='/arrow-left.png' alt='arrow-left' />
           <p>To Gallery</p>
         </Link> */}
-        <Link className='flex ml-5' to={`/upload/${albumId}`}>
-          <p>To Album</p>
-          <img className='w-6' src='/arrow-right.png' alt='arrow-right' />
-        </Link>
-      </div>
 
       <Slider ref={slider} {...settings}>
         {topImageDisplay}

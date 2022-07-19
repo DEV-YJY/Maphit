@@ -35,7 +35,7 @@ function Gallery() {
   // console.log(albumList)
   return (
     <>
-      <div className='fixed top-3 right-8'>
+      <div className='fixed top-3 right-9'>
         {colourTheme === 'light' ? (
           <div
             className='w-6 h-6 md:w-7 md:h-7 relative rounded-full transition duration-500 transform bg-yellow-400 -translate-x-2 p-1'
