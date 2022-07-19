@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { Routes, Route } from 'react-router-dom'
 import Nav from './components/Nav'
+import Footer from './components/Footer'
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path='/upload/:albumId' element={<Album />} />
           <Route path='/upload/:albumId/map' element={<Map />} />
         </Routes>
+        <Footer />
       </div>
     </div>
   )
