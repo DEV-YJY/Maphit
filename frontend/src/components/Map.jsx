@@ -17,6 +17,7 @@ import {
   MarkerClusterer,
   InfoWindow,
 } from '@react-google-maps/api'
+import Nav from './Nav'
 
 const containerStyle = {
   width: '100%',
@@ -200,12 +201,13 @@ export default function Map() {
   }
 
   return (
-    <div className='flex flex-col mx-auto justify-center lg:w-11/12 md:w-11/12 pt-3'>
+    <div className='flex flex-col mx-auto lg:w-11/12 md:w-11/12 pt-3'>
       <div className='flex justify-center mb-3'>
-        <Link className='flex mr-5' to={`/`}>
+        <Nav />
+        {/* <Link className='flex mr-5' to={`/`}>
           <img className='w-6' src='/arrow-left.png' alt='arrow-left' />
           <p>To Gallery</p>
-        </Link>
+        </Link> */}
         <Link className='flex ml-5' to={`/upload/${albumId}`}>
           <p>To Album</p>
           <img className='w-6' src='/arrow-right.png' alt='arrow-right' />

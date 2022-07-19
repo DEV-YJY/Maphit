@@ -11,7 +11,7 @@ import Nav from './components/Nav'
 function App() {
   return (
     <div className='text-black bg-gray-100 dark:text-darkModeTxt dark:bg-darkModeBg transition duration-700'>
-      <Nav />
+      {/* <Nav /> */}
       <ToastContainer />
       <div>
         {/* // isAuthenticated ? render below otherwise : render /auth */}

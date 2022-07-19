@@ -10,6 +10,7 @@ import {
 } from '../redux/actions/album'
 import { toast } from 'react-toastify'
 import Dropzone from 'react-dropzone'
+import Nav from './Nav'
 
 function ImageUpload() {
   const [modal, setModal] = useState(false)
@@ -154,24 +155,24 @@ function ImageUpload() {
 
   return (
     <div className='mx-auto pt-3 w-11/12'>
-      <div className='flex justify-between'>
-        <Link className='ml-5' to='/'>
-          Back to Gallery
-        </Link>
-        <div>
-          <button onClick={() => dispatch(handleAlbumDelete(albumId))}>
-            <img className='w-8 mr-8' src='/delete-colour.png' alt='rubbish-bin' />
-          </button>
+      <Nav />
+      <div className='flex flex-col items-center justify-around mt-3'>
+        <div className='flex flex-col  items-center mb-2'>
+          <img
+            className='w-8  cursor-pointer'
+            onClick={() => dispatch(handleAlbumDelete(albumId))}
+            src='/delete-colour.png'
+            alt='rubbish-bin'
+          />
+
+          {Object.keys(albumDetail).length !== 0 && (
+            <>
+              <h3>Name: {albumDetail.name}</h3>
+              <h3>Place: {albumDetail.place.placeName}</h3>
+              <h3>Description: {albumDetail.description}</h3>
+            </>
+          )}
         </div>
-      </div>
-      <div className='flex justify-around mt-3'>
-        {Object.keys(albumDetail).length !== 0 && (
-          <div className='flex flex-col items-center mb-2'>
-            <h3>Name: {albumDetail.name}</h3>
-            <h3>Place: {albumDetail.place.placeName}</h3>
-            <h3>Description: {albumDetail.description}</h3>
-          </div>
-        )}
       </div>
 
       <div>

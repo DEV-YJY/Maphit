@@ -5,6 +5,7 @@ import { addAlbum } from '../redux/actions/album'
 import PlacesAutocomplete from 'react-places-autocomplete'
 
 import { geocodeByAddress, geocodeByPlaceId, getLatLng } from 'react-places-autocomplete'
+import Nav from './Nav'
 function AddAlbum(props) {
   // console.log(props)
   const [formErrors, setFormErros] = useState({})
@@ -83,9 +84,7 @@ function AddAlbum(props) {
 
   return (
     <div className='pt-3 mx-10 h-screen'>
-      <Link className='ml-5 flex flex-wrap' to='/'>
-        Back to Gallery
-      </Link>
+      <Nav />
       <form className='px-4 my-20 max-w-3xl mx-auto space-y-6'>
         <h2 className='text-3xl font-semibold'>Album Detail</h2>
         <div className='flex space-x-4'>
