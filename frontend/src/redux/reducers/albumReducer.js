@@ -11,28 +11,27 @@ import {
 // INITIAL STATE
 export const initialState = {
   albumList: [],
-  albumDetail: {
-    geolocation: [],
-    images: [],
-    place: {},
-  },
+  albumDetail: {},
 }
 
 // REDUCER
 const albumReducer = (state = initialState, action) => {
+  // console.log('state', state)
+  // console.log('action', action)
+  // console.log('result', {
+  //   ...state,
+  //   albumDetail: action.payload,
+  // })
   switch (action.type) {
     case FETCH_ALBUMS:
       return {
         ...state,
-        albumList: [...action.payload.result],
-        // albumDetail: {
-        //   ...action.payload.result,
-        // },
+        albumList: action.payload,
       }
     case FETCH_ALBUM_DETAIL:
       return {
         ...state,
-        albumDetail: action.payload.result,
+        albumDetail: action.payload,
       }
     case UPLOAD_IMAGE:
       return {
@@ -44,7 +43,7 @@ const albumReducer = (state = initialState, action) => {
         ...state,
         albumDetail: {
           ...state.albumDetail,
-          images: action.payload.res,
+          // images: action.payload.res,
           geolocation: action.payload.resGeoData,
           place: action.payload.resGeoPlace,
         },
@@ -54,18 +53,7 @@ const albumReducer = (state = initialState, action) => {
         ...state,
         albumDetail: action.payload.result,
       }
-    // something is not right here
-    // case UPLOAD_GEODATA:
-    //   return {
-    //     ...state,
-    //     albumDetail: {
-    //       ...state.albumDetail,
-    //       geolocation: action.payload,
-    //     },
-    // imageGeoData: action.payload.result,
-    // }
     default:
-      // console.log('albumReducer: ', state)
       return state
   }
 }

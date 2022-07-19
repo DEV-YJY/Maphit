@@ -2,11 +2,16 @@
 const Album = require('../models/album')
 const router = require('express').Router()
 // 6
-const upload = require('../middleware/multer')
+
+// bottom two will need to be switched //
+
+// const upload = require('../middleware/multer')
+const upload = require('../utils/multer')
 const fs = require('fs')
 const cloudinary = require('../utils/cloudinary')
 const path = require('path')
 const exifr = require('exifr')
+const { userInfo } = require('os')
 
 // create a new Post: object.save()
 // find a Post by id: findById(id)
@@ -30,6 +35,7 @@ router.post('/add', async (req, res) => {
     const newAlbum = new Album(req.body)
     await newAlbum.save((err, data) => {
       // console.log('new album:', newAlbum)
+      // console.log('this is data: ', data)
       res.json({
         status: 200,
         message: 'Album added successfully',
@@ -41,20 +47,18 @@ router.post('/add', async (req, res) => {
   }
 })
 
+// if want to revert delete album -> get it from github
 // DELETE Album
 router.delete('/delete/:albumId', async (req, res) => {
   try {
     const albumId = req.params.albumId
 
+    // let album = await Album.findById(req.params.albumId)
+    // await cloudinary.uploader.destroy(idToDelete)
+
     Album.findByIdAndRemove(albumId).exec((err, data) => {
-      const relativePath = path.join(__dirname, '../uploads/')
-
-      data.images.map((i) => {
-        let filePath = relativePath + i
-        console.log(filePath)
-        fs.unlinkSync(filePath)
-      })
-
+      // console.log(data)
+      cloudinary.api.delete_resources(data.imageCloudData.map((id) => id.cloudinaryId))
       res.json({
         status: 200,
         message: 'Album removed successfully',
@@ -81,7 +85,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-// GET albumById
+// GET albumById // fetchAlbumDetail
 router.get('/:albumId', (req, res) => {
   const albumId = req.params.albumId
   Album.findById(albumId).exec((err, albums) => {
@@ -100,89 +104,97 @@ router.get('/:albumId', (req, res) => {
   })
 })
 
-// UPLOAD image to a specific album
-router.put('/upload/:albumId', upload.array('image', 5), (req, res) => {
+///////////////// CLOUDINARY IMAGE UPLOAD TRIAL
+router.put('/upload/:albumId', upload.array('image'), async (req, res) => {
   try {
     const albumId = req.params.albumId
-    // console.log(req.params)
-    // console.log('req.files: ', req.files)
-    const images = []
-    const inputFiles = req.files
+    let imageFiles = req.files
 
-    // add filename to images array
-    inputFiles.map((file) => images.push(file.filename))
-
-    Album.findOneAndUpdate(
-      {
-        _id: albumId,
-      },
-      {
-        $push: { images: images },
-      },
-      {
-        new: true,
-      }
-    ).exec((err, data) => {
-      if (images.length === 0) {
-        res.status(500).send('No images added')
-        return
-      }
-      return res.json({
-        status: 200,
-        message: 'Upload image(s) successfully',
-        result: data,
+    let realResult = await Promise.all(
+      imageFiles.map(async (image) => {
+        let cloudRes = await cloudinary.uploader.upload(image.path)
+        // below depends on the res returned from the above
+        let accData = await Album.findOneAndUpdate(
+          {
+            _id: albumId,
+          },
+          {
+            $push: {
+              imageCloudData: [
+                {
+                  imageName:
+                    cloudRes.original_filename +
+                    '-' +
+                    cloudRes.public_id +
+                    '-' +
+                    cloudRes.url,
+                  cloudinaryId: cloudRes.public_id,
+                  url: cloudRes.url,
+                },
+              ],
+            },
+          },
+          {
+            new: true,
+          }
+        )
+        return accData
       })
+    )
+    return res.json({
+      status: 200,
+      message: 'Image(s) uploaded successfully',
+      result: realResult[0],
     })
   } catch (err) {
-    console.log(err)
-    res.status(500).send('Server error')
+    // console.log('i am a catch error: ', err)
+    return res.sendStatus(500).send('Server error, fail to remove image')
   }
 })
 
-////////////////////////////////////
-//////////////////////// Adding lat & lng
-////////////////////////////////////
+///////////////////////////////// CLOUDINARY IMAGE GEODATA EXTRACTION TRIAL
 router.put('/geoUpdate/:albumId', async (req, res) => {
   try {
     const albumId = req.params.albumId
-    let rawImgArr
-    let imgArr
     let imgData = []
 
     Album.findById(albumId).exec((err, album) => {
-      rawImgArr = album.images
-      imgArr = rawImgArr.map((imgName) => `uploads/${imgName}`)
-      // console.log(imgArr)
+      const imageUrl = album.imageCloudData
+      console.log('iam url: ', imageUrl)
 
       async function getGps(filePath) {
         let result = await exifr.gps(filePath)
-        let newData = {
-          imageId: filePath.slice(8),
-          lat: result.latitude,
-          lng: result.longitude,
+        let newData
+        if (result) {
+          newData = {
+            imageId: filePath,
+            lat: result.latitude,
+            lng: result.longitude,
+          }
+        } else if (result === undefined) {
+          newData = {
+            imageId: filePath /* + '-' + 'noGps' */,
+            lat: 1010101,
+            lng: 1010101,
+          }
         }
+        // return error message when no geo?
+
         console.log('1 inside newData: ', newData)
-        // imgData.push(newData)
         console.log('2 inside imgdata: ', imgData)
         return newData
       }
 
-      // console.log('outside imgdata: ', imgData)
       Promise.all(
-        imgArr.map((img) => {
-          console.log('log me')
-          return getGps(img)
+        imageUrl.map((img) => {
+          // console.log('log me')
+          return getGps(img.url)
         })
       ).then((geoData) => {
         console.log('3 Outside geodata: ', geoData)
         let finalData = geoData
 
         console.log('4 final data: ', finalData)
-        // let dummy = {
-        //   imageId: '1656236899754-IMG_1405.JPG',
-        //   lat: -44.87338888888889,
-        //   lng: 168.94946388888889,
-        // }
 
         Album.findOneAndUpdate(
           {
@@ -195,67 +207,232 @@ router.put('/geoUpdate/:albumId', async (req, res) => {
           },
           {
             new: true,
-          }
+          } /* ,
+          function (err, data) {
+            if (err) {
+              return res.json({
+                status: 500,
+                message: 'Server error, fail to remove image',
+                result: err,
+              })
+            }
+            return res.json({
+              status: 200,
+              message: 'Image removed successfully',
+              result: data,
+            })
+          } */
         ).exec((err, data) => {
           return res.json({
             status: true,
-            message: 'Upload image geo-data successfully',
+            message: 'Upload image with geolocation successfully',
             result: data,
           })
         })
       })
     })
   } catch (err) {
-    console.log(err)
-    res.send(err)
+    // console.log(err)
+    res.status(500).send(err)
   }
 })
 
+//////////////////////////////////////////////
+
+////////////////////////////////////
+//////////////////////// Adding lat & lng
+////////////////////////////////////
+// router.put('/geoUpdate/:albumId', async (req, res) => {
+//   try {
+//     const albumId = req.params.albumId
+//     let rawImgArr
+//     let imgArr
+//     let imgData = []
+
+//     Album.findById(albumId).exec((err, album) => {
+//       rawImgArr = album.images
+//       console.log('this is rawImgarr: ', rawImgArr)
+//       imgArr = rawImgArr.map((imgName) => `uploads/${imgName}`)
+//       // console.log(imgArr)
+
+//       async function getGps(filePath) {
+//         let result = await exifr.gps(filePath)
+//         let newData
+//         if (result) {
+//           newData = {
+//             imageId: filePath.slice(8),
+//             lat: result.latitude,
+//             lng: result.longitude,
+//           }
+//         } else if (result === undefined) {
+//           newData = {
+//             imageId: filePath.slice(8),
+//             lat: 1010101,
+//             lng: 1010101,
+//           }
+//         }
+
+//         console.log('1 inside newData: ', newData)
+//         // imgData.push(newData)
+//         console.log('2 inside imgdata: ', imgData)
+//         return newData
+//       }
+
+//       // console.log('outside imgdata: ', imgData)
+//       Promise.all(
+//         imgArr.map((img) => {
+//           console.log('log me')
+//           return getGps(img)
+//         })
+//       ).then((geoData) => {
+//         console.log('3 Outside geodata: ', geoData)
+//         let finalData = geoData
+
+//         console.log('4 final data: ', finalData)
+//         // let dummy = {
+//         //   imageId: '1656236899754-IMG_1405.JPG',
+//         //   lat: -44.87338888888889,
+//         //   lng: 168.94946388888889,
+//         // }
+
+//         Album.findOneAndUpdate(
+//           {
+//             _id: albumId,
+//           },
+//           {
+//             // addToSet adds the object to array when the obj is not present in the array
+//             // set replaces the whole array
+//             $set: { geolocation: finalData },
+//           },
+//           {
+//             new: true,
+//           }
+//         ).exec((err, data) => {
+//           return res.json({
+//             status: true,
+//             message: 'Upload image with geolocation successfully',
+//             result: data,
+//           })
+//         })
+//       })
+//     })
+//   } catch (err) {
+//     console.log(err)
+//     res.status(500).send(err)
+//   }
+// })
+
+///////////////////// cloudinary delete image trial
+router.put('/removeImage/:albumId', async (req, res) => {
+  try {
+    const albumId = req.params.albumId
+    console.log('albumID: ', albumId)
+    const imageName = req.body.fileName
+    const idToDelete = req.body.fileName.split('-')[1]
+    const urlToDelete = req.body.fileName.split('-')[2]
+
+    // console.log('to delete1: ', imageName)
+    // console.log('to delete2: ', idToDelete)
+    // console.log('to delete3: ', urlToDelete)
+
+    await cloudinary.uploader.destroy(idToDelete)
+
+    Album.findOneAndUpdate(
+      {
+        _id: albumId,
+      },
+      {
+        // pull to remove image by filename
+        $pull: {
+          geolocation: {
+            imageId: urlToDelete,
+          },
+          imageCloudData: {
+            imageName: imageName,
+            cloudinaryId: idToDelete,
+            url: urlToDelete,
+          },
+        },
+      },
+      {
+        new: true,
+      },
+
+      function (err, data) {
+        if (err) {
+          return res.json({
+            status: 500,
+            message: 'Server error, fail to remove an image',
+            result: err,
+          })
+        }
+        console.log(data)
+        return res.json({
+          status: 200,
+          message: 'Image removed successfully',
+          result: data,
+        })
+      }
+    )
+  } catch (err) {
+    res.status(500).send(err)
+  }
+})
+
+///////////////////////////////
 /////////////////////////////////////////////////////////////////////
 //
 //
 // DELETE image
-router.put('/removeImage/:albumId', async (req, res) => {
-  const albumId = req.params.albumId
-  const fileName = req.body.fileName
+// router.put('/removeImage/:albumId', async (req, res) => {
+//   const albumId = req.params.albumId
+//   const fileName = req.body.fileName
 
-  Album.findOneAndUpdate(
-    {
-      _id: albumId,
-    },
-    {
-      // pull to remove image by filename
-      $pull: { images: fileName },
-    },
-    {
-      new: true,
-    },
+//   Album.findOneAndUpdate(
+//     {
+//       _id: albumId,
+//     },
+//     {
+//       // pull to remove image by filename
 
-    function (err, data) {
-      if (err) {
-        return res.json({
-          status: 200,
-          message: 'Server error, fail to remove image',
-          result: err,
-        })
-      }
-      // remove from the local folder as well
-      const relativePath = path.join(__dirname, '../uploads/')
-      // console.log('this is relative path: ', relativePath)
-      const filePath = relativePath + fileName
-      // console.log('this is filepath: ', filePath)
-      fs.unlinkSync(filePath)
-      // fs.unlinkSync(
-      //   '/home/devyj/playground/mern-practice/project-gallery/backend/uploads/1655939149468-image0.jpeg'
-      // )
+//       $pull: {
+//         images: fileName,
+//         geolocation: {
+//           imageId: fileName,
+//           lat: 1010101,
+//           lng: 1010101,
+//         },
+//       },
+//     },
+//     {
+//       new: true,
+//     },
 
-      return res.json({
-        status: 500,
-        message: 'Image removed successfully',
-        result: data,
-      })
-    }
-  )
-})
+//     function (err, data) {
+//       if (err) {
+//         return res.json({
+//           status: 500,
+//           message: 'Server error, fail to remove image',
+//           result: err,
+//         })
+//       }
+//       // remove from the local folder as well
+//       const relativePath = path.join(__dirname, '../uploads/')
+//       // console.log('this is relative path: ', relativePath)
+//       const filePath = relativePath + fileName
+//       // console.log('this is filepath: ', filePath)
+//       fs.unlinkSync(filePath)
+//       // fs.unlinkSync(
+//       //   '/home/devyj/playground/mern-practice/project-gallery/backend/uploads/1655939149468-image0.jpeg'
+//       // )
+
+//       return res.json({
+//         status: 200,
+//         message: 'Image removed successfully',
+//         result: data,
+//       })
+//     }
+//   )
+// })
 
 module.exports = router

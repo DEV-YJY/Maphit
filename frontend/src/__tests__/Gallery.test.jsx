@@ -75,10 +75,10 @@ describe('<Gallery />', () => {
     expect(fetchAlbums).toHaveBeenCalled()
   })
 
-  // Test Link
+  // Test Link ---->> broken
   it('routes to a AddAlbum component on click', async () => {
     expect.assertions(2)
-    const history = createMemoryHistory({ initialEntries: ['/albums'] })
+    const history = createMemoryHistory({ initialEntries: ['/'] })
 
     render(
       <Provider store={fakeStore}>
@@ -87,11 +87,10 @@ describe('<Gallery />', () => {
         </Router>
       </Provider>
     )
-
-    const addTripAlbum = screen.getByText('Add Trip Album')
-    // console.log(addTripAlbum)
-    expect(history.location.pathname).toBe('/albums')
-    await fireEvent.click(addTripAlbum)
+    const addTripAlbum = screen.getAllByRole('img')
+    // console.log('this is addTrip: ', addTripAlbum[0])
+    expect(history.location.pathname).toBe('/')
+    await fireEvent.click(addTripAlbum[0])
     expect(history.location.pathname).toBe('/add')
     // check that the content changed to the new page
     // not working
