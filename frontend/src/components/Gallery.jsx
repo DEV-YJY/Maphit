@@ -5,10 +5,10 @@ import { Link, useNavigate } from 'react-router-dom'
 import useDarkMode from '../hook/useDarkMode'
 
 import VisibilitySensor from 'react-visibility-sensor'
-import Nav from './Nav'
 
 function Gallery() {
   const [colourTheme, setTheme] = useDarkMode()
+  const [number, setNumber] = React.useState(0)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -33,6 +33,7 @@ function Gallery() {
   // console.log('albumList:', albumList)
   // console.log('albumList')
   // console.log(albumList)
+
   return (
     <>
       <div className='fixed top-3 right-9'>
