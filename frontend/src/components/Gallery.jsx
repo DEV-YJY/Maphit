@@ -9,11 +9,9 @@ import Nav from './Nav'
 
 function Gallery() {
   const [colourTheme, setTheme] = useDarkMode()
-  console.log(colourTheme)
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  // console.log('fetchAlbum in gallery: ', fetchAlbums())
 
   // useEffect(() => {
   //   setImagesShownArray(Array(albumList.length).fill(false))
@@ -23,15 +21,6 @@ function Gallery() {
     dispatch(fetchAlbums())
     // console.log('useEffet fired')
   }, [])
-
-  // const imagesVisibleChange = (idx, isVisible) => {
-  //   if (isVisible) {
-  //     setImagesShownArray((currentImagesShownArray) => {
-  //       currentImagesShownArray[idx] = true
-  //       return [...currentImagesShownArray]
-  //     })
-  //   }
-  // }
 
   const handleDirectToAlbum = (album) => {
     navigate(`/upload/${album}`)
@@ -46,15 +35,25 @@ function Gallery() {
   // console.log(albumList)
   return (
     <>
-      <div className='flex justify-center pt-3'>
-        {/* {colourTheme === 'light' ? (
-        <Link to='/add'>
-          <img src='/add.png' alt='add-icon' />
-        </Link> ) : (
-        <Link to='/add'>
-        <img src='/add.png' alt='add-icon' />
-      </Link>  
-        )} */}
+      <div className='fixed top-3 right-8'>
+        {colourTheme === 'light' ? (
+          <div
+            className='w-6 h-6 md:w-7 md:h-7 relative rounded-full transition duration-500 transform bg-yellow-400 -translate-x-2 p-1'
+            onClick={() => setTheme(colourTheme)}
+          >
+            <img src='/sun.png' alt='sun' />
+          </div>
+        ) : (
+          <div
+            className='w-6 h-6 md:w-7 md:h-7 relative rounded-full transition duration-500 transform bg-gray-400 -translate-x-2 p-1'
+            onClick={() => setTheme(colourTheme)}
+          >
+            <img src='/moon.png' alt='moon' />
+          </div>
+        )}
+      </div>
+
+      <div className='flex justify-center pt-10'>
         <Link to='/add'>
           <img className='w-12' src='/add-album.png' alt='add-icon' />
         </Link>
