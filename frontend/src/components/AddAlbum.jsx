@@ -83,81 +83,94 @@ function AddAlbum(props) {
   }, [coordinates])
 
   return (
-    <div className='pt-3 mx-10 h-screen'>
+    <div className='pt-3 mx-10 h-screen mb-36'>
       <Nav />
-      <form className='px-4 my-20 max-w-3xl mx-auto space-y-6'>
-        <h2 className='text-3xl font-semibold'>Album Detail</h2>
-        <div className='flex space-x-4'>
-          <div className='w-1/2'>
-            <label>Name </label>
-            <input
-              className='text-black border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
-              type='text'
-              // NAME needs to be matched with Schema name
-              name='name'
-              placeholder='Enter album name'
-              onChange={handleInputChange}
-            />
-            <p className='text-red-600 text-xs'>{formErrors.name}</p>
-          </div>
-          <div className='w-1/2'>
-            <label>Description</label>
-            <input
-              className='text-black border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
-              name='description'
-              placeholder='Enter description'
-              onChange={handleInputChange}
-            />
-            <p className='text-red-600 text-xs'>{formErrors.description}</p>
-          </div>
-        </div>
 
-        <PlacesAutocomplete value={address} onChange={setAddress} onSelect={handleSelect}>
-          {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-            <div>
-              <label>Name of the Country or the City visited</label>
+      <div class='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
+        <div class='bg-white py-8 px-6 shadow rounded-lg sm:px-10 mt-8'>
+          <form className='mb-0 space-y-6'>
+            <h2 className='text-3xl font-semibold text-black'>Album Detail</h2>
+
+            <div className=''>
+              <label className='text-gray-700 font-medium'>Name</label>
               <input
                 className='text-black border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
-                name='placeVisited'
-                {...getInputProps({
-                  placeholder: 'Enter the Country/City visited here ...',
-                })}
+                type='text'
+                // NAME needs to be matched with Schema name
+                name='name'
+                placeholder='Enter album name'
+                onChange={handleInputChange}
               />
-              <p className='text-red-600 text-xs'>{formErrors.placeVisited}</p>
-              <div>
-                {loading && <div>Loading...</div>}
-                {suggestions.map((suggestion) => {
-                  const className = suggestion.active
-                    ? 'suggestion-item--active'
-                    : 'suggestion-item'
-                  // inline style for demonstration purpose
-                  const style = suggestion.active
-                    ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                    : { backgroundColor: '#ffffff', cursor: 'pointer' }
-                  return (
-                    <div
-                      {...getSuggestionItemProps(suggestion, {
-                        className,
-                        style,
-                      })}
-                    >
-                      <span className='text-black'>{suggestion.description}</span>
-                    </div>
-                  )
-                })}
-              </div>
+              <p className='text-red-600 text-xs'>{formErrors.name}</p>
             </div>
-          )}
-        </PlacesAutocomplete>
-        <div className='flex justify-center pb-42'>
-          <button
-            className='rounded uppercase font-bold tracking-wider bg-teal-600 px-4 py-2 text-white'
-            onClick={handleSubmit}
-          >
-            Save
-          </button>
+
+            <div className=''>
+              <label className='text-gray-700 font-medium'>Description</label>
+              <div className='mt-1'>
+                <input
+                  className='text-black border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
+                  name='description'
+                  placeholder='Enter description'
+                  onChange={handleInputChange}
+                />
+              </div>
+              <p className='text-red-600 text-xs'>{formErrors.description}</p>
+            </div>
+
+            <PlacesAutocomplete
+              value={address}
+              onChange={setAddress}
+              onSelect={handleSelect}
+            >
+              {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                <div>
+                  <label className='text-gray-700 font-medium'>
+                    Name of the Country or the City visited
+                  </label>
+                  <input
+                    className='text-black border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
+                    name='placeVisited'
+                    {...getInputProps({
+                      placeholder: 'Enter the Country/City name',
+                    })}
+                  />
+                  <p className='text-red-600 text-xs'>{formErrors.placeVisited}</p>
+                  <div>
+                    {loading && <div>Loading...</div>}
+                    {suggestions.map((suggestion) => {
+                      const className = suggestion.active
+                        ? 'suggestion-item--active'
+                        : 'suggestion-item'
+                      // inline style for demonstration purpose
+                      const style = suggestion.active
+                        ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                        : { backgroundColor: '#ffffff', cursor: 'pointer' }
+                      return (
+                        <div
+                          {...getSuggestionItemProps(suggestion, {
+                            className,
+                            style,
+                          })}
+                        >
+                          <span className='text-black'>{suggestion.description}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+            </PlacesAutocomplete>
+            <div className='flex justify-center pb-42'>
+              <button
+                className='w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
+                onClick={handleSubmit}
+              >
+                Save
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   )
 }
