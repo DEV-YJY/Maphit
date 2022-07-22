@@ -16,7 +16,7 @@ This app was built as my solo-project. It is a travel photo album app that displ
 
 ## Built with
 ### Frontend
-- [ReactJS](https://reactjs.org/] 
+- [ReactJS](https://reactjs.org/)
 
 - App introduction
 - Stacks
