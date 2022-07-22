@@ -14,7 +14,9 @@ This app was built as my solo-project. It is a travel photo album app that displ
 ## Demonstration
 <!-- [Demo the project in production](https://triplanner.netlify.app/) -->
 
-What to include in README?
+## Built with
+### Frontend
+- [ReactJS](https://reactjs.org/] 
 
 - App introduction
 - Stacks
