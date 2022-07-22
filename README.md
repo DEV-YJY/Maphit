@@ -36,8 +36,7 @@ SCREEN SHOTS TO BE ADDED
 - [Multer](https://github.com/expressjs/multer) - Used for uploading the files
 - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Vanilla JavaScript for functionality in both frontend and backend
 
-## Deployment
-This application was deployed usign [Vercel](https://vercel.com)
+
 
 ## Reflection
 This was a solo project that I worked on during the Bootcamp. Project goals included using technologies learned up until this point while trying out some new technologies which were not covered in the Bootcamp.
