@@ -40,11 +40,11 @@ SCREEN SHOTS TO BE ADDED
 This application was deployed usign [Vercel](https://vercel.com)
 
 ## Reflection
-This was a solo project that I have worked on during the bootcamp. Project goals included using technologies learned up until this point while trying out some new technologies which were not covered in the bootcamp.
+This was a solo project that I worked on during the Bootcamp. Project goals included using technologies learned up until this point while trying out some new technologies which were not covered in the Bootcamp.
 
 I wanted to build an application that allows users to create a digital travel album which also displays the locations where the photos were taken.
 
-One of the main challenges I ran into was backend part where I tried to connect the server with the database and cloud that I have never come across with. I initially decided to table connecting it to the cloud and save photos in local. However, after a few attempt I managed to send the photos to the cloud and therefore enhanced the application performance.
+One of the main challenges I ran into was the backend part where I tried to connect the server with the database and cloud that I have never come across with. I initially decided to table connecting it to the cloud and save photos in local. However, after a few attempt, I managed to send the photos to the cloud and therefore enhanced the application performance.
 
 
 
