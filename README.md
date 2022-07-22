@@ -34,7 +34,6 @@ SCREEN SHOTS TO BE ADDED
 - [ExpressJS](https://nodejs.org/en/) - Used for setting up the server-side environment
 - [Exifr](https://github.com/MikeKovarik/exifr) - Used for extracting the geolocation of the photos
 - [Multer](https://github.com/expressjs/multer) - Used for uploading the files
-
 - [JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript) - Vanilla JavaScript for functionality in both frontend and backend
 
 ## Deployment
