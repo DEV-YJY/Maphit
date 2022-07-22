@@ -8,6 +8,9 @@ module.exports = {
         darkModeBg: '#0A0A0A',
         darkModeTxt: '#E4E6EB',
       },
+      fontFamily: {
+        margarine: ['Margarine', 'cursive'],
+      },
     },
   },
   plugins: [],

@@ -6,8 +6,11 @@ function Nav() {
   const [colourTheme, setTheme] = useDarkMode()
   return (
     <div className='mx-auto flex justify-between'>
-      <Link className='ml-5' to='/'>
-        To Gallery
+      <Link className='' to='/'>
+        <div className='ml-5 flex justify-start '>
+          <img className='w-7' src='/arrow-left.png' alt='left-arrow' />
+          <p>Gallery</p>
+        </div>
       </Link>
       <div className='mr-2'>
         {colourTheme === 'light' ? (
