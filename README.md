@@ -11,7 +11,8 @@ This app was built as my solo-project. It is a travel photo album app that displ
 - All albums are saved in the database.
 - All photos are saved in the cloud.
 
-
+## Demonstration
+<!-- [Demo the project in production](https://triplanner.netlify.app/) -->
 
 What to include in README?
 
