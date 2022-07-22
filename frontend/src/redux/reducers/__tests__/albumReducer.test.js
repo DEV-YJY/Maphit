@@ -80,8 +80,8 @@ describe('albumReducer()', () => {
 
     const outputState = albumReducer(initialState, action)
     expect.assertions(2)
-    console.log('outputState', outputState)
-    console.log('expectedState', expectedState)
+    // console.log('outputState', outputState)
+    // console.log('expectedState', expectedState)
     expect(outputState).toStrictEqual(expectedState)
     expect(outputState).not.toBe(expectedState)
   })
@@ -175,7 +175,7 @@ describe('albumReducer()', () => {
 
     const outputState = albumReducer(fakeState, action)
     expect.assertions(1)
-    // console.log(outputState)
+    console.log(outputState)
     expect(expectedState).toStrictEqual(outputState)
   })
 })
