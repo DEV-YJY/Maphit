@@ -22,7 +22,7 @@ fetchAlbumDetail.mockImplementation(() => () => {})
 describe('<Album />', () => {
   it('renders <Album /> component correctly', () => {
     const history = createMemoryHistory({ initialEntries: ['/albums/add'] })
-    expect.assertions(2)
+    expect.assertions(3)
     render(
       <Provider store={fakeStore}>
         <Router location={history.location} navigator={history}>
@@ -30,14 +30,18 @@ describe('<Album />', () => {
         </Router>
       </Provider>
     )
-    const text = screen.getByText(/album name/i)
-    const deleteText = screen.getByText(/delete album/i)
+    const text = screen.getByText(/name/i)
+    const deleteText = screen.getByText(/Gallery/i)
+    const icons = screen.getAllByRole('img')
+    console.log(icons)
     expect(text.innerHTML).toBeTruthy()
     expect(deleteText.innerHTML).toBeTruthy()
+    expect(icons[4].alt).toContain('map')
   })
 
   it('dispatches fetchAlbumDetail action', () => {
     const history = createMemoryHistory({ initialEntries: ['/albums/add'] })
+    expect.assertions(1)
 
     render(
       <Provider store={fakeStore}>
@@ -54,6 +58,7 @@ describe('<Album />', () => {
     const history = createMemoryHistory({
       initialEntries: ['/albums/upload/62bff0c940414e889d4f4994'],
     })
+    expect.assertions(1)
 
     render(
       <Provider store={fakeStore}>
@@ -63,7 +68,7 @@ describe('<Album />', () => {
       </Provider>
     )
 
-    const backToGallery = screen.getByText('Back to Gallery')
+    const backToGallery = screen.getByText('Gallery')
     // console.log(backToGallery)
     // const albumName = screen.getByText(/summer/i)
     // expect(albumName).toBeInTheDocument()

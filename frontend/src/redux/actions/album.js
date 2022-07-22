@@ -6,7 +6,6 @@ import {
   DELETE_ALBUM,
   REMOVE_IMAGE,
   UPLOAD_IMAGE,
-  UPLOAD_GEODATA,
   UPLOAD_IMAGE_WITH_GEO,
 } from './type'
 
@@ -112,6 +111,3 @@ export const fetchAlbumDetail = async (albumId) => {
     payload: res.data.result,
   }
 }
-
-// Client ==> API ==> DB ==> API ==> Client
-//       noGeo   Geo     Geo     Geo

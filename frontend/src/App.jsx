@@ -11,7 +11,7 @@ import Footer from './components/Footer'
 
 function App() {
   return (
-    <div className='text-black bg-gray-100 dark:text-darkModeTxt dark:bg-darkModeBg transition duration-700'>
+    <div className='font-margarine text-black bg-gray-100 dark:text-darkModeTxt dark:bg-darkModeBg transition duration-700'>
       {/* <Nav /> */}
       <ToastContainer />
       <div>

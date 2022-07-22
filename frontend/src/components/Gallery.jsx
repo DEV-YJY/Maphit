@@ -59,8 +59,6 @@ function Gallery() {
           <img className='w-12' src='/add-album.png' alt='add-icon' />
         </Link>
       </div>
-      {/* sm:columns-2 md:columns-3 lg:columns-4 */}
-      {/* grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 sm:justify-center gap-3 */}
       <div className='flex flex-wrap justify-center items-center place-items-start'>
         {albumList !== [] &&
           albumList.map((album, idx) => (
@@ -94,7 +92,7 @@ function Gallery() {
               ) : (
                 // </Link>
                 <>
-                  <div className='bg-white text-black px-6 py-2 rounded-2xl flex flex-col items-center'>
+                  <div className='bg-white text-black px-7 py-2 rounded-2xl flex flex-col items-center'>
                     <img
                       className='mt-10 w-8 text-center'
                       src='/empty.png'
