@@ -22,7 +22,7 @@ fetchAlbumDetail.mockImplementation(() => () => {})
 describe('<Album />', () => {
   it('renders <Album /> component correctly', () => {
     const history = createMemoryHistory({ initialEntries: ['/albums/add'] })
-    expect.assertions(2)
+    expect.assertions(3)
     render(
       <Provider store={fakeStore}>
         <Router location={history.location} navigator={history}>
@@ -32,8 +32,11 @@ describe('<Album />', () => {
     )
     const text = screen.getByText(/name/i)
     const deleteText = screen.getByText(/Gallery/i)
+    const icons = screen.getAllByRole('img')
+    console.log(icons)
     expect(text.innerHTML).toBeTruthy()
     expect(deleteText.innerHTML).toBeTruthy()
+    expect(icons[4].alt).toContain('map')
   })
 
   it('dispatches fetchAlbumDetail action', () => {
