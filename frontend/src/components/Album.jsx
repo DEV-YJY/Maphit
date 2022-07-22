@@ -53,12 +53,6 @@ function ImageUpload() {
     return () => window.removeEventListener('keydown', close)
   }, [])
 
-  // useEffect(() => {
-  //   console.log('_________________')
-  //   console.log("useSelector: ", data)
-  //   console.log('_________________')
-  // }, [data])
-
   ///////////////Drop-zone/////////////////
   const dropImage = async (file) => {
     // GET data from HTML to JS Obj
@@ -157,13 +151,15 @@ function ImageUpload() {
     <div className='mx-auto pt-3 w-11/12'>
       <Nav />
       <div className='flex flex-col items-center justify-around mt-3'>
-        <div className='flex flex-col  items-center mb-2'>
-          <img
-            className='w-8  cursor-pointer'
-            onClick={() => dispatch(handleAlbumDelete(albumId))}
-            src='/delete-colour.png'
-            alt='rubbish-bin'
-          />
+        <div className='flex flex-col items-center mb-2'>
+          <div className='w-7 h-7 lg:w-9 lg:h-9 md:w-8 md:h-8 sm:w-7 sm:h-7 relative cursor-pointer rounded-xl transition duration-500 transform bg-red-400 -translate-x-2 p-1 '>
+            <img
+              className='w-8 '
+              onClick={() => dispatch(handleAlbumDelete(albumId))}
+              src='/delete-colour.png'
+              alt='rubbish-bin'
+            />
+          </div>
 
           {Object.keys(albumDetail).length !== 0 && (
             <>
@@ -182,18 +178,18 @@ function ImageUpload() {
               <div className='flex justify-center'>
                 <div {...getRootProps()}>
                   <input {...getInputProps()} />
-                  <img
-                    className='cursor-pointer w-10 h-10'
-                    src='/add-image.png'
-                    alt='add-img'
-                  />
+                  <div className='w-9 h-9 lg:w-10 lg:h-10 md:w-9 md:h-9 relative cursor-pointer rounded-xl transition duration-500 transform bg-purple-200 -translate-x-2 p-1 '>
+                    <img className='' src='/add-image.png' alt='add-img' />
+                  </div>
                 </div>
               </div>
             )}
           </Dropzone>
-          <Link to={`/upload/${albumId}/map`}>
-            <img src='/map.png' alt='map' />
-          </Link>
+          <div className='w-9 h-9 lg:w-10 lg:h-10 md:w-9 md:h-9 relative rounded-xl cursor-pointer transition duration-500 transform bg-purple-200 -translate-x-2 p-1 '>
+            <Link to={`/upload/${albumId}/map`}>
+              <img src='/map.png' alt='map' />
+            </Link>
+          </div>
         </div>
 
         <div className='text-center'>
@@ -252,9 +248,6 @@ function ImageUpload() {
                     <p className='text-center bg-white rounded-b-xl text-black'>
                       {idx + 1}
                     </p>
-                    {/* -mt-5 to remove white space? */}
-
-                    {/* max-w-full h-4 mt-[6px] mr-[8px] cursor-pointer relative bottom-6 left-[7.5rem] text-white white opacity-100 group-hover:opacity-100 */}
                   </div>
                 </>
               )
