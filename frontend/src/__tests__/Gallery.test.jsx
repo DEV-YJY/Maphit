@@ -55,9 +55,10 @@ describe('<Gallery />', () => {
         </Router>
       </Provider>
     )
-    const heading = screen.getByRole('heading')
+    const heading = screen.getAllByRole('img')
     // screen.debug()
-    expect(heading.innerHTML).toContain('Gallery')
+    console.log(heading)
+    expect(heading[1].alt).toContain('add-icon')
   })
 
   // Dispatch action on mount
@@ -90,7 +91,7 @@ describe('<Gallery />', () => {
     const addTripAlbum = screen.getAllByRole('img')
     // console.log('this is addTrip: ', addTripAlbum[0])
     expect(history.location.pathname).toBe('/')
-    await fireEvent.click(addTripAlbum[0])
+    await fireEvent.click(addTripAlbum[1])
     expect(history.location.pathname).toBe('/add')
     // check that the content changed to the new page
     // not working

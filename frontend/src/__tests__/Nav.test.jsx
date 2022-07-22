@@ -8,7 +8,7 @@ import Nav from '../components/Nav'
 describe('<Nav />', () => {
   it('renders <Nav /> component correctly', () => {
     const history = createMemoryHistory({ initialEntries: ['/albums'] })
-
+    expect.assertions(1)
     render(
       <Router location={history.location} navigator={history}>
         <Nav />
