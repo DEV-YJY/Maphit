@@ -37,6 +37,15 @@ This project is currently in development. Users can log in and see visual data r
   <img src="https://user-images.githubusercontent.com/86042155/180580505-714e1cc4-f85c-4a66-b74b-c1125eb69313.png" alt="drawing" width="400" align="top"/>
 </p>
 
+## Project Details
+This project includes:
+* 3 API endpoints (`/api/v1/petsApi`, `/api/v1/reviewsApi`, `/api/v1/usersApi`)
+* An auth0 landing page(register/logIn,logOut)
+* various react components (view pet list, view pet profile, view user list, view user profile, ranking, reviews, history)
+* 3 diffent databases with multiple tables storing information on users, pets and reviews
+* configuration for Jest and testing library
+* configuration for server-side debugging in VS Code
+
 
 
 ## Built with
@@ -57,16 +66,22 @@ This project is currently in development. Users can log in and see visual data r
 
 
 ## Reflection
-This was the final group project built during the last week in the Bootcamp. 
+This was the final group project built during the last week in the Bootcamp. From my past experience, I always thought that walking or running could be a lot more interesting when you have your paw mate. I noticed that the free neighbour dog walking service was quite thin in New Zealand. The team gather up to fill this gap to bring joy to the walkers, dog owners and the dogs themselves.
 
-This was a solo project that I worked on during the Bootcamp. Project goals included using technologies learned up until this point while trying out some new technologies which were not covered in the Bootcamp.
+Hence, as a product owner, I wanted to build a free platform that links two parties:
+- Walkers/runners who do not have a dog but would love to neighbour's dog for a walk
+- Dog owners who need a free dog walk service in their neighbour
+
+I suggested trying out a recent state management tool (Redux Toolkit) and thankfully the team agreed with the idea. The team had a previous experience with Redux so implementing Redux Toolkit was foreign but was something that the team quickly adapted to. One of the main challenges we also ran into was the implementation of Auth0 for the application. Implementation of Auth0 provides the main feature of the application that each user can create, update and delete their information on the database whilst reading other users' information.
+
+Apart from the technical obstacles, the team worked collaboratively. We actively shared our ideas on the project. We had a minimum of two stand-ups every day where each member shared on what they have worked on in between and the issues they were facing. Each of us tried our best to complete the assigned tickets while helping other team members who were stuck on the problems.
+Thank you for your hard work team!
 
 
-I wanted to build an application that allows users to create a digital travel album which also displays the locations where the photos were taken.
 
-One of the main challenges I ran into was the backend part where I tried to connect the server with the database and cloud that I have never come across with. I initially decided to table connecting it to the cloud and save photos in local. However, after a few attempt, I managed to send the photos to the cloud and therefore enhanced the application performance.
-
-
-
-## Author
-- **[YJ You](https://github.com/DEV-YJY)** - *Developed the app*
+## Authors
+- **[YJ You](https://github.com/DEV-YJY)** - *Product Owner*
+- **[Cameron Read](https://github.com/cameron-read)** - *Agile Facilitator*
+- **[Harrison Mordecai](https://github.com/Banger66)** - *Agile Facilitator*
+- **[Rodrigo Reis](https://github.com/RodrigoReis-dev)** - *Git Keeper*
+- **[Callan Pinto](https://github.com/BaTmAnOmOrE)** - *Vibes Watcher*
