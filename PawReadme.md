@@ -34,7 +34,7 @@ This project is currently in development. Users can log in and see visual data r
   <img src="https://user-images.githubusercontent.com/86042155/180584407-c0c4805c-4105-4aa7-88b6-7f298074bb97.png" alt="drawing" width="300" align="top"/>
   <img src="https://user-images.githubusercontent.com/86042155/180584423-6f4161d0-2e88-4943-b54c-c54e0eb275e7.png" alt="drawing" width="300" align="top"/>
   <img src="https://user-images.githubusercontent.com/86042155/180584442-5f45ffd7-0d72-4c45-81c6-97fe96b2cb8d.png" alt="drawing" width="300" align="top"/>
-  <img src="https://user-images.githubusercontent.com/86042155/180584462-b3168f65-1778-40af-a30e-78e3a3a39e22.png" alt="drawing" width="400" align="top"/>
+  <img src="https://user-images.githubusercontent.com/86042155/180584504-4e6a095a-cfdb-4b65-8e59-fd73e9da2646.png" alt="drawing" width="400" align="top"/>
 </p>
 
 ## Project Details
