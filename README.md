@@ -6,11 +6,14 @@ This is a travel photo album application that displays the locations where the p
   - Create different albums for different places.
   - Enter the address of the place they visited.
   - Can save photos in their albums.
-  - Can check the locations where the photos were taken on       the map.
+  - Can delete their albums.
+  - Can delete images from their albums.
+  - Can check the locations where the photos were taken on the map.
   - Can change the colour theme (dark & light) depending on their need.
 
 - All albums are saved in the database.
 - All photos are saved in the cloud.
+- The application is responsive.
 
 ## Demonstration
 <!-- [Demo the project in production](https://triplanner.netlify.app/) -->
