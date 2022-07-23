@@ -30,11 +30,14 @@ This project is currently in development. Users can log in and see visual data r
 </p>
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/86042155/180580160-8bdbf06e-3c51-4b5f-b90e-c775b3d0b39e.png" alt="drawing" width="300"  align="top"/>
-  <img src="https://user-images.githubusercontent.com/86042155/180580197-5026b2cb-222e-4166-8b94-1caed825f136.png" alt="drawing" width="300" align="top"/>
-  <img src="https://user-images.githubusercontent.com/86042155/180580337-c8d44eea-bdf4-42e4-a542-10bf2e44a8f9.png" alt="drawing" width="300" align="top"/>
-  <img src="https://user-images.githubusercontent.com/86042155/180580434-2b5fdbc2-7921-46c9-bfb5-278c9d799906.png" alt="drawing" width="300" align="top"/>
-  <img src="https://user-images.githubusercontent.com/86042155/180580505-714e1cc4-f85c-4a66-b74b-c1125eb69313.png" alt="drawing" width="400" align="top"/>
+  <img src="https://user-images.githubusercontent.com/86042155/180584392-037777ca-fa74-4369-b6d5-3e48d80a9d08.png" alt="drawing" width="300"  align="top"/>
+  <img src="https://user-images.githubusercontent.com/86042155/180584407-c0c4805c-4105-4aa7-88b6-7f298074bb97.png" alt="drawing" width="300" align="top"/>
+  <img src="https://user-images.githubusercontent.com/86042155/180584423-6f4161d0-2e88-4943-b54c-c54e0eb275e7.png
+" alt="drawing" width="300" align="top"/>
+  <img src="https://user-images.githubusercontent.com/86042155/180584442-5f45ffd7-0d72-4c45-81c6-97fe96b2cb8d.png
+" alt="drawing" width="300" align="top"/>
+  <img src="https://user-images.githubusercontent.com/86042155/180584462-b3168f65-1778-40af-a30e-78e3a3a39e22.png
+" alt="drawing" width="400" align="top"/>
 </p>
 
 ## Project Details
