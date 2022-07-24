@@ -42,7 +42,7 @@ SCREEN SHOTS TO BE ADDED
 
 
 ## Reflection
-This was a solo project that I worked on during the Bootcamp. Project goals included using technologies learned up until this point while trying out some new technologies which were not covered in the Bootcamp.
+This was a solo project that I worked on during the Bootcamp. Project goals included using technologies learned up until this point while trying out some new technologies which were not covered in the Bootcamp. Hence, I decided to make try out the [MERN stack](https://www.mongodb.com/mern-stack).
 
 I wanted to build an application that allows users to create a digital travel album which also displays the locations where the photos were taken.
 
