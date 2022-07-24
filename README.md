@@ -46,7 +46,7 @@ This was a solo project that I worked on during the Bootcamp. Project goals incl
 
 I wanted to build an application that allows users to create a digital travel album which also displays the locations where the photos were taken.
 
-One of the main challenges I ran into was the backend part where I tried to connect the server with the database and cloud that I have never come across with. I initially decided to table connecting it to the cloud and save photos in local. However, after a few attempt, I managed to send the photos to the cloud and therefore enhanced the application performance.
+One of the main challenges I ran into was the backend part where I tried to connect the server with the database and cloud that I have never come across with. I initially decided to table connecting it to the cloud and decided to save photos within the application. However, after a few attempt, I managed to save the photos to the cloud and therefore enhanced the application performance.
 
 
 
