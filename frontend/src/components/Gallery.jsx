@@ -59,7 +59,7 @@ function Gallery() {
           <img className='w-12' src='/add-album.png' alt='add-icon' />
         </Link>
       </div>
-      <div className='flex flex-wrap justify-center items-center place-items-start'>
+      <div className='flex min-h-screen flex-wrap justify-center items-center place-items-start'>
         {albumList !== [] &&
           albumList.map((album, idx) => (
             <div

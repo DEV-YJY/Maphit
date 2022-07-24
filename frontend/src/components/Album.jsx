@@ -231,7 +231,7 @@ function ImageUpload() {
           />
         </div>
 
-        <div className='sm:columns-1 md:columns-3 lg:columns-4 gap-[0.8rem] mx-5 space-y-4 pb-28 rounded-t-lg'>
+        <div className='min-h-screen sm:columns-1 md:columns-3 lg:columns-4 gap-[0.8rem] mx-5 space-y-4 pb-28 rounded-t-lg'>
           {Object.keys(albumDetail).length !== 0 &&
             albumDetail?.imageCloudData.map((image, idx) => {
               return (
