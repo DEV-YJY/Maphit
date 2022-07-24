@@ -16,13 +16,10 @@ This is a travel photo album application that displays the locations where the p
 - The application is responsive.
 
 ## Demonstration
-<!-- [Demo the project in production](https://triplanner.netlify.app/) -->
+[Demo](https://youtu.be/8y-DjtxzMkE)
 
 ## Project Status
 This project is complete to the level where user can upload their photos and see visual data representation. Functionality to add authentication is in progress.
-
-## Project Screen Shot(s)
-SCREEN SHOTS TO BE ADDED
 
 ## Built with
 ### Frontend
