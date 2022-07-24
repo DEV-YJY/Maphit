@@ -1,4 +1,4 @@
-# Mapoto
+# Maphit
 
 This is a travel photo album application that displays the locations where the photos were taken.
 
