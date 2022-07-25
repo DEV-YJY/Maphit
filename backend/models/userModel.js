@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
 })
 
 // static signup method
-userSchema.statics.signup = async (name, email, password) => {
+userSchema.statics.signup = async function (name, email, password) {
   // const nameExists = await this.findOne({ name })
   const emailExists = await this.findOne({ email })
 
@@ -30,6 +30,8 @@ userSchema.statics.signup = async (name, email, password) => {
   const hash = await bcrypt.hash(password, salt)
 
   const user = await this.create({ name, email, password: hash })
+
+  return user
 }
 
 module.exports = mongoose.model('User', userSchema)
