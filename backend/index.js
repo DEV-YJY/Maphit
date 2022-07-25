@@ -7,6 +7,10 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+
+const albumRoutes = require('./routes/albumRoutes')
+const userRoutes = require('./routes/userRoutes')
+
 dotenv.config()
 
 // const { auth } = require('express-openid-connect')
@@ -43,8 +47,9 @@ app.listen(4000, () => {
   console.log('Server running on port 4000')
 })
 
-// 4
-app.use('/albums', require('./routes/albumRoutes'))
+// 4 - register routes
+app.use('/albums', albumRoutes)
+app.use('/user', userRoutes)
 // app.use('/albums', require('./routes/cloudRoutes'))
 
 module.exports = app

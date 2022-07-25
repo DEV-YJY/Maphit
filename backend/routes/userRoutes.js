@@ -1,6 +1,6 @@
 //routes for Auth
 
-const express = required('express')
+const express = require('express')
 
 const router = express.Router()
 
