@@ -224,14 +224,14 @@ function ImageUpload() {
           />
           <img
             className='absolute right-5 w-8 cursor-pointer opacity-100'
-            // onClick={() => handleImageDelete(albumId, )}
+            // onClick={() => handleImageDelete(albumId )}
             src='/rubbish-bin-white.png'
             alt='rubbish-bin'
             onClick={() => handleImageDelete()}
           />
         </div>
 
-        <div className='sm:columns-1 md:columns-3 lg:columns-4 gap-[0.8rem] mx-5 space-y-4 pb-28 rounded-t-lg'>
+        <div className='min-h-screen columns-1 md:columns-3 lg:columns-5 gap-[0.8rem] mx-auto space-y-4 pb-28 rounded-t-lg'>
           {Object.keys(albumDetail).length !== 0 &&
             albumDetail?.imageCloudData.map((image, idx) => {
               return (
