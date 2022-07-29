@@ -12,6 +12,12 @@ function Nav() {
           <p>Gallery</p>
         </div>
       </Link>
+      <nav>
+        <div>
+          <Link to='/login'>Login</Link>
+          <Link to='/signup'>Signup</Link>
+        </div>
+      </nav>
       <div className='mr-2'>
         {colourTheme === 'light' ? (
           <button className='' onClick={() => setTheme(colourTheme)}>
