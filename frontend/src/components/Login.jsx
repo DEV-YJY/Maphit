@@ -17,9 +17,13 @@ function Login() {
       <label>Name:</label>
       <input type='text' onChange={(e) => setName(e.target.value)} value={name} />
       <label>Email:</label>
-      <input type='text' onChange={(e) => setEmail(e.target.value)} value={email} />
+      <input type='email' onChange={(e) => setEmail(e.target.value)} value={email} />
       <label>Password:</label>
-      <input type='text' onChange={(e) => setPassword(e.target.value)} value={password} />
+      <input
+        type='password'
+        onChange={(e) => setPassword(e.target.value)}
+        value={password}
+      />
       <button>Log in</button>
     </form>
   )
