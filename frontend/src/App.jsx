@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css'
 import { Routes, Route } from 'react-router-dom'
 import Nav from './components/Nav'
 import Footer from './components/Footer'
+import Login from './components/Login'
+import Signup from './components/Signup'
 
 function App() {
   return (
@@ -17,6 +19,8 @@ function App() {
       <div>
         {/* // isAuthenticated ? render below otherwise : render /auth */}
         <Routes>
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<Signup />} />
           <Route path='/' element={<Gallery />} />
           <Route path='/add' element={<AddAlbum />} />
           <Route path='/upload/:albumId' element={<Album />} />
