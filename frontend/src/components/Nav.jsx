@@ -1,9 +1,16 @@
 import React from 'react'
 import useDarkMode from '../hook/useDarkMode'
 import { Link } from 'react-router-dom'
+import { useLogout } from '../hook/useLogout'
 
 function Nav() {
   const [colourTheme, setTheme] = useDarkMode()
+  const { logout } = useLogout()
+
+  const handleClick = () => {
+    logout()
+  }
+
   return (
     <div className='mx-auto flex justify-between'>
       <Link className='' to='/'>
@@ -13,6 +20,9 @@ function Nav() {
         </div>
       </Link>
       <nav>
+        <div>
+          <button onClick={handleClick}>Log out</button>
+        </div>
         <div>
           <Link to='/login'>Login</Link>
           <Link to='/signup'>Signup</Link>
