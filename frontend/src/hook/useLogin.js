@@ -31,5 +31,5 @@ export const useLogin = () => {
       setIsLoading(false)
     }
   }
-  return { signup, isLoading, error }
+  return { login, isLoading, error }
 }
