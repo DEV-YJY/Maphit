@@ -2,9 +2,11 @@ import React from 'react'
 import useDarkMode from '../hook/useDarkMode'
 import { Link } from 'react-router-dom'
 import { useLogout } from '../hook/useLogout'
+import { useAuthContext } from '../hook/useAuthContext'
 
 function Nav() {
   const [colourTheme, setTheme] = useDarkMode()
+  const { user } = useAuthContext()
   const { logout } = useLogout()
 
   const handleClick = () => {
@@ -20,13 +22,18 @@ function Nav() {
         </div>
       </Link>
       <nav>
-        <div>
-          <button onClick={handleClick}>Log out</button>
-        </div>
-        <div>
-          <Link to='/login'>Login</Link>
-          <Link to='/signup'>Sign up</Link>
-        </div>
+        {user && (
+          <div>
+            <span>{user.email}</span>
+            <button onClick={handleClick}>Log out</button>
+          </div>
+        )}
+        {!user && (
+          <div>
+            <Link to='/login'>Login</Link>
+            <Link to='/signup'>Sign up</Link>
+          </div>
+        )}
       </nav>
       <div className='mr-2'>
         {colourTheme === 'light' ? (

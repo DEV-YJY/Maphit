@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useLogin } from '../hook/useLogin'
+import Nav from './Nav'
 
 function Login() {
   const [name, setName] = useState()
@@ -15,7 +16,7 @@ function Login() {
   return (
     <form onSubmit={handleSubmit}>
       <h3>Log in</h3>
-
+      <Nav />
       {/* <label>Name:</label>
       <input type='text' onChange={(e) => setName(e.target.value)} value={name} /> */}
       <label>Email:</label>
