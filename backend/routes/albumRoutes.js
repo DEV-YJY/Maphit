@@ -1,9 +1,5 @@
-// 3
 const Album = require('../models/album')
 const router = require('express').Router()
-// 6
-
-// bottom two will need to be switched //
 
 // const upload = require('../middleware/multer')
 const upload = require('../utils/multer')
@@ -13,20 +9,10 @@ const path = require('path')
 const exifr = require('exifr')
 const { userInfo } = require('os')
 
-// create a new Post: object.save()
-// find a Post by id: findById(id)
-// retrieve all Posts: find()
-// update a Post by id: findByIdAndUpdate(id, data)
-// remove a Post: findByIdAndRemove(id)
-// remove all Post: deleteMany()
+const requireAuth = require('../middleware/requireAuth')
 
-// AUTH
-// router.get('/auth', (req, res) => {
-//   console.log(res)
-//   res.render({
-//     isAuthenticated: req.oidc.isAuthenticated(),
-//   })
-// })
+/* require auth for all album routes */
+router.use(requireAuth)
 
 // ADD Album
 router.post('/add', async (req, res) => {
