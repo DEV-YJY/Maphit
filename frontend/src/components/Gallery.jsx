@@ -3,24 +3,35 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchAlbums } from '../redux/actions/album'
 import { Link, useNavigate } from 'react-router-dom'
 import useDarkMode from '../hook/useDarkMode'
-
-import VisibilitySensor from 'react-visibility-sensor'
+import { useAuthContext } from '../hook/useAuthContext'
+import axios from 'axios'
+import { FETCH_ALBUMS } from '../redux/actions/type'
 
 function Gallery() {
   const [colourTheme, setTheme] = useDarkMode()
   const [number, setNumber] = React.useState(0)
+  const { user } = useAuthContext()
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  // useEffect(() => {
-  //   setImagesShownArray(Array(albumList.length).fill(false))
-  // }, [albumList])
-
   useEffect(() => {
-    dispatch(fetchAlbums())
-    // console.log('useEffet fired')
-  }, [])
+    const getAllAlbums = async () => {
+      const res = await axios.get('albums', {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      })
+      const json = await res.data.result
+      if (res.status === 200) {
+        dispatch({ type: 'FETCH_ALBUMS', payload: json })
+      }
+    }
+    if (user) {
+      console.log('getAllAlbums fired')
+      getAllAlbums()
+    }
+  }, [user])
 
   const handleDirectToAlbum = (album) => {
     navigate(`/upload/${album}`)
@@ -28,6 +39,7 @@ function Gallery() {
 
   const albumList = useSelector((state) => {
     // console.log('state inside albumList: ', state.album)
+    console.log('state inside albumList: ', state)
     return state.album.albumList
   })
   // console.log('albumList:', albumList)

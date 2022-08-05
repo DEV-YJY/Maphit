@@ -12,7 +12,7 @@ const { userInfo } = require('os')
 const requireAuth = require('../middleware/requireAuth')
 
 /* require auth for all album routes */
-router.use(requireAuth)
+// router.use(requireAuth)
 
 // ADD Album
 router.post('/add', async (req, res) => {
