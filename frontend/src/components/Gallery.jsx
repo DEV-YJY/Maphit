@@ -6,6 +6,7 @@ import useDarkMode from '../hook/useDarkMode'
 import { useAuthContext } from '../hook/useAuthContext'
 import axios from 'axios'
 import { FETCH_ALBUMS } from '../redux/actions/type'
+import Login from './Login'
 
 function Gallery() {
   const [colourTheme, setTheme] = useDarkMode()
@@ -48,6 +49,7 @@ function Gallery() {
 
   return (
     <>
+      <Login />
       <div className='fixed top-3 right-9'>
         {colourTheme === 'light' ? (
           <div
