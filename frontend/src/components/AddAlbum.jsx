@@ -19,9 +19,9 @@ function AddAlbum(props) {
     if (!values.description) {
       errors.description = 'Description is required'
     }
-    if (!values.placeVisited) {
-      errors.placeVisited = 'Place visited is required'
-    }
+    // if (!values.placeVisited) {
+    //   errors.placeVisited = 'Place visited is required'
+    // }
     return errors
   }
 
@@ -49,6 +49,7 @@ function AddAlbum(props) {
     setFormErros(validate(values))
     setisSubmit(true)
     dispatch(addAlbum(values)).then((res) => {
+      console.log(res)
       if (res.payload.status) {
         // console.log('payload.result: ', res.payload.result)
         navigate(`/upload/${res.payload.result._id}`)
@@ -130,6 +131,7 @@ function AddAlbum(props) {
                   <input
                     className='text-black border border-gray-400 block py-2 px-4 w-full rounded focus:outline-none focus:border-teal-500'
                     name='placeVisited'
+                    value={address}
                     {...getInputProps({
                       placeholder: 'Enter the Country/City name',
                     })}

@@ -31,7 +31,7 @@ export const addAlbum = async (data) => {
   // console.log('addAlubm-data: ', data)
   //   return res.data
   // })
-  // console.log('payload: ', res)
+  console.log('payload: ', res)
   return {
     type: ADD_ALBUM,
     payload: res.data,

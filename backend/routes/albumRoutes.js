@@ -12,16 +12,19 @@ const { userInfo } = require('os')
 const requireAuth = require('../middleware/requireAuth')
 
 /* require auth for all album routes */
-// router.use(requireAuth)
+router.use(requireAuth)
 
 // ADD Album
 router.post('/add', async (req, res) => {
+  console.log('post sent')
   try {
+    // const user_id = req.user._id
     // console.log('req.body: ', req.body)
     const newAlbum = new Album(req.body)
     await newAlbum.save((err, data) => {
       // console.log('new album:', newAlbum)
-      // console.log('this is data: ', data)
+      console.log('this is data: ', data)
+      console.log(res)
       res.json({
         status: 200,
         message: 'Album added successfully',
