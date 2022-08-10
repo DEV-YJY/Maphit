@@ -16,15 +16,16 @@ router.use(requireAuth)
 
 // ADD Album
 router.post('/add', async (req, res) => {
-  console.log('post sent')
+  // console.log('post sent')
   try {
     // const user_id = req.user._id
     // console.log('req.body: ', req.body)
     const newAlbum = new Album(req.body)
+    console.log('newalbum:', newAlbum)
     await newAlbum.save((err, data) => {
       // console.log('new album:', newAlbum)
       console.log('this is data: ', data)
-      console.log(res)
+      // console.log(res)
       res.json({
         status: 200,
         message: 'Album added successfully',

@@ -4,7 +4,7 @@ const User = require('../models/userModel')
 const requireAuth = async (req, res, next) => {
   /* verify authentication */
 
-  console.log('req-----------------:', req)
+  // console.log('req-----------------:', req.headers)
   //////////////////// authorization undefined ///////////////////////////
   const { authorization } = req.headers
   // console.log('auth:', authorization)
@@ -17,8 +17,8 @@ const requireAuth = async (req, res, next) => {
 
   try {
     const { _id } = jwt.verify(token, process.env.SECRET)
-
     req.user = await User.findOne({ _id }).select('_id')
+    // console.log(req.user)
     next()
   } catch (error) {
     console.log(error)
